@@ -2,6 +2,8 @@
 
 Adds Bamboo related Combat Items!
 
+*(This is my first mod :))*
+
 ## Features
 
 * Bamboo Spear
@@ -23,10 +25,6 @@ Adds Bamboo related Combat Items!
 
 ## Installation
 
-### Fabric or Forge?
-This is a **Fabric** mod
-
-
 Not yet published to CurseForge or Modrinth, but you can install it by following the instructions below
 
   - Go to the main branch of the project 
@@ -40,3 +38,6 @@ Not yet published to CurseForge or Modrinth, but you can install it by following
 The *.jar* file is in path *build/libs* of the unzipped folder
 
 Use the *.jar* file that doesn't have the name "sources" at the end
+
+### Fabric or Forge?
+This is a **Fabric** mod
