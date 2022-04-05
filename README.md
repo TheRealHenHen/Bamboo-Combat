@@ -22,7 +22,9 @@ Adds Bamboo related Combat Items!
 * Bamboo Shield
   - Works like a shield
   - Activates instantly
-  - Only blocks 1/2 of critical damage
+  - Can be dual wielded
+  - Does not stop sprinting
+    - Only when not dual wielding shields 
 
 ## Installation
 
