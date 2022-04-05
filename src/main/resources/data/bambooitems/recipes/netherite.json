@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "bamboocombat:diamond_bamboo_spear"
+    },
+    "addition": {
+        "item": "minecraft:netherite_ingot"
+    },
+    "result": {
+        "item": "bamboocombat:netherite_bamboo_spear"
+    }
+}

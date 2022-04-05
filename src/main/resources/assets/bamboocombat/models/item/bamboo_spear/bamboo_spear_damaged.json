@@ -1,0 +1,46 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "bamboocombat:item/bamboo_spear/damaged/handle",
+		"particle": "bamboocombat:item/bamboo_spear/icon"
+	},
+	"elements": [
+		{
+			"from": [7.5, -5, 8.5],
+			"to": [8.5, 17, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [1, 0, 1.5, 11], "texture": "#0"},
+				"east": {"uv": [1.5, 0, 2, 11], "texture": "#0"},
+				"south": {"uv": [0, 0, 0.5, 11], "texture": "#0"},
+				"west": {"uv": [0.5, 0, 1, 11], "texture": "#0"},
+				"up": {"uv": [0.5, 2.5, 0, 2], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [2, 10.5, 1.5, 11], "rotation": 180, "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 17, 8.5],
+			"to": [8.5, 17.5, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [0.5, 0, 1, 0.5], "texture": "#0"},
+				"east": {"uv": [0.5, 0, 1, 0.5], "texture": "#0"},
+				"south": {"uv": [0.5, 0, 1, 0.5], "texture": "#0"},
+				"west": {"uv": [0, 2, 0.5, 2.5], "texture": "#0"},
+				"up": {"uv": [0, 0.5, 0.5, 0], "rotation": 180, "texture": "#0"},
+				"down": {"uv": [2, 10.5, 1.5, 11], "rotation": 180, "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"firstperson_righthand": {
+			"translation": [1, -2, -1]
+		},
+		"firstperson_lefthand": {
+			"translation": [1, -2, -1]
+		},
+		"fixed": {
+			"translation": [0, 0, -2]
+		}
+	}
+}

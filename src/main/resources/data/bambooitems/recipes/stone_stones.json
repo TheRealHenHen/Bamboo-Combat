@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "stone_bamboo_spear",
+    "ingredients": [
+        {
+            "item": "bamboocombat:bamboo_spear"
+        },
+        {
+            "tag": "minecraft:stone_tool_materials"
+        }
+    ],
+    "result": {
+        "item": "bamboocombat:stone_bamboo_spear"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "bamboocombat:bamboo_spear"
+    },
+    "addition": {
+        "item": "minecraft:copper_ingot"
+    },
+    "result": {
+        "item": "bamboocombat:copper_bamboo_spear"
+    }
+}
