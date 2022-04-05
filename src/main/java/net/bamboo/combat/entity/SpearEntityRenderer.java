@@ -7,6 +7,8 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -16,12 +18,12 @@ import net.minecraft.util.math.Vec3f;
 @Environment(value=EnvType.CLIENT)
 public class SpearEntityRenderer extends EntityRenderer<SpearEntity> {
     
-    private SpearEntityModel model;
+    private TridentEntityModel model;
     private Identifier TEXTURE = new Identifier("textures/entity/trident.png");
 
     public SpearEntityRenderer(Context context) {
         super(context);
-        model = new SpearEntityModel(context.getPart(SpearEntityModelLayer.BAMBOO_SPEAR));
+        model = new TridentEntityModel(context.getPart(EntityModelLayers.TRIDENT));
     }
 
     @Override
