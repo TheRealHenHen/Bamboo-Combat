@@ -36,8 +36,9 @@ implements Vanishable {
     private boolean fireProof;
     private float throwDistance;
     private float attackDamage;
+    private int throwDelay;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, boolean fireProof, int spearPierceLevel) {
+    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int spearPierceLevel) {
         super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
@@ -48,6 +49,7 @@ implements Vanishable {
         this.fireProof = fireProof;
         this.attackDamage = attackDamage - 1;
         this.throwDistance = throwDistance;
+        this.throwDelay = throwDelay;
     }
 
     @Override
@@ -116,7 +118,7 @@ implements Vanishable {
         }
         
         int i = getMaxUseTime(itemStack) - remainingUseTicks;
-        if (i < 10) {
+        if (i < throwDelay) {
             return;
         }
 
