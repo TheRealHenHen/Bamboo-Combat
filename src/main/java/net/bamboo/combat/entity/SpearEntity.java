@@ -44,6 +44,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     public int pierceLevel;
     public float throwDamage;
     private boolean fireProof;
+    public static boolean critical = false;
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
@@ -199,6 +200,11 @@ public class SpearEntity extends PersistentProjectileEntity {
         return false;
     }
 
+    @Override
+    public boolean isCritical() {
+        return SpearEntity.critical;
+    }
+
 	private boolean shouldFall() {
         return this.inGround && this.world.isSpaceEmpty(new Box(this.getPos(), this.getPos()).expand(0.06));
     }
@@ -220,16 +226,16 @@ public class SpearEntity extends PersistentProjectileEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.put("Bamboo_Spear", defaultItem.writeNbt(new NbtCompound()));
-        nbt.putBoolean("crit", true);
+        nbt.put("bamboo_spear", defaultItem.writeNbt(new NbtCompound()));
+        nbt.putBoolean("crit", isCritical());
     }
 
 	@Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("Bamboo_Spear", 10)) {
-            defaultItem = ItemStack.fromNbt(nbt.getCompound("Bamboo_Spear"));
-            nbt.putBoolean("crit", true);
+        if (nbt.contains("bamboo_spear", 10)) {
+            defaultItem = ItemStack.fromNbt(nbt.getCompound("bamboo_spear"));
+            nbt.putBoolean("crit", isCritical());
         }
     }
 

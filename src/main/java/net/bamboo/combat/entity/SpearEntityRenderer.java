@@ -7,8 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory.Context;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
-import net.minecraft.client.render.entity.model.TridentEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -18,14 +17,16 @@ import net.minecraft.util.math.Vec3f;
 @Environment(value=EnvType.CLIENT)
 public class SpearEntityRenderer extends EntityRenderer<SpearEntity> {
     
-    private TridentEntityModel model;
-    private Identifier TEXTURE = new Identifier("textures/entity/trident.png");
+    private SpearEntityModel model;
+    private Identifier texture;
 
-    public SpearEntityRenderer(Context context) {
+    public SpearEntityRenderer(Context context, Identifier texture, EntityModelLayer modelLayer) {
         super(context);
-        model = new TridentEntityModel(context.getPart(EntityModelLayers.TRIDENT));
+        model = new SpearEntityModel(context.getPart(modelLayer));
+        this.texture = texture;
     }
 
+    
     @Override
     public void render(SpearEntity entity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
         matrixStack.push();
@@ -39,13 +40,13 @@ public class SpearEntityRenderer extends EntityRenderer<SpearEntity> {
     /*
     @Override
     public void render(SpearEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        MinecraftClient.getInstance().getItemRenderer().renderItem(STACK, ModelTransformation.Mode.FIXED, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, light);
+        MinecraftClient.getInstance().getItemRenderer().renderItem(new ItemStack(Main.Bamboo), ModelTransformation.Mode.FIXED, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, light);
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }*/
 
     @Override
     public Identifier getTexture(SpearEntity entity) {
-        return TEXTURE;
+        return texture;
     }
 
 }

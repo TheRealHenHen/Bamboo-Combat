@@ -130,10 +130,12 @@ implements Vanishable {
             if (!spear.getOwner().isOnGround()) {
                 spear.pierceLevel++;
                 throwDistance += 0.2;
+                SpearEntity.critical = true;
             }
 
             if (!spear.getOwner().isSprinting()) {
                 spear.pierceLevel = 0;
+                SpearEntity.critical = false;
             } else {
                 spear.throwDamage++;
             }

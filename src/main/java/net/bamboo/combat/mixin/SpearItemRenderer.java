@@ -1,6 +1,5 @@
-package net.bamboo.combat.mixin;
+/*package net.bamboo.combat.mixin;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,8 +16,8 @@ import net.minecraft.item.ItemStack;
 
 @Mixin(ItemRenderer.class)
 public class SpearItemRenderer {
-    @Shadow
-    private @Final ItemModels models;
+
+    @Shadow private ItemModels models;
 
 	BakedModel getTexture(String texture) {
 		return models.getModelManager().getModel(new ModelIdentifier(texture));
@@ -26,14 +25,13 @@ public class SpearItemRenderer {
 
     @ModifyVariable(at = @At("HEAD"), method = "renderItem", argsOnly = true)
     private BakedModel scratch_guiModel(BakedModel defaultModel, ItemStack stack, ModelTransformation.Mode renderMode) {
-		boolean renderSpearItem = renderMode == Mode.GUI;
 
-		if (renderSpearItem) {
+		if ((renderMode == Mode.GUI) || (renderMode == Mode.FIXED)) {
 			if (stack.isOf(Main.Bamboo))
-				return getTexture("bamboocombat:bamboo_spear#inventory");
+				return getTexture("bamboospear:bamboo_spear#inventory");
 
 			else if (stack.isOf(Main.Stone))
-				return getTexture("bamboocombat:stone_bamboo_spear#inventory");
+				return getTexture("bamboospear:bamboo_spear#inventory");
 
 			else if (stack.isOf(Main.Copper))
 	 			return getTexture("minecraft:bamboo#inventory");
@@ -52,4 +50,4 @@ public class SpearItemRenderer {
 		}
 		return defaultModel;
     }
-}
+}*/
