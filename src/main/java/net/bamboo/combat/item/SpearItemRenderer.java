@@ -1,4 +1,4 @@
-package net.bamboo.combat.item;
+package net.bamboo.combat.item; //By TheRealHenHen
 
 import net.bamboo.combat.entity.SpearEntityModel;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;

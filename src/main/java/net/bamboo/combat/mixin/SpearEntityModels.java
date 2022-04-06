@@ -1,4 +1,4 @@
-/*package net.bamboo.combat.mixin;
+/*package net.bamboo.combat.mixin; //By TheRealHenHen
 
 import com.google.common.collect.ImmutableMap;
 

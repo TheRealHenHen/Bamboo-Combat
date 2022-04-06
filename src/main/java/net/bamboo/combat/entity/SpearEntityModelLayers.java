@@ -1,4 +1,4 @@
-package net.bamboo.combat.entity;
+package net.bamboo.combat.entity; //By TheRealHenHen
 
 import java.util.Set;
 

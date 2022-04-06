@@ -1,4 +1,4 @@
-package net.bamboo.combat;
+package net.bamboo.combat; //By TheRealHenHen
 
 import net.bamboo.combat.entity.SpearEntity;
 import net.bamboo.combat.item.SpearItemMaterial;

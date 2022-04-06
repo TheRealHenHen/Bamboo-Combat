@@ -1,4 +1,4 @@
-package net.bamboo.combat.item;
+package net.bamboo.combat.item; //By TheRealHenHen
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

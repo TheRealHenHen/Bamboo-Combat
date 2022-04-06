@@ -1,4 +1,4 @@
-package net.bamboo.combat;
+package net.bamboo.combat; //By TheRealHenHen
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;

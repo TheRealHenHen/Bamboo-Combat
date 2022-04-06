@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"author": "TheRealHenHen",
 	"textures": {
 		"0": "bamboocombat:entity/stone_bamboo_spear/normal",
 		"particle": "bamboocombat:entity/stone_bamboo_spear/normal"
