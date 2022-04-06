@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "bamboocombat:entity/bamboo_spear/damaged/handle",
+		"0": "bamboocombat:entity/bamboo_spear/damaged",
 		"particle": "bamboocombat:item/bamboo_spear"
 	},
 	"elements": [

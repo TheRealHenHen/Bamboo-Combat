@@ -1,12 +1,12 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "bamboocombat:entity/bamboo_spear/handle"
+		"0": "bamboocombat:entity/bamboo_spear/normal"
 	},
 	"overrides": [
 		{
 			"predicate": {
-				"pulling": 1
+				"throwing": 1
 			},
 			"model": "bamboocombat:item/bamboo_spear/bamboo_spear_flipped"
 		},
@@ -19,7 +19,7 @@
 		{
 			"predicate": {
 			  "damage": 0.8,
-			  "pulling": 1
+			  "throwing": 1
 			},
 			"model": "bamboocombat:item/bamboo_spear/bamboo_spear_damaged_flipped"
 		}
