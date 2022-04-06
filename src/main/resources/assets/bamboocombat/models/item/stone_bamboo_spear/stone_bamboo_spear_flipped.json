@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "bamboocombat:item/stone_bamboo_spear/handle",
-		"2": "bamboocombat:item/stone_bamboo_spear/tip"
+		"0": "bamboocombat:entity/stone_bamboo_spear/handle",
+		"2": "bamboocombat:entity/stone_bamboo_spear/tip"
 	},
 	"elements": [
 		{
@@ -15,7 +15,7 @@
 				"south": {"uv": [1, 14, 1.5, 0], "texture": "#0"},
 				"west": {"uv": [1.5, 14, 2, 0], "texture": "#0"},
 				"up": {"uv": [2, 14, 1.5, 13.5], "texture": "#0"},
-				"down": {"uv": [5, 0, 4, 1], "texture": "#0"}
+				"down": {"uv": [5, 0, 4, 1], "texture": "#missing"}
 			}
 		},
 		{

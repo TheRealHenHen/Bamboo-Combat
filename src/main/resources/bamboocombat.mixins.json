@@ -5,7 +5,8 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [],
     "client": [
-      "SpearItemRenderer"
+      "SpearItemRenderer",
+      "SpearEntityModels"
     ],
     "server": [],
     "injectors": {
