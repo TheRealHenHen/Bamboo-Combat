@@ -18,9 +18,9 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.bamboo.combat.Main"
+      "net.bamboo.combat.BambooCombat"
     ], "client": [
-      "net.bamboo.combat.Client"
+      "net.bamboo.combat.BambooCombatClient"
     ]
   },
   "mixins": [
