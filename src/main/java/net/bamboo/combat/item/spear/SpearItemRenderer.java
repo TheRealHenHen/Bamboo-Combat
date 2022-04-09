@@ -1,4 +1,4 @@
-package net.bamboo.combat.item; //By TheRealHenHen
+package net.bamboo.combat.item.spear; //By TheRealHenHen
 
 import net.bamboo.combat.entity.SpearEntityModel;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
@@ -51,7 +51,7 @@ public class SpearItemRenderer implements BuiltinItemRendererRegistry.DynamicIte
         MinecraftClient mc = MinecraftClient.getInstance();
         this.itemRenderer = mc.getItemRenderer();
         this.spearModel = new SpearEntityModel(mc.getEntityModelLoader().getModelPart(this.modelLayer));
-        this.inventorySpearModel = mc.getBakedModelManager().getModel(new ModelIdentifier(this.spearId + "_in_inventory", "inventory"));
+        this.inventorySpearModel = mc.getBakedModelManager().getModel(new ModelIdentifier(this.spearId + "_gui", "inventory"));
     }
 
     @Override

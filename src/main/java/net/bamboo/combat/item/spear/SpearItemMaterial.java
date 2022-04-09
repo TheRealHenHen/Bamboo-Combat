@@ -1,4 +1,4 @@
-package net.bamboo.combat.item; //By TheRealHenHen
+package net.bamboo.combat.item.spear; //By TheRealHenHen
 
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;

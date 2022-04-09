@@ -11,8 +11,8 @@ public class SpearEntityModelLayers {
 
     private static final String MAIN = "main";
     private static final Set<EntityModelLayer> LAYERS = Sets.newHashSet();
-    public static final EntityModelLayer BAMBOO_SPEAR = registerMain("bamboo_spear");
-    public static final EntityModelLayer STONE_BAMBOO_SPEAR = registerMain("stone_bamboo_spear");
+    public static final EntityModelLayer BAMBOO = registerMain("bamboo_spear");
+    public static final EntityModelLayer STONE = registerMain("stone_bamboo_spear");
 
     private static EntityModelLayer registerMain(String id) {
         return register(id, MAIN);

@@ -5,7 +5,8 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import io.netty.buffer.Unpooled;
-import net.bamboo.combat.Main;
+import net.bamboo.combat.BambooCombat;
+import net.bamboo.combat.item.BambooItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -36,11 +37,11 @@ import net.minecraft.world.World;
 
 public class SpearEntity extends PersistentProjectileEntity {
 
-	public static final Identifier SPAWN_PACKET = new Identifier(Main.MODID, "bamboo_spear");
+	public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public PickupPermission pickupType;
     private static EntityType<SpearEntity> entityType;
-    private ItemStack defaultItem = new ItemStack(Main.Bamboo);
+    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private int entitiesDamaged = 0;
     public int pierceLevel;
     public float throwDamage;

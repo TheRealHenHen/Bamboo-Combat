@@ -1,4 +1,4 @@
-package net.bamboo.combat.item; //By TheRealHenHen
+package net.bamboo.combat.item.spear; //By TheRealHenHen
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -35,6 +35,7 @@ implements Vanishable {
     private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
     private EntityType<SpearEntity> entityType;
     private boolean fireProof;
+    private float throwDistanceOriginal;
     private float throwDistance;
     private float attackDamage;
     private int spearPierceLevel;
@@ -53,6 +54,7 @@ implements Vanishable {
         this.entityType = entityType;
         this.throwDistance = throwDistance;
         this.attackDamage = attackDamage - 1;
+        this.throwDistanceOriginal = throwDistance;
     }
 
     @Override
@@ -115,6 +117,7 @@ implements Vanishable {
         PlayerEntity user = (PlayerEntity)livingEntity;
         Hand hand = user.getActiveHand();
         itemStack = user.getStackInHand(hand);
+        throwDistance = throwDistanceOriginal;
          
         if (!(user instanceof PlayerEntity)) {
             return;
@@ -127,7 +130,7 @@ implements Vanishable {
 
         if (!world.isClient) {          
 
-            itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));  
+            itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, spearPierceLevel, itemStack, entityType);
 
             if (!spear.getOwner().isOnGround()) {
@@ -158,6 +161,10 @@ implements Vanishable {
 
         user.incrementStat(Stats.USED.getOrCreateStat(this));
 
+    }
+
+    public EntityType<? extends SpearEntity> getEntityType() {
+        return entityType;
     }
 
 }
