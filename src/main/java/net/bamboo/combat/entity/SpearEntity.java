@@ -39,6 +39,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public static final Identifier SPAWN_PACKET = new Identifier(Main.MODID, "bamboo_spear");
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public PickupPermission pickupType;
+    private static EntityType<SpearEntity> entityType;
     private ItemStack defaultItem = new ItemStack(Main.Bamboo);
     private int entitiesDamaged = 0;
     public int pierceLevel;
@@ -50,18 +51,19 @@ public class SpearEntity extends PersistentProjectileEntity {
 		super(entityType, world);
 	}
 
-	public SpearEntity(World world, LivingEntity owner, float throwDamage, boolean fireProof, int pierceLevel, ItemStack defaultItem) {
-		super(Main.BAMBOO_SPEAR, owner, world);
+	public SpearEntity(World world, LivingEntity owner, float throwDamage, boolean fireProof, int pierceLevel, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
+		super(entityType, owner, world);
         this.pierceLevel = pierceLevel;
         this.throwDamage = throwDamage + 1;
         this.fireProof = fireProof;
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
+        SpearEntity.entityType = entityType;
 	}
 
 	@Environment(EnvType.CLIENT)
 	public SpearEntity(World world, double x, double y, double z, int id, UUID uuid) {
-		super(Main.BAMBOO_SPEAR, world);
+		super(entityType, world);
 		updatePosition(x, y, z);
 		updateTrackedPosition(x, y, z);
 		setId(id);

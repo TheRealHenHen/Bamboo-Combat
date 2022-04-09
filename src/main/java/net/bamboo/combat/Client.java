@@ -3,8 +3,8 @@ package net.bamboo.combat; //By TheRealHenHen
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -24,6 +24,7 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 
@@ -39,6 +40,19 @@ public class Client implements ClientModInitializer {
 			}
 			return livingEntity.isUsingItem() && livingEntity.getActiveItem() == itemStack ? 1.0F : 0.0F;
 		});
+	}
+
+	private void register(Item item, EntityType<SpearEntity> type, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
+		Identifier spearId = Registry.ITEM.getId(item);
+		Identifier texture = new Identifier(spearId.getNamespace(), "textures/entity/" + spearId.getPath() + "/normal.png");
+
+		SpearItemRenderer spearItemRenderer = new SpearItemRenderer(spearId, texture, modelLayer);
+		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(spearItemRenderer);
+		BuiltinItemRendererRegistry.INSTANCE.register(item, spearItemRenderer);
+		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "_in_inventory", "inventory")));
+		
+        EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
+		EntityRendererRegistry.register(type, (context) -> new SpearEntityRenderer(context, new Identifier(Main.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
 	}
 
     @Override
@@ -69,22 +83,11 @@ public class Client implements ClientModInitializer {
 				SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
 				mc.world.addEntity(entityID, spear);
 			});
-
 		});
-
-		Item item = Main.Bamboo;
-		Identifier spearId = Registry.ITEM.getId(item);
-		Identifier texture = new Identifier(spearId.getNamespace(), "textures/entity/" + spearId.getPath() + ".png");
-
-		EntityModelLayer modelLayer =  EntityModelLayers.TRIDENT;
-		SpearItemRenderer spearItemRenderer = new SpearItemRenderer(spearId, texture, modelLayer);
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(spearItemRenderer);
-		BuiltinItemRendererRegistry.INSTANCE.register(item, spearItemRenderer);
-		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "_in_inventory", "inventory")));
-		
-        EntityModelLayerRegistry.registerModelLayer(SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::getTexturedModelData);
-		EntityRendererRegistry.register(Main.BAMBOO_SPEAR, (context) -> new SpearEntityRenderer(context, new Identifier(Main.MODID, "textures/entity/bamboo_spear/normal.png"), SpearEntityModelLayers.BAMBOO_SPEAR));
+	
+		register(Main.Bamboo, Main.BAMBOO_SPEAR, SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::getBambooTexturedModelData);
+		register(Main.Stone, Main.STONE_BAMBOO_SPEAR, SpearEntityModelLayers.STONE_BAMBOO_SPEAR, SpearEntityModel::getStoneTexturedModelData);
 
     }
-	
+
 }

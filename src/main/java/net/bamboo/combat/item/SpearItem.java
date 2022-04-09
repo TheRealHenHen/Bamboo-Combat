@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 
 import net.bamboo.combat.entity.SpearEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -31,14 +32,15 @@ public class SpearItem
 extends ToolItem
 implements Vanishable {
 
-    private int spearPierceLevel;
     private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+    private EntityType<SpearEntity> entityType;
     private boolean fireProof;
     private float throwDistance;
     private float attackDamage;
+    private int spearPierceLevel;
     private int throwDelay;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int spearPierceLevel) {
+    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int spearPierceLevel, EntityType<SpearEntity> entityType) {
         super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
@@ -47,9 +49,10 @@ implements Vanishable {
 
         attributeModifiers = builder.build();
         this.fireProof = fireProof;
-        this.attackDamage = attackDamage - 1;
-        this.throwDistance = throwDistance;
         this.throwDelay = throwDelay;
+        this.entityType = entityType;
+        this.throwDistance = throwDistance;
+        this.attackDamage = attackDamage - 1;
     }
 
     @Override
@@ -125,7 +128,7 @@ implements Vanishable {
         if (!world.isClient) {          
 
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));  
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, spearPierceLevel, itemStack);
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, spearPierceLevel, itemStack, entityType);
 
             if (!spear.getOwner().isOnGround()) {
                 spear.pierceLevel++;

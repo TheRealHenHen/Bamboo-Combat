@@ -23,19 +23,25 @@ public class SpearEntityModel extends Model {
         this.root = root;
     }
 
-
-    public static TexturedModelData getTexturedModelData() {
+    public static TexturedModelData getBambooTexturedModelData() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
         modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, -1).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 28.0F, 1.0F), ModelTransform.NONE);
-        modelPartData2.addChild("bottom_spike", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -3.5F, -0.5F, 1.0F, 0.5F, 0.7F), ModelTransform.NONE);
-        modelPartData2.addChild("top_spike", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -4.0F, -0.5F, 1.0F, 0.5F, 0.4F), ModelTransform.NONE);
-        //modelPartData2.addChild("middle_spike", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -4.0F, -0.5F, 1.0F, 4.0F, 1.0F), ModelTransform.NONE);
-        //modelPartData2.addChild("right_spike", ModelPartBuilder.create().uv(4, 3).mirrored().cuboid(1.5F, -3.0F, -0.5F, 1.0F, 4.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("bottom_spike", ModelPartBuilder.create().uv(5, 0).cuboid(-0.5F, -3.5F, -0.2F, 1.0F, 0.5F, 0.7F), ModelTransform.NONE);
+        modelPartData2.addChild("top_spike", ModelPartBuilder.create().uv(9, 0).cuboid(-0.5F, -4.0F, 0.1F, 1.0F, 0.5F, 0.4F), ModelTransform.NONE);
         return TexturedModelData.of(modelData, 32, 32);
     }
 
+    public static TexturedModelData getStoneTexturedModelData() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+        ModelPartData modelPartData2 =
+        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, -1).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 28.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("bottom_stone", ModelPartBuilder.create().uv(18, 12).cuboid(-1.0F, -4.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.NONE);
+        modelPartData2.addChild("top_stone", ModelPartBuilder.create().uv(18, 12).cuboid(-0.5F, -5.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
+        return TexturedModelData.of(modelData, 32, 32);
+    }
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
