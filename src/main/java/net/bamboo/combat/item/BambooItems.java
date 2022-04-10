@@ -35,27 +35,27 @@ public class BambooItems {
 
         STONE = register(new SpearItem(new SpearItemMaterial
             (125, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.FLINT)),
-            5, 1.6F, 1.6F, 15, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
+            5, 1.6F, 1.1F, 15, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
 
         COPPER = register(new SpearItem(new SpearItemMaterial
             (175, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
-            7, 1.2F, 2.1F, 25, false, 3, SpearEntityTypes.BAMBOO), "copper_bamboo_spear"); //8.96
+            7, 1.2F, 1.6F, 25, false, 3, SpearEntityTypes.BAMBOO), "copper_bamboo_spear"); //8.96
 
         IRON = register(new SpearItem(new SpearItemMaterial
             (200, Ingredient.ofItems(Items.BAMBOO, Items.IRON_INGOT)),
-            6, 1.4F, 2.1F, 20, false, 2, SpearEntityTypes.BAMBOO), "iron_bamboo_spear"); //7.874
+            6, 1.4F, 1.5F, 20, false, 2, SpearEntityTypes.BAMBOO), "iron_bamboo_spear"); //7.874
 
         GOLD = register(new SpearItem(new SpearItemMaterial
             (50, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
-            7, 0.8F, 2.6F, 35, false, 5, SpearEntityTypes.BAMBOO), "golden_bamboo_spear"); //19.3
+            7, 0.8F, 2.1F, 35, false, 5, SpearEntityTypes.BAMBOO), "golden_bamboo_spear"); //19.3
 
         DIAMOND = register(new SpearItem(new SpearItemMaterial
             (400, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
-            8, 1.6F, 1.6F, 15, false, 2, SpearEntityTypes.BAMBOO), "diamond_bamboo_spear"); //3.53
+            8, 1.6F, 1.3F, 15, false, 2, SpearEntityTypes.BAMBOO), "diamond_bamboo_spear"); //3.53
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
             (600, Ingredient.ofItems(Items.NETHERITE_INGOT)),
-            9, 1, 2.6F, 30, true, 5, SpearEntityTypes.BAMBOO), "netherite_bamboo_spear");
+            9, 1, 2.1F, 30, true, 5, SpearEntityTypes.BAMBOO), "netherite_bamboo_spear");
 
     }
 

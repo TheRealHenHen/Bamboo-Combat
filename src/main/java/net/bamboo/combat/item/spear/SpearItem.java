@@ -133,17 +133,15 @@ implements Vanishable {
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, spearPierceLevel, itemStack, entityType);
 
-            if (!spear.getOwner().isOnGround()) {
-                spear.pierceLevel++;
+            if (spear.getOwner().isSprinting()) {
                 throwDistance += 0.2;
-                SpearEntity.critical = true;
-            }
-
-            if (!spear.getOwner().isSprinting()) {
+                if (!spear.getOwner().isOnGround()) {
+                    spear.throwDamage++;
+                    SpearEntity.critical = true;
+                }
+            } else {
                 spear.pierceLevel = 0;
                 SpearEntity.critical = false;
-            } else {
-                spear.throwDamage++;
             }
             
             spear.setOwner(user);
