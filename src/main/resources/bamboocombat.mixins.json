@@ -5,8 +5,7 @@
     "package": "net.bamboo.combat.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [],
-    "client": [
-    ],
+    "client": [],
     "server": [],
     "injectors": {
       "defaultRequire": 1
