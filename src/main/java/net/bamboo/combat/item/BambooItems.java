@@ -1,4 +1,4 @@
-package net.bamboo.combat.item;
+package net.bamboo.combat.item; //By TheRealHenHen
 
 import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.entity.SpearEntityTypes;
@@ -31,11 +31,11 @@ public class BambooItems {
 
         BAMBOO = register(new SpearItem(new SpearItemMaterial
             (75, Ingredient.ofItems(Items.BAMBOO)),
-            5, 1.6F, 0.7F, 5, false, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
+            5, 1.6F, 0.9F, 5, false, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
 
         STONE = register(new SpearItem(new SpearItemMaterial
             (125, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.FLINT)),
-            6, 1.3F, 1.1F, 10, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
+            6, 1.3F, 1.2F, 10, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
 
         COPPER = register(new SpearItem(new SpearItemMaterial
             (175, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
