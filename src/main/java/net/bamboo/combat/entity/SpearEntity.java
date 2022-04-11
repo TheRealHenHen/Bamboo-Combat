@@ -40,8 +40,8 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public PickupPermission pickupType;
-    private static EntityType<SpearEntity> entityType;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
+    private static EntityType<SpearEntity> entityType;
     private int entitiesDamaged = 0;
     public int pierceLevel;
     public float throwDamage;
