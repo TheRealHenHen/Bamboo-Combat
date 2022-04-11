@@ -1,5 +1,7 @@
 package net.bamboo.combat.item.spear; //By TheRealHenHen
 
+import java.util.Random;
+
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
@@ -32,16 +34,17 @@ public class SpearItem
 extends ToolItem
 implements Vanishable {
 
+    Random random = new Random();
     private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
     private EntityType<SpearEntity> entityType;
     private boolean fireProof;
     private float throwDistanceOriginal;
     private float throwDistance;
     private float attackDamage;
-    private int spearPierceLevel;
+    private int pierceLevel;
     private int throwDelay;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int spearPierceLevel, EntityType<SpearEntity> entityType) {
+    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int pierceLevel, EntityType<SpearEntity> entityType) {
         super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
@@ -52,6 +55,7 @@ implements Vanishable {
         this.fireProof = fireProof;
         this.throwDelay = throwDelay;
         this.entityType = entityType;
+        this.pierceLevel = pierceLevel;
         this.throwDistance = throwDistance;
         this.attackDamage = attackDamage - 1;
         this.throwDistanceOriginal = throwDistance;
@@ -131,13 +135,15 @@ implements Vanishable {
         if (!world.isClient) {          
 
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, spearPierceLevel, itemStack, entityType);
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, pierceLevel, itemStack, entityType);
 
             if (spear.getOwner().isSprinting()) {
-                throwDistance += 0.2;
+                throwDistance += 0.1;
                 if (!spear.getOwner().isOnGround()) {
-                    spear.throwDamage++;
+                    spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
                     SpearEntity.critical = true;
+                } else {
+                	SpearEntity.critical = false;
                 }
             } else {
                 spear.pierceLevel = 0;
