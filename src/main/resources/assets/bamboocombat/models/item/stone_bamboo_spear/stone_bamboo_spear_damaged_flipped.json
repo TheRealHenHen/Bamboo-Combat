@@ -1,27 +1,26 @@
 {
 	"credit": "Made with Blockbench",
-	"author": "TheRealHenHen",
 	"textures": {
 		"0": "bamboocombat:entity/stone_bamboo_spear/damaged",
 		"particle": "bamboocombat:item/stone_bamboo_spear"
 	},
 	"elements": [
 		{
-			"from": [7.5, -5, 8.5],
-			"to": [8.5, 17, 9.5],
+			"from": [7.5, -5, 7.5],
+			"to": [8.5, 17, 8.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 9]},
 			"faces": {
 				"north": {"uv": [0, 11, 0.5, 0], "texture": "#0"},
 				"east": {"uv": [0.5, 11, 1, 0], "texture": "#0"},
 				"south": {"uv": [1, 11, 1.5, 0], "texture": "#0"},
 				"west": {"uv": [1.5, 11, 2, 0], "texture": "#0"},
-				"up": {"uv": [2, 11, 1.5, 10.5], "texture": "#0"},
-				"down": {"uv": [0.5, 0, 0, 0.5], "texture": "#0"}
+				"up": {"uv": [2, 10, 1.5, 9.5], "texture": "#0"},
+				"down": {"uv": [1, 0, 0.5, 0.5], "texture": "#0"}
 			}
 		},
 		{
-			"from": [7, -7, 9],
-			"to": [8, -6, 10],
+			"from": [7, -7, 8],
+			"to": [8, -6, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
 				"north": {"uv": [8, 1.5, 8.5, 1], "texture": "#0"},
@@ -33,8 +32,8 @@
 			}
 		},
 		{
-			"from": [7, -6, 8],
-			"to": [9, -4, 10],
+			"from": [7, -6, 7],
+			"to": [9, -4, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
 				"north": {"uv": [3.5, 2, 4.5, 1], "texture": "#0"},
@@ -47,13 +46,20 @@
 		}
 	],
 	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 0, 1]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 0, 1]
+		},
 		"firstperson_righthand": {
 			"rotation": [-15, -180, -180],
-			"translation": [1, -3, 1]
+			"translation": [1, -3, 2]
 		},
 		"firstperson_lefthand": {
-			"rotation": [-15, -180, -180],
-			"translation": [1, -3, 1]
+			"rotation": [-15, 0, -180],
+			"translation": [1, -3, 2]
 		},
 		"fixed": {
 			"translation": [0, 0, -2]
