@@ -30,8 +30,6 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 
 @Environment(EnvType.CLIENT)
 public class BambooCombatClient implements ClientModInitializer {
-	
-    public static final EntityModelLayer SPEAR = new EntityModelLayer(new Identifier(BambooCombat.MODID, "bamboo_spear"), "main");
 
 	private void register(SpearItem item, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
 		Identifier spearId = Registry.ITEM.getId(item);
@@ -77,6 +75,11 @@ public class BambooCombatClient implements ClientModInitializer {
 	
 		register(BambooItems.BAMBOO, SpearEntityModelLayers.BAMBOO, SpearEntityModel::modelBamboo);
 		register(BambooItems.STONE, SpearEntityModelLayers.STONE, SpearEntityModel::modelStone);
+		register(BambooItems.COPPER, SpearEntityModelLayers.COPPER, SpearEntityModel::modelStone);
+		register(BambooItems.IRON, SpearEntityModelLayers.IRON, SpearEntityModel::modelStone);
+		register(BambooItems.GOLD, SpearEntityModelLayers.GOLD, SpearEntityModel::modelStone);
+		register(BambooItems.DIAMOND, SpearEntityModelLayers.DIAMOND, SpearEntityModel::modelStone);
+		register(BambooItems.NETHERITE, SpearEntityModelLayers.NETHERITE, SpearEntityModel::modelStone);
 
     }
 
