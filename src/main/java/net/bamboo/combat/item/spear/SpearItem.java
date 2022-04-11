@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 
 import net.bamboo.combat.entity.SpearEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -107,11 +108,12 @@ implements Vanishable {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		
 		ItemStack itemStack = user.getStackInHand(hand);
+        
+        if (itemStack.getDamage() >= itemStack.getMaxDamage() - 2) {
+            return TypedActionResult.fail(itemStack);
+        }
+
         user.setCurrentHand(hand);
-
-		if (itemStack.getDamage() > itemStack.getMaxDamage() - 2) 
-           return TypedActionResult.fail(itemStack);
-
         return TypedActionResult.consume(itemStack);
 	}
 
@@ -136,20 +138,8 @@ implements Vanishable {
 
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, pierceLevel, itemStack, entityType);
-
-            if (spear.getOwner().isSprinting()) {
-                throwDistance += 0.1;
-                if (!spear.getOwner().isOnGround()) {
-                    spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
-                    SpearEntity.critical = true;
-                } else {
-                	SpearEntity.critical = false;
-                }
-            } else {
-                spear.pierceLevel = 0;
-                SpearEntity.critical = false;
-            }
             
+            isCritical(spear);
             spear.setOwner(user);
             spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             world.spawnEntity(spear);
@@ -169,6 +159,25 @@ implements Vanishable {
 
     public EntityType<? extends SpearEntity> getEntityType() {
         return entityType;
+    }
+
+    private void isCritical(SpearEntity spear) {
+        Entity owner = spear.getOwner();
+        Entity vehicle = owner.getRootVehicle();
+
+        if (owner.isSprinting() || (owner.hasVehicle() && !vehicle.isOnGround())) {
+            throwDistance += 0.1;
+            SpearEntity.critical = true;
+            if ((!owner.isOnGround() && !owner.hasVehicle()) || (owner.hasVehicle() && !vehicle.isOnGround())) {
+                spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
+                SpearEntity.critical = true;
+            } else {
+                SpearEntity.critical = false;
+            }
+        } else {
+            spear.pierceLevel = 0;
+            SpearEntity.critical = false;
+        }
     }
 
 }
