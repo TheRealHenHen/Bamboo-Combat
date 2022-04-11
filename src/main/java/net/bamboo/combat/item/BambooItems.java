@@ -27,35 +27,35 @@ public class BambooItems {
     public static void initialize() {
 
         //(durability, repairIngredient),
-        //attackDamage, attackSpeed, throwDistance, fireProof (boolean), spearPierceLevel
+        //attackDamage, attackSpeed, throwDistance, throwDelay, fireProof (boolean), spearPierceLevel
 
         BAMBOO = register(new SpearItem(new SpearItemMaterial
             (75, Ingredient.ofItems(Items.BAMBOO)),
-            3, 2, 0.6F, 5, false, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
+            5, 1.6F, 0.7F, 5, false, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
 
         STONE = register(new SpearItem(new SpearItemMaterial
             (125, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.FLINT)),
-            5, 1.6F, 1.1F, 15, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
+            6, 1.3F, 1.1F, 10, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
 
         COPPER = register(new SpearItem(new SpearItemMaterial
             (175, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
-            7, 1.2F, 1.6F, 25, false, 3, SpearEntityTypes.BAMBOO), "copper_bamboo_spear"); //8.96
+            7, 1.5F, 1.4F, 15, false, 2, SpearEntityTypes.COPPER), "copper_bamboo_spear"); //8.96
+
+        GOLD = register(new SpearItem(new SpearItemMaterial
+            (75, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
+            6, 1.2F, 2.1F, 25, false, 3, SpearEntityTypes.GOLD), "golden_bamboo_spear"); //19.3
 
         IRON = register(new SpearItem(new SpearItemMaterial
             (200, Ingredient.ofItems(Items.BAMBOO, Items.IRON_INGOT)),
-            6, 1.4F, 1.5F, 20, false, 2, SpearEntityTypes.BAMBOO), "iron_bamboo_spear"); //7.874
-
-        GOLD = register(new SpearItem(new SpearItemMaterial
-            (50, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
-            7, 0.8F, 2.1F, 35, false, 5, SpearEntityTypes.BAMBOO), "golden_bamboo_spear"); //19.3
+            9, 1.1F, 1.7F, 20, false, 2, SpearEntityTypes.IRON), "iron_bamboo_spear"); //7.874
 
         DIAMOND = register(new SpearItem(new SpearItemMaterial
-            (400, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
-            8, 1.6F, 1.3F, 15, false, 2, SpearEntityTypes.BAMBOO), "diamond_bamboo_spear"); //3.53
+            (500, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
+            8, 1.4F, 1.5F, 15, false, 4, SpearEntityTypes.DIAMOND), "diamond_bamboo_spear"); //3.53
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
-            (600, Ingredient.ofItems(Items.NETHERITE_INGOT)),
-            9, 1, 2.1F, 30, true, 5, SpearEntityTypes.BAMBOO), "netherite_bamboo_spear");
+            (750, Ingredient.ofItems(Items.NETHERITE_INGOT)),
+            10, 1.1F, 2.3F, 25, true, 5, SpearEntityTypes.NETHERITE), "netherite_bamboo_spear");
 
     }
 
