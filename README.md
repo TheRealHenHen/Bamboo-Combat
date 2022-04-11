@@ -30,17 +30,8 @@ Adds Bamboo related Combat Items!
 
 Not yet published to CurseForge or Modrinth, but you can install it by following the instructions below
 
-  - Go to the main branch of the project 
-  - Press "*Code*" and select "*Download ZIP*"
-  - Unzip the file that was downloaded
-  - Open unzipped folder and copy the its path
-  - Open the command prompt and paste folder's path and press *Enter*
-  - Type in the command "gradlew build" and wait for it to finish building
-  - Done!
-
-The *.jar* file is in path *build/libs* of the unzipped folder
-
-Use the *.jar* file that doesn't have the name "sources" at the end
+You can use the latest build in the actions page (https://github.com/TheRealHenHen/Bamboo-Combat/actions)
+Click on a build then press "_Artifacts_"
 
 ### Fabric or Forge?
 This is a **Fabric** mod
