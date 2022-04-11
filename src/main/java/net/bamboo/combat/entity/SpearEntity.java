@@ -54,9 +54,9 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	public SpearEntity(World world, LivingEntity owner, float throwDamage, boolean fireProof, int pierceLevel, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
 		super(entityType, owner, world);
+        this.fireProof = fireProof;
         this.pierceLevel = pierceLevel;
         this.throwDamage = throwDamage + 1;
-        this.fireProof = fireProof;
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
         SpearEntity.entityType = entityType;
@@ -205,7 +205,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     @Override
     public boolean isCritical() {
-        return SpearEntity.critical;
+        return critical;
     }
 
 	private boolean shouldFall() {
