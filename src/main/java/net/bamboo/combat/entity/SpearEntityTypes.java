@@ -23,5 +23,10 @@ public class SpearEntityTypes {
     
     public static final EntityType<SpearEntity> BAMBOO = registerEntity("bamboo_spear");
     public static final EntityType<SpearEntity> STONE = registerEntity("stone_bamboo_spear");
+    public static final EntityType<SpearEntity> COPPER = registerEntity("copper_bamboo_spear");
+    public static final EntityType<SpearEntity> IRON = registerEntity("iron_bamboo_spear");
+    public static final EntityType<SpearEntity> GOLD = registerEntity("golden_bamboo_spear");
+    public static final EntityType<SpearEntity> DIAMOND = registerEntity("diamond_bamboo_spear");
+    public static final EntityType<SpearEntity> NETHERITE = registerEntity("netherite_bamboo_spear");
 
 }
