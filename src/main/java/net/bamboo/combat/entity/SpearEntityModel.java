@@ -37,9 +37,9 @@ public class SpearEntityModel extends Model {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
-        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, -1).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 28.0F, 1.0F), ModelTransform.NONE);
-        modelPartData2.addChild("bottom_stone", ModelPartBuilder.create().uv(5, 0).cuboid(-1.0F, -4.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.NONE);
-        modelPartData2.addChild("top_stone", ModelPartBuilder.create().uv(15, 1).cuboid(-0.5F, -5.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
+        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, -1).cuboid(-0.5F, -1.0F, -0.5F, 1.0F, 28.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("bottom_stone", ModelPartBuilder.create().uv(5, 0).cuboid(-1.0F, -3.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.NONE);
+        modelPartData2.addChild("top_stone", ModelPartBuilder.create().uv(15, 1).cuboid(-0.5F, -4.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
         return TexturedModelData.of(modelData, 32, 32);
     }
 
@@ -47,9 +47,11 @@ public class SpearEntityModel extends Model {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
-        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, -1).cuboid(-0.5F, -2.0F, -0.5F, 1.0F, 28.0F, 1.0F), ModelTransform.NONE);
-        modelPartData2.addChild("bottom_stone", ModelPartBuilder.create().uv(5, 0).cuboid(-1.0F, -4.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.NONE);
-        modelPartData2.addChild("top_stone", ModelPartBuilder.create().uv(15, 1).cuboid(-0.5F, -5.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
+        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, 1.0F, -0.5F, 1.0F, 27.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("bottom", ModelPartBuilder.create().uv(5, 1).cuboid(-1.0F, -2.0F, -0.5F, 2.0F, 3.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("top", ModelPartBuilder.create().uv(20, 1).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("right", ModelPartBuilder.create().uv(14, 1).cuboid(-1.5F, -1.0F, -0.5F, 0.5F, 1.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("left", ModelPartBuilder.create().uv(14, 3).cuboid(1.0F, -1.0F, -0.5F, 0.5F, 1.0F, 1.0F), ModelTransform.NONE);
         return TexturedModelData.of(modelData, 32, 32);
     }
 
