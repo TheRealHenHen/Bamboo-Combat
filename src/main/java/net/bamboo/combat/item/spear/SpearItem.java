@@ -165,9 +165,8 @@ implements Vanishable {
         Entity owner = spear.getOwner();
         Entity vehicle = owner.getRootVehicle();
 
-        if (owner.isSprinting() || (owner.hasVehicle() && !vehicle.isOnGround())) {
+        if (owner.isSprinting() || owner.hasVehicle()) {
             throwDistance += 0.1;
-            SpearEntity.critical = true;
             if ((!owner.isOnGround() && !owner.hasVehicle()) || (owner.hasVehicle() && !vehicle.isOnGround())) {
                 spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
                 SpearEntity.critical = true;
@@ -179,5 +178,5 @@ implements Vanishable {
             SpearEntity.critical = false;
         }
     }
-
+    
 }
