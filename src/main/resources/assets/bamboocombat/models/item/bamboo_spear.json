@@ -8,20 +8,20 @@
 			"predicate": {
 				"throwing": 1
 			},
-			"model": "bamboocombat:item/bamboo_spear/bamboo_spear_flipped"
+			"model": "bamboocombat:item/bamboo_spear/flipped"
 		},
 		{
 			"predicate": {
 			  "damage": 0.8
 			},
-			"model": "bamboocombat:item/bamboo_spear/bamboo_spear_damaged"
+			"model": "bamboocombat:item/bamboo_spear/damaged"
 		},
 		{
 			"predicate": {
 			  "damage": 0.8,
 			  "throwing": 1
 			},
-			"model": "bamboocombat:item/bamboo_spear/bamboo_spear_damaged_flipped"
+			"model": "bamboocombat:item/bamboo_spear/damaged_flipped"
 		}
 	],
 	"elements": [
