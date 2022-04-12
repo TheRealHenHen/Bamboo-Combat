@@ -34,7 +34,7 @@ public class BambooItems {
             5, 1.6F, 0.9F, 5, false, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
 
         STONE = register(new SpearItem(new SpearItemMaterial
-            (125, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.FLINT)),
+            (125, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.BLACKSTONE, Items.FLINT)),
             6, 1.3F, 1.2F, 10, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
 
         COPPER = register(new SpearItem(new SpearItemMaterial

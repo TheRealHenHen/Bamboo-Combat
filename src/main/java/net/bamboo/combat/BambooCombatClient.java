@@ -38,7 +38,7 @@ public class BambooCombatClient implements ClientModInitializer {
 		SpearItemRenderer spearItemRenderer = new SpearItemRenderer(spearId, texture, modelLayer);
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(spearItemRenderer);
 		BuiltinItemRendererRegistry.INSTANCE.register(item, spearItemRenderer);
-		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "_gui", "inventory")));
+		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "/" + spearId.getPath() + "_gui", "inventory")));
 		
         EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
 		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context, new Identifier(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
@@ -75,11 +75,11 @@ public class BambooCombatClient implements ClientModInitializer {
 	
 		register(BambooItems.BAMBOO, SpearEntityModelLayers.BAMBOO, SpearEntityModel::modelBamboo);
 		register(BambooItems.STONE, SpearEntityModelLayers.STONE, SpearEntityModel::modelStone);
-		register(BambooItems.COPPER, SpearEntityModelLayers.COPPER, SpearEntityModel::modelStone);
-		register(BambooItems.IRON, SpearEntityModelLayers.IRON, SpearEntityModel::modelStone);
-		register(BambooItems.GOLD, SpearEntityModelLayers.GOLD, SpearEntityModel::modelStone);
-		register(BambooItems.DIAMOND, SpearEntityModelLayers.DIAMOND, SpearEntityModel::modelStone);
-		register(BambooItems.NETHERITE, SpearEntityModelLayers.NETHERITE, SpearEntityModel::modelStone);
+		register(BambooItems.COPPER, SpearEntityModelLayers.COPPER, SpearEntityModel::modelIron);
+		register(BambooItems.IRON, SpearEntityModelLayers.IRON, SpearEntityModel::modelIron);
+		register(BambooItems.GOLD, SpearEntityModelLayers.GOLD, SpearEntityModel::modelIron);
+		register(BambooItems.DIAMOND, SpearEntityModelLayers.DIAMOND, SpearEntityModel::modelIron);
+		register(BambooItems.NETHERITE, SpearEntityModelLayers.NETHERITE, SpearEntityModel::modelIron);
 
     }
 
