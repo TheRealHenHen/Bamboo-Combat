@@ -172,11 +172,12 @@ implements Vanishable {
                 SpearEntity.critical = true;
             } else {
                 SpearEntity.critical = false;
+                spear.pierceLevel = 0;
             }
         } else {
             spear.pierceLevel = 0;
             SpearEntity.critical = false;
         }
     }
-    
+
 }
