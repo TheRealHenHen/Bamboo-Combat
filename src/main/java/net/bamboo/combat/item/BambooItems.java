@@ -39,7 +39,7 @@ public class BambooItems {
 
         COPPER = register(new SpearItem(new SpearItemMaterial
             (175, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
-            7, 1.5F, 1.4F, 15, false, 2, SpearEntityTypes.COPPER), "copper_bamboo_spear"); //8.96
+            7, 1.4F, 1.4F, 15, false, 2, SpearEntityTypes.COPPER), "copper_bamboo_spear"); //8.96
 
         GOLD = register(new SpearItem(new SpearItemMaterial
             (75, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
@@ -47,11 +47,11 @@ public class BambooItems {
 
         IRON = register(new SpearItem(new SpearItemMaterial
             (200, Ingredient.ofItems(Items.BAMBOO, Items.IRON_INGOT)),
-            9, 1.1F, 1.7F, 20, false, 2, SpearEntityTypes.IRON), "iron_bamboo_spear"); //7.874
+            8, 1.1F, 1.7F, 20, false, 2, SpearEntityTypes.IRON), "iron_bamboo_spear"); //7.874
 
         DIAMOND = register(new SpearItem(new SpearItemMaterial
             (500, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
-            8, 1.4F, 1.5F, 15, false, 4, SpearEntityTypes.DIAMOND), "diamond_bamboo_spear"); //3.53
+            9, 1.4F, 1.5F, 15, false, 4, SpearEntityTypes.DIAMOND), "diamond_bamboo_spear"); //3.53
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
             (750, Ingredient.ofItems(Items.NETHERITE_INGOT)),
