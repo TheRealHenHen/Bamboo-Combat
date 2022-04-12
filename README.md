@@ -13,11 +13,18 @@ Adds Bamboo related Combat Items!
 
 ## Planned Features
 
+* Bamboo Harpoon
+  - Works like a fishing rod
+  - Has seven tiers
+
 * Bamboo Armor
-  - Has the same armor points as chain
+  - Gives the same armor points as chain
   - Work in pairs
     - Helmet doesn't work without a chestplate
     - Boots don't work without leggings
+
+* Bamboo Horse Armor
+  - Gives four armour points
 
 * Bamboo Shield
   - Works like a shield
@@ -25,6 +32,9 @@ Adds Bamboo related Combat Items!
   - Can be dual wielded
   - Does not stop sprinting
     - Only when not dual wielding shields 
+
+
+
 
 ## Installation
 
