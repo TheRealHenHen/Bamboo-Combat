@@ -1,6 +1,7 @@
 package net.bamboo.combat.item.spear; //By TheRealHenHen
 
 import net.bamboo.combat.entity.SpearEntityModel;
+import net.bamboo.combat.entity.SpearEntityModelLayers;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.resource.ResourceReloadListenerKeys;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
@@ -24,10 +25,10 @@ public class SpearItemRenderer implements BuiltinItemRendererRegistry.DynamicIte
     private final Identifier id;
     private final Identifier spearId;
     private final Identifier texture;
-    private final EntityModelLayer modelLayer;
     private ItemRenderer itemRenderer;
     private SpearEntityModel spearModel;
     private BakedModel inventorySpearModel;
+    private EntityModelLayer modelLayer = SpearEntityModelLayers.BAMBOO;
 
     public SpearItemRenderer(Identifier spearId, Identifier texture, EntityModelLayer modelLayer) {
         this.id = new Identifier(spearId.getNamespace(), spearId.getPath() + "_renderer");
