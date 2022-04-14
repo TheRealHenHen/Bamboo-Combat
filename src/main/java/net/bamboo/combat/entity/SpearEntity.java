@@ -46,7 +46,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     public int pierceLevel;
     public float throwDamage;
     private boolean fireProof;
-    public static boolean critical = false;
+    public boolean critical;
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
@@ -188,7 +188,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
     protected float getDragInWater() {
-        return 2f;
+        return 2f; 
     }
 
 	@Override
@@ -205,7 +205,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     @Override
     public boolean isCritical() {
-        return critical;
+        return true;
     }
 
 	private boolean shouldFall() {
@@ -215,7 +215,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 	private void fall() {
         this.inGround = false;
         Vec3d vec3d = this.getVelocity();
-        this.setVelocity(vec3d.multiply(this.random.nextFloat() * 0.4f, this.random.nextFloat() * 0.4f, this.random.nextFloat() * 0.4f));
+        this.setVelocity(vec3d.multiply(this.random.nextFloat() * 0.3f, this.random.nextFloat() * 0.3f, this.random.nextFloat() * 0.3f));
     }
 
     @Override

@@ -139,7 +139,7 @@ implements Vanishable {
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, pierceLevel, itemStack, entityType);
             
-            isCritical(spear);
+            spear.critical = isCritical(spear);
             spear.setOwner(user);
             spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             world.spawnEntity(spear);
@@ -161,23 +161,25 @@ implements Vanishable {
         return entityType;
     }
 
-    private void isCritical(SpearEntity spear) {
+    private boolean isCritical(SpearEntity spear) {
         Entity owner = spear.getOwner();
         Entity vehicle = owner.getRootVehicle();
+        boolean critical;
 
         if (owner.isSprinting() || owner.hasVehicle()) {
             throwDistance += 0.1;
             if ((!owner.isOnGround() && !owner.hasVehicle()) || (owner.hasVehicle() && !vehicle.isOnGround())) {
                 spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
-                SpearEntity.critical = true;
+                critical = true;
             } else {
-                SpearEntity.critical = false;
+                critical = false;
                 spear.pierceLevel = 0;
             }
         } else {
             spear.pierceLevel = 0;
-            SpearEntity.critical = false;
+            critical = false;
         }
+        return critical;
     }
 
 }
