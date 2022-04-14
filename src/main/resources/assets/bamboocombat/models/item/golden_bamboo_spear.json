@@ -1,27 +1,27 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "bamboocombat:entity/iron_bamboo_spear/normal"
+		"0": "bamboocombat:entity/golden_bamboo_spear/normal"
 	},
 	"overrides": [
 		{
 			"predicate": {
 				"throwing": 1
 			},
-			"model": "bamboocombat:item/iron_bamboo_spear/flipped"
+			"model": "bamboocombat:item/golden_bamboo_spear/flipped"
 		},
 		{
 			"predicate": {
 			  "damage": 0.8
 			},
-			"model": "bamboocombat:item/iron_bamboo_spear/damaged"
+			"model": "bamboocombat:item/golden_bamboo_spear/damaged"
 		},
 		{
 			"predicate": {
 			  "damage": 0.8,
 			  "throwing": 1
 			},
-			"model": "bamboocombat:item/iron_bamboo_spear/damaged_flipped"
+			"model": "bamboocombat:item/golden_bamboo_spear/damaged_flipped"
 		}
 	],
 	"elements": [

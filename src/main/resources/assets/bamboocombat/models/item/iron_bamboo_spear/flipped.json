@@ -22,9 +22,9 @@
 			"to": [8.5, -11, 8.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
 			"faces": {
-				"north": {"uv": [10.5, 1.5, 11, 1], "texture": "#0"},
+				"north": {"uv": [11.5, 1.5, 12, 1], "texture": "#0"},
 				"east": {"uv": [11, 1.5, 11.5, 1], "texture": "#0"},
-				"south": {"uv": [11.5, 1.5, 12, 1], "texture": "#0"},
+				"south": {"uv": [10.5, 1.5, 11, 1], "texture": "#0"},
 				"west": {"uv": [10, 1.5, 10.5, 1], "texture": "#0"},
 				"up": {"uv": [11, 0.5, 11.5, 1], "rotation": 90, "texture": "#0"},
 				"down": {"uv": [10.5, 1, 11, 0.5], "rotation": 270, "texture": "#0"}
@@ -35,9 +35,9 @@
 			"to": [8.5, -8, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
 			"faces": {
-				"north": {"uv": [3.5, 2.5, 4, 1], "texture": "#0"},
+				"north": {"uv": [5, 2.5, 5.5, 1], "texture": "#0"},
 				"east": {"uv": [4, 2.5, 5, 1], "texture": "#0"},
-				"south": {"uv": [5, 2.5, 5.5, 1], "texture": "#0"},
+				"south": {"uv": [3.5, 2.5, 4, 1], "texture": "#0"},
 				"west": {"uv": [2.5, 2.5, 3.5, 1], "texture": "#0"},
 				"up": {"uv": [5, 0.5, 4, 1], "rotation": 90, "texture": "#0"},
 				"down": {"uv": [4, 0.5, 3, 1], "rotation": 270, "texture": "#0"}
@@ -48,9 +48,9 @@
 			"to": [8.5, -9, 7],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
 			"faces": {
-				"north": {"uv": [7.5, 2.5, 8, 2], "texture": "#0"},
+				"north": {"uv": [8.5, 2.5, 9, 2], "texture": "#0"},
 				"east": {"uv": [8, 2.5, 8.5, 2], "texture": "#0"},
-				"south": {"uv": [8.5, 2.5, 9, 2], "texture": "#0"},
+				"south": {"uv": [7.5, 2.5, 8, 2], "texture": "#0"},
 				"west": {"uv": [7, 2.5, 7.5, 2], "texture": "#0"},
 				"up": {"uv": [8.5, 1.5, 8, 2], "rotation": 90, "texture": "#0"},
 				"down": {"uv": [8, 1.5, 7.5, 2], "rotation": 270, "texture": "#0"}
@@ -61,13 +61,21 @@
 			"to": [8.5, -9, 9.5],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
 			"faces": {
-				"north": {"uv": [7.5, 1.5, 8, 1], "texture": "#0"},
+				"north": {"uv": [8.5, 1.5, 9, 1], "texture": "#0"},
 				"east": {"uv": [8, 1.5, 8.5, 1], "texture": "#0"},
-				"south": {"uv": [8.5, 1.5, 9, 1], "texture": "#0"},
+				"south": {"uv": [7.5, 1.5, 8, 1], "texture": "#0"},
 				"west": {"uv": [7, 1.5, 7.5, 1], "texture": "#0"},
 				"up": {"uv": [8.5, 0.5, 8, 1], "rotation": 90, "texture": "#0"},
 				"down": {"uv": [8, 0.5, 7.5, 1], "rotation": 270, "texture": "#0"}
 			}
+		}
+	],
+	"overrides": [
+		{
+			"predicate": {
+				"damage": 0.2
+			},
+			"model": "bamboospear:item/stone_bamboo_spear_damaged_2"
 		}
 	],
 	"display": {

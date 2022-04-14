@@ -1,0 +1,136 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "bamboocombat:entity/diamond_bamboo_spear/normal"
+	},
+	"elements": [
+		{
+			"from": [7.5, -8, 7.5],
+			"to": [8.5, 19, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
+			"faces": {
+				"north": {"uv": [0, 14, 0.5, 0.5], "texture": "#0"},
+				"east": {"uv": [0.5, 14, 1, 0.5], "texture": "#0"},
+				"south": {"uv": [1, 14, 1.5, 0.5], "texture": "#0"},
+				"west": {"uv": [1.5, 14, 2, 0.5], "texture": "#0"},
+				"up": {"uv": [1.5, 16, 1, 15.5], "texture": "#0"},
+				"down": {"uv": [1, 15.5, 0.5, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.5, -12, 7.5],
+			"to": [8.5, -11, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
+			"faces": {
+				"north": {"uv": [13, 1.5, 13.5, 1], "texture": "#0"},
+				"east": {"uv": [12.5, 1.5, 13, 1], "texture": "#0"},
+				"south": {"uv": [12, 1.5, 12.5, 1], "texture": "#0"},
+				"west": {"uv": [11.5, 1.5, 12, 1], "texture": "#0"},
+				"up": {"uv": [12.5, 0.5, 13, 1], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [12, 1, 12.5, 0.5], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, -11, 7],
+			"to": [9, -8, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
+			"faces": {
+				"north": {"uv": [2, 2.5, 3, 1], "texture": "#0"},
+				"east": {"uv": [3, 2.5, 4, 1], "texture": "#0"},
+				"south": {"uv": [4, 2.5, 5, 1], "texture": "#0"},
+				"west": {"uv": [5, 2.5, 6, 1], "texture": "#0"},
+				"up": {"uv": [5, 0, 4, 1], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [4, 0, 3, 1], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.5, -10, 6.5],
+			"to": [8.5, -8, 7],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
+			"faces": {
+				"north": {"uv": [8.5, 3.5, 9, 2.5], "texture": "#0"},
+				"east": {"uv": [8, 3.5, 8.5, 2.5], "texture": "#0"},
+				"south": {"uv": [7.5, 3.5, 8, 2.5], "texture": "#0"},
+				"west": {"uv": [7, 3.5, 7.5, 2.5], "texture": "#0"},
+				"up": {"uv": [8.5, 2, 8, 2.5], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [8, 2, 7.5, 2.5], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"from": [6.5, -10, 7.5],
+			"to": [7, -8, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
+			"faces": {
+				"north": {"uv": [10.5, 2, 11, 1], "texture": "#0"},
+				"east": {"uv": [10, 2, 10.5, 1], "texture": "#0"},
+				"south": {"uv": [9.5, 2, 10, 1], "texture": "#0"},
+				"west": {"uv": [9, 2, 9.5, 1], "texture": "#0"},
+				"up": {"uv": [10.5, 0.5, 10, 1], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [10, 0.5, 9.5, 1], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"from": [9, -10, 7.5],
+			"to": [9.5, -8, 8.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
+			"faces": {
+				"north": {"uv": [10.5, 3.5, 11, 2.5], "texture": "#0"},
+				"east": {"uv": [10, 3.5, 10.5, 2.5], "texture": "#0"},
+				"south": {"uv": [9.5, 3.5, 10, 2.5], "texture": "#0"},
+				"west": {"uv": [9, 3.5, 9.5, 2.5], "texture": "#0"},
+				"up": {"uv": [10.5, 2, 10, 2.5], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [10, 2, 9.5, 2.5], "rotation": 270, "texture": "#0"}
+			}
+		},
+		{
+			"from": [7.5, -10, 9],
+			"to": [8.5, -8, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, -1, 8]},
+			"faces": {
+				"north": {"uv": [8.5, 2, 9, 1], "texture": "#0"},
+				"east": {"uv": [8, 2, 8.5, 1], "texture": "#0"},
+				"south": {"uv": [7.5, 2, 8, 1], "texture": "#0"},
+				"west": {"uv": [7, 2, 7.5, 1], "texture": "#0"},
+				"up": {"uv": [8.5, 0.5, 8, 1], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [8, 0.5, 7.5, 1], "rotation": 270, "texture": "#0"}
+			}
+		}
+	],
+	"overrides": [
+		{
+			"predicate": {
+				"damage": 0.2
+			},
+			"model": "bamboospear:item/stone_bamboo_spear_damaged_2"
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"translation": [0, 0, 1]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, -180, 0],
+			"translation": [0, 0, 1]
+		},
+		"firstperson_righthand": {
+			"rotation": [-15, -180, -180],
+			"translation": [1, -3, 2]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-15, 0, -180],
+			"translation": [1, -3, 2]
+		},
+		"fixed": {
+			"translation": [0, 0, -2]
+		}
+	},
+	"groups": [
+		0,
+		{
+			"name": "tip",
+			"origin": [8, 1, 8],
+			"color": 0,
+			"children": [1, 2, 3, 4, 5, 6]
+		}
+	]
+}

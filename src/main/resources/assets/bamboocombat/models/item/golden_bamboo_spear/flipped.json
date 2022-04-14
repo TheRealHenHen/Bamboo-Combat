@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "bamboocombat:entity/copper_bamboo_spear/normal"
+		"0": "bamboocombat:entity/golden_bamboo_spear/normal"
 	},
 	"elements": [
 		{
