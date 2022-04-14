@@ -9,13 +9,13 @@ Adds Bamboo related Combat Items!
 * Bamboo Spear
   - Works like a trident
   - Has seven tiers
-  - Each tier has its own advantages and disadvantages
 
 ## Planned Features
 
 * Bamboo Harpoon
   - Works like a fishing rod
   - Has seven tiers
+  - Can be shot through a crossbow
 
 * Bamboo Armor
   - Gives the same armor points as chain
