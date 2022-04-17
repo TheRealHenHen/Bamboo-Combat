@@ -46,7 +46,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     public int pierceLevel;
     public float throwDamage;
     private boolean fireProof;
-    public boolean critical;
+    public static boolean critical;
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
@@ -210,7 +210,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     @Override
     public boolean isCritical() {
-        return true;
+        return critical;
     }
 
 	private boolean shouldFall() {
