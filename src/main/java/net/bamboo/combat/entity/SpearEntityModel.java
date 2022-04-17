@@ -55,6 +55,32 @@ public class SpearEntityModel extends Model {
         return TexturedModelData.of(modelData, 32, 32);
     }
 
+    public static TexturedModelData modelDiamond() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+        ModelPartData modelPartData2 =
+        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, 1.0F, -0.5F, 1.0F, 27.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("bottom", ModelPartBuilder.create().uv(4, 0).cuboid(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.NONE);
+        modelPartData2.addChild("top", ModelPartBuilder.create().uv(23, 1).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("north", ModelPartBuilder.create().uv(14, 11).cuboid(1.0F, -1.0F, -0.5F, 0.5F, 2.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("west", ModelPartBuilder.create().uv(18, 11).cuboid(-0.5F, -1.0F, -1.5F, 1.0F, 2.0F, 0.5F), ModelTransform.NONE);
+        modelPartData2.addChild("south", ModelPartBuilder.create().uv(14, 8).cuboid(-1.5F, -1.0F, -0.5F, 0.5F, 2.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("east", ModelPartBuilder.create().uv(18, 8).cuboid(-0.5F, -1.0F, 1.0F, 1.0F, 2.0F, 0.5F), ModelTransform.NONE);
+        return TexturedModelData.of(modelData, 32, 32);
+    }
+
+    public static TexturedModelData modelNetherite() {
+        ModelData modelData = new ModelData();
+        ModelPartData modelPartData = modelData.getRoot();
+        ModelPartData modelPartData2 =
+        modelPartData.addChild("pole", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, 1.0F, -0.5F, 1.0F, 27.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("bottom", ModelPartBuilder.create().uv(4, 0).cuboid(-1.0F, -2.0F, -1.0F, 2.0F, 3.0F, 2.0F), ModelTransform.NONE);
+        modelPartData2.addChild("top", ModelPartBuilder.create().uv(23, 1).cuboid(-0.5F, -3.0F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("north", ModelPartBuilder.create().uv(18, 5).cuboid(1.0F, -1.0F, -0.5F, 0.5F, 2.0F, 1.0F), ModelTransform.NONE);
+        modelPartData2.addChild("south", ModelPartBuilder.create().uv(14, 5).cuboid(-1.5F, -1.0F, -0.5F, 0.5F, 2.0F, 1.0F), ModelTransform.NONE);
+        return TexturedModelData.of(modelData, 32, 32);
+    }
+
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
         this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);

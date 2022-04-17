@@ -78,8 +78,8 @@ public class BambooCombatClient implements ClientModInitializer {
 		register(BambooItems.COPPER, SpearEntityModelLayers.COPPER, SpearEntityModel::modelIron);
 		register(BambooItems.IRON, SpearEntityModelLayers.IRON, SpearEntityModel::modelIron);
 		register(BambooItems.GOLD, SpearEntityModelLayers.GOLD, SpearEntityModel::modelIron);
-		register(BambooItems.DIAMOND, SpearEntityModelLayers.DIAMOND, SpearEntityModel::modelIron);
-		register(BambooItems.NETHERITE, SpearEntityModelLayers.NETHERITE, SpearEntityModel::modelIron);
+		register(BambooItems.DIAMOND, SpearEntityModelLayers.DIAMOND, SpearEntityModel::modelDiamond);
+		register(BambooItems.NETHERITE, SpearEntityModelLayers.NETHERITE, SpearEntityModel::modelNetherite);
 
     }
 
