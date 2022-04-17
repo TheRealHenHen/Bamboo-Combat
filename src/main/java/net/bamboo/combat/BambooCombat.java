@@ -9,9 +9,7 @@ public class BambooCombat implements ModInitializer{
     
     @Override
     public void onInitialize() {
-
-       BambooItems.initialize();
-        
+        BambooItems.initialize();
     }
 
 }
