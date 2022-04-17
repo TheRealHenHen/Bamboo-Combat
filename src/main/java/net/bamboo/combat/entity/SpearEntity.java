@@ -141,6 +141,11 @@ public class SpearEntity extends PersistentProjectileEntity {
 		DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
         entitiesDamaged++;
 
+        if (entity instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity)entity;
+            throwDamage += EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup());
+        }
+
 		if (entity.damage(damageSource, throwDamage)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
