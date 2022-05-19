@@ -38,7 +38,7 @@ public class BambooCombatClient implements ClientModInitializer {
 		SpearItemRenderer spearItemRenderer = new SpearItemRenderer(spearId, texture, modelLayer);
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(spearItemRenderer);
 		BuiltinItemRendererRegistry.INSTANCE.register(item, spearItemRenderer);
-		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "/" + spearId.getPath() + "_gui", "inventory")));
+		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "/" + "gui", "inventory")));
 		
         EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
 		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context, new Identifier(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
