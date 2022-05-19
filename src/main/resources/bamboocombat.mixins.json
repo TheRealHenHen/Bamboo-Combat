@@ -4,7 +4,10 @@
     "minVersion": "0.8",
     "package": "net.bamboo.combat.mixin",
     "compatibilityLevel": "JAVA_8",
-    "mixins": [],
+    "mixins": [
+      "SpearEnchantmentTarget",
+      "SpearItemRenderer"
+    ],
     "client": [],
     "server": [],
     "injectors": {

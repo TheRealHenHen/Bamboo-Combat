@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+	"author": "TheRealHenHen",
+  "textures": {
+    "layer0": "bamboocombat:item/copper_bamboo_spear"
+  }
+}

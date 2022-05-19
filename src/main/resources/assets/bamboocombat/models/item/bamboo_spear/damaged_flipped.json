@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"gui_light": "front",
 	"textures": {
 		"0": "bamboocombat:entity/bamboo_spear/damaged",
 		"particle": "bamboocombat:item/bamboo_spear"
