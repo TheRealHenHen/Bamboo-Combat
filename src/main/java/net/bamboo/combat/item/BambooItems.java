@@ -27,31 +27,31 @@ public class BambooItems {
     public static void initialize() {
 
         BAMBOO = register(new SpearItem(new SpearItemMaterial
-            (75, Ingredient.ofItems(Items.BAMBOO)),
+            (100, Ingredient.ofItems(Items.BAMBOO)),
             5, 1.6F, 1.1F, 5, false, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
 
         STONE = register(new SpearItem(new SpearItemMaterial
-            (125, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.BLACKSTONE, Items.FLINT)),
+            (200, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.BLACKSTONE, Items.FLINT)),
             6, 1.3F, 1.5F, 8, false, 1, SpearEntityTypes.STONE), "stone_bamboo_spear"); //3.0
 
         COPPER = register(new SpearItem(new SpearItemMaterial
-            (200, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
+            (400, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
             7, 1.4F, 1.7F, 8, false, 2, SpearEntityTypes.COPPER), "copper_bamboo_spear"); //8.96
 
         GOLD = register(new SpearItem(new SpearItemMaterial
-            (75, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
+            (100, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
             6, 1.2F, 2.4F, 17, false, 3, SpearEntityTypes.GOLD), "golden_bamboo_spear"); //19.3
 
         IRON = register(new SpearItem(new SpearItemMaterial
-            (250, Ingredient.ofItems(Items.BAMBOO, Items.IRON_INGOT)),
+            (500, Ingredient.ofItems(Items.BAMBOO, Items.IRON_INGOT)),
             8, 1.1F, 2.0F, 11, false, 2, SpearEntityTypes.IRON), "iron_bamboo_spear"); //7.874
 
         DIAMOND = register(new SpearItem(new SpearItemMaterial
-            (750, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
+            (1000, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
             9, 1.3F, 2.1F, 11, false, 4, SpearEntityTypes.DIAMOND), "diamond_bamboo_spear"); //3.53
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
-            (1000, Ingredient.ofItems(Items.NETHERITE_INGOT)),
+            (1500, Ingredient.ofItems(Items.NETHERITE_INGOT)),
             10, 1.0F, 2.6F, 14, true, 5, SpearEntityTypes.NETHERITE), "netherite_bamboo_spear");
 
     }
