@@ -41,12 +41,12 @@ public class SpearEntity extends PersistentProjectileEntity {
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public PickupPermission pickupType;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
-    private static EntityType<SpearEntity> entityType;
+    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
     private int entitiesDamaged = 0;
     public int pierceLevel;
     public float throwDamage;
     private boolean fireProof;
-    public boolean critical;
+    public static boolean critical;
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
@@ -210,7 +210,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     @Override
     public boolean isCritical() {
-        return true;
+        return critical;
     }
 
 	private boolean shouldFall() {

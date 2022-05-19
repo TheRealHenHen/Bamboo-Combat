@@ -139,8 +139,8 @@ implements Vanishable {
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, pierceLevel, itemStack, entityType);
             
-            spear.critical = isCritical(spear);
             spear.setOwner(user);
+            SpearEntity.critical = isCritical(spear);
             spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             world.spawnEntity(spear);
             world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 0.5F, 1F);
@@ -168,8 +168,9 @@ implements Vanishable {
 
         if (owner.isSprinting() || owner.hasVehicle()) {
             throwDistance += 0.1;
+            System.out.println("increased");
             if ((!owner.isOnGround() && !owner.hasVehicle()) || (owner.hasVehicle() && !vehicle.isOnGround())) {
-                spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
+                spear.throwDamage += spear.throwDamage * random.nextFloat(0.3F);
                 critical = true;
             } else {
                 critical = false;
