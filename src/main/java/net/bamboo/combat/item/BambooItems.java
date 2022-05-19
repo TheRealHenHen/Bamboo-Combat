@@ -48,7 +48,7 @@ public class BambooItems {
 
         DIAMOND = register(new SpearItem(new SpearItemMaterial
             (750, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
-            9, 1.3F, 2.0F, 11, false, 4, SpearEntityTypes.DIAMOND), "diamond_bamboo_spear"); //3.53
+            9, 1.3F, 2.1F, 11, false, 4, SpearEntityTypes.DIAMOND), "diamond_bamboo_spear"); //3.53
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
             (1000, Ingredient.ofItems(Items.NETHERITE_INGOT)),
