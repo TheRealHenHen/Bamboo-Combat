@@ -38,15 +38,19 @@ import net.minecraft.world.World;
 public class SpearEntity extends PersistentProjectileEntity {
 
 	public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
+    private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public PickupPermission pickupType;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
     private int entitiesDamaged = 0;
     public int pierceLevel;
+    public int returnTimer;
     public float throwDamage;
+    private boolean hitGround;
     private boolean fireProof;
     public static boolean critical;
+    
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
@@ -59,6 +63,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.throwDamage = throwDamage + 1;
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
+        this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
         SpearEntity.entityType = entityType;
 	}
 
@@ -74,6 +79,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 	@Override
 	public void initDataTracker() {
 		super.initDataTracker();
+        this.dataTracker.startTracking(LOYALTY, (byte)0);
         this.dataTracker.startTracking(ENCHANTED, false);
 	}
 	
@@ -98,16 +104,37 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
     public void tick() {
-		if (!isOwnerAlive()) {
-			if (!world.isClient && pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
-				dropStack(asItemStack(), 0.1f);
-			}
-		} else {
-            setNoClip(true);
-            if (world.isClient) {
-                lastRenderY = getY();
-            }
+        if (this.inGroundTime > 4) {
+            hitGround = true;
         }
+        byte loyalty = this.dataTracker.get(LOYALTY);
+        Entity owner = this.getOwner();
+        System.out.println(isNoClip());
+
+        if (loyalty > 0 && (hitGround || isNoClip()) && owner != null) {
+
+            if (!this.isOwnerAlive()) {
+                if (!world.isClient && pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                    dropStack(asItemStack(), 0.1f);
+                }
+                this.discard();
+            } else {
+                this.setNoClip(true);
+                Vec3d vec3d = owner.getEyePos().subtract(this.getPos());
+                this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double)loyalty, this.getZ());
+                if (this.world.isClient) {
+                    this.lastRenderY = this.getY();
+                }
+                double d = 0.05 * (double)loyalty;
+                this.setVelocity(this.getVelocity().multiply(0.95).add(vec3d.normalize().multiply(d)));
+                if (this.returnTimer == 0) {
+                    this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 10.0f, 1.0f);
+                }
+                ++this.returnTimer;
+            }
+
+        }
+
         if (isOnFire() && !fireProof) {
             kill();
             playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
@@ -198,14 +225,10 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
     public void age() {
-        if (this.pickupType != PersistentProjectileEntity.PickupPermission.ALLOWED) {
+        byte i = this.dataTracker.get(LOYALTY);
+        if (this.pickupType != PersistentProjectileEntity.PickupPermission.ALLOWED || i <= 0) {
             super.age();
         }
-    }
-
-	@Override
-	public boolean isNoClip() {
-        return false;
     }
 
     @Override
@@ -234,17 +257,18 @@ public class SpearEntity extends PersistentProjectileEntity {
     @Override
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        nbt.put("bamboo_spear", defaultItem.writeNbt(new NbtCompound()));
+        nbt.put("Bamboo_Spear", defaultItem.writeNbt(new NbtCompound()));
         nbt.putBoolean("crit", isCritical());
     }
 
 	@Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        if (nbt.contains("bamboo_spear", 10)) {
-            defaultItem = ItemStack.fromNbt(nbt.getCompound("bamboo_spear"));
-            nbt.putBoolean("crit", isCritical());
+        if (nbt.contains("Bamboo_Spear", 10)) {
+            defaultItem = ItemStack.fromNbt(nbt.getCompound("Bamboo_Spear"));
         }
+        SpearEntity.critical = nbt.getBoolean("crit");
+        this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
     }
 
     @Override
