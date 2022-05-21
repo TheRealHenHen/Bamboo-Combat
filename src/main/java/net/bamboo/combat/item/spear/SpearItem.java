@@ -42,10 +42,11 @@ implements Vanishable {
     private float throwDistanceOriginal;
     private float throwDistance;
     private float attackDamage;
+    private float dragInWater;
     private int pierceLevel;
     private int throwDelay;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int pierceLevel, EntityType<SpearEntity> entityType) {
+    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, float dragInWater, int throwDelay, boolean fireProof, int pierceLevel, EntityType<SpearEntity> entityType) {
         super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
@@ -137,7 +138,7 @@ implements Vanishable {
         if (!world.isClient) {          
 
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, pierceLevel, itemStack, entityType);
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, fireProof, pierceLevel, itemStack, entityType);
             
             spear.setOwner(user);
             SpearEntity.critical = isCritical(spear);
@@ -164,6 +165,7 @@ implements Vanishable {
     private boolean isCritical(SpearEntity spear) {
         Entity owner = spear.getOwner();
         Entity vehicle = owner.getRootVehicle();
+        spear.originalPierceLevel = pierceLevel;
         boolean critical;
 
         if (owner.isSprinting() || owner.hasVehicle()) {
