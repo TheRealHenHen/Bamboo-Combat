@@ -40,13 +40,15 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	public PickupPermission pickupType;
+	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
     private int entitiesDamaged = 0;
+    public int originalPierceLevel;
     public int pierceLevel;
     public int returnTimer;
     public float throwDamage;
+    private float dragInWater;
     private boolean hitGround;
     private boolean fireProof;
     public static boolean critical;
@@ -56,10 +58,11 @@ public class SpearEntity extends PersistentProjectileEntity {
 		super(entityType, world);
 	}
 
-	public SpearEntity(World world, LivingEntity owner, float throwDamage, boolean fireProof, int pierceLevel, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
+	public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, boolean fireProof, int pierceLevel, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
 		super(entityType, owner, world);
         this.fireProof = fireProof;
         this.pierceLevel = pierceLevel;
+        this.dragInWater = dragInWater;
         this.throwDamage = throwDamage + 1;
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
@@ -109,13 +112,12 @@ public class SpearEntity extends PersistentProjectileEntity {
         }
         byte loyalty = this.dataTracker.get(LOYALTY);
         Entity owner = this.getOwner();
-        System.out.println(isNoClip());
 
         if (loyalty > 0 && (hitGround || isNoClip()) && owner != null) {
 
             if (!this.isOwnerAlive()) {
                 if (!world.isClient && pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
-                    dropStack(asItemStack(), 0.1f);
+                    dropStack(this.asItemStack(), 0.1f);
                 }
                 this.discard();
             } else {
@@ -136,7 +138,6 @@ public class SpearEntity extends PersistentProjectileEntity {
         }
 
         if (isOnFire() && !fireProof) {
-            kill();
             playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
         }
         doesRenderOnFire();
@@ -163,6 +164,12 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
+
+        System.out.println(originalPierceLevel);
+        if (entitiesDamaged > originalPierceLevel  + 1) {
+            return;
+        }
+
 		Entity owner = getOwner();
 		Entity entity = entityHitResult.getEntity();
 		DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
@@ -187,8 +194,9 @@ public class SpearEntity extends PersistentProjectileEntity {
             }
         }
        
-        if (entitiesDamaged > pierceLevel)
+        if (entitiesDamaged > pierceLevel) {
             setVelocity(getVelocity().multiply(-0.01, -0.1, -0.01));
+        } 
 
 		playSound(SoundEvents.ITEM_TRIDENT_HIT, 2F, 1F);
 	}
@@ -220,7 +228,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
     protected float getDragInWater() {
-        return 2f; 
+        return dragInWater; 
     }
 
 	@Override
