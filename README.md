@@ -9,6 +9,7 @@ Adds Bamboo related Combat Items!
 * Bamboo Spear
   - Works like a trident
   - Has seven tiers
+  - Critical hits when thrown while running and jumping
 
 ## Planned Features
 
