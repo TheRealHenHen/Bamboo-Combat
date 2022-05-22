@@ -57,6 +57,7 @@ implements Vanishable {
         this.fireProof = fireProof;
         this.throwDelay = throwDelay;
         this.entityType = entityType;
+        this.dragInWater = dragInWater; 
         this.pierceLevel = pierceLevel;
         this.throwDistance = throwDistance;
         this.attackDamage = attackDamage - 1;
@@ -137,6 +138,7 @@ implements Vanishable {
 
         if (!world.isClient) {          
 
+            System.out.println(dragInWater);
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, fireProof, pierceLevel, itemStack, entityType);
             
