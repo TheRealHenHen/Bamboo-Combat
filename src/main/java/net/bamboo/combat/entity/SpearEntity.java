@@ -121,7 +121,7 @@ public class SpearEntity extends PersistentProjectileEntity {
                 }
                 this.discard();
             } else {
-                this.setNoClip(true);
+                setNoClip(true);
                 Vec3d vec3d = owner.getEyePos().subtract(this.getPos());
                 this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double)loyalty, this.getZ());
                 if (this.world.isClient) {
@@ -137,8 +137,13 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         }
 
-        if (isOnFire() && !fireProof) {
+        if (!world.isClient && isOnFire() && !fireProof) {
+            if (pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                //defaultItem.setDamage(defaultItem.getDamage() - 15);
+                dropStack(this.asItemStack(), 0.1f);
+            }
             playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
+            discard();
         }
         doesRenderOnFire();
         super.tick();
@@ -165,8 +170,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 
-        System.out.println(originalPierceLevel);
-        if (entitiesDamaged > originalPierceLevel  + 1) {
+        if (entitiesDamaged > originalPierceLevel + 1) {
             return;
         }
 
@@ -174,6 +178,10 @@ public class SpearEntity extends PersistentProjectileEntity {
 		Entity entity = entityHitResult.getEntity();
 		DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
         entitiesDamaged++;
+
+        if (isOnFire() && !(entity.getType() == EntityType.ENDERMAN)) {
+            entity.setOnFireFor(5);
+        }
 
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity)entity;
