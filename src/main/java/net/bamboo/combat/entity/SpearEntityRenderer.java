@@ -37,12 +37,6 @@ public class SpearEntityRenderer extends EntityRenderer<SpearEntity> {
         matrixStack.pop();
         super.render(entity, f, g, matrixStack, vertexConsumerProvider, i);
     }
-    /*
-    @Override
-    public void render(SpearEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
-        MinecraftClient.getInstance().getItemRenderer().renderItem(new ItemStack(Main.Bamboo), ModelTransformation.Mode.FIXED, light, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, light);
-        super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
-    }*/
 
     @Override
     public Identifier getTexture(SpearEntity entity) {
