@@ -6,8 +6,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import net.bamboo.combat.entity.SpearEntity;
+import net.bamboo.combat.entity.SpearEntityTypes;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -38,33 +38,39 @@ implements Vanishable {
     Random random = new Random();
     private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
     private EntityType<SpearEntity> entityType;
-    private boolean fireProof;
     private float throwDistanceOriginal;
+    private float throwDamageOriginal;
     private float throwDistance;
     private float attackDamage;
+    private float throwDamage;
+    private float dragInWater;
     private int pierceLevel;
     private int throwDelay;
+    private int burnTicks;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, int throwDelay, boolean fireProof, int pierceLevel, EntityType<SpearEntity> entityType) {
+    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, float dragInWater, int throwDelay, int pierceLevel, int burnTicks, EntityType<SpearEntity> entityType) {
         super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", (double)attackDamage - 1, EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", (double)attackSpeed - 4, EntityAttributeModifier.Operation.ADDITION));
+        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", attackDamage - 1, EntityAttributeModifier.Operation.ADDITION));
+        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", attackSpeed - 4, EntityAttributeModifier.Operation.ADDITION));
 
         attributeModifiers = builder.build();
-        this.fireProof = fireProof;
+        this.burnTicks = burnTicks;
         this.throwDelay = throwDelay;
         this.entityType = entityType;
+        this.dragInWater = dragInWater; 
         this.pierceLevel = pierceLevel;
         this.throwDistance = throwDistance;
+        this.throwDamage = this.attackDamage;
         this.attackDamage = attackDamage - 1;
         this.throwDistanceOriginal = throwDistance;
+        this.throwDamageOriginal = this.throwDamage;
     }
 
     @Override
 	public boolean isFireproof() {
-        return fireProof;
+        return entityType == SpearEntityTypes.NETHERITE ? true : false;
     }
 
     @Override
@@ -124,6 +130,7 @@ implements Vanishable {
         Hand hand = user.getActiveHand();
         itemStack = user.getStackInHand(hand);
         throwDistance = throwDistanceOriginal;
+        throwDamage = throwDamageOriginal;
          
         if (!(user instanceof PlayerEntity)) {
             return;
@@ -135,11 +142,10 @@ implements Vanishable {
         }
 
         if (!world.isClient) {          
-
-            itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, fireProof, pierceLevel, itemStack, entityType);
             
-            spear.critical = isCritical(spear);
+            itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, pierceLevel, burnTicks, isCritical(user), itemStack, entityType);
+            
             spear.setOwner(user);
             spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             world.spawnEntity(spear);
@@ -161,25 +167,15 @@ implements Vanishable {
         return entityType;
     }
 
-    private boolean isCritical(SpearEntity spear) {
-        Entity owner = spear.getOwner();
-        Entity vehicle = owner.getRootVehicle();
-        boolean critical;
+    private boolean isCritical(PlayerEntity user) {
 
-        if (owner.isSprinting() || owner.hasVehicle()) {
-            throwDistance += 0.1;
-            if ((!owner.isOnGround() && !owner.hasVehicle()) || (owner.hasVehicle() && !vehicle.isOnGround())) {
-                spear.throwDamage += spear.throwDamage * random.nextFloat(0.4F);
-                critical = true;
-            } else {
-                critical = false;
-                spear.pierceLevel = 0;
-            }
-        } else {
-            spear.pierceLevel = 0;
-            critical = false;
+        if ((user.isSprinting() && !user.isOnGround()) || (user.hasVehicle() && !user.getRootVehicle().isOnGround())) {
+            throwDamage += throwDamage * random.nextFloat(0.3F);
+            return true;
         }
-        return critical;
+
+        pierceLevel = 0;
+        return false;
     }
 
 }
