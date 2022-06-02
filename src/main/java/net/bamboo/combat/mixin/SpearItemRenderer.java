@@ -27,7 +27,7 @@ public class SpearItemRenderer {
     @ModifyVariable(at = @At("HEAD"), method = "renderItem", argsOnly = true)
     private BakedModel scratch_guiModel(BakedModel defaultModel, ItemStack stack, ModelTransformation.Mode renderMode) {
 
-		if ((renderMode == Mode.GUI || renderMode == Mode.FIXED)) {
+		if (renderMode == Mode.GUI || renderMode == Mode.FIXED || renderMode == Mode.GROUND) {
 			if (stack.isOf(BambooItems.BAMBOO))
 				return getTexture("bamboocombat:bamboo_spear/gui#inventory");
 
