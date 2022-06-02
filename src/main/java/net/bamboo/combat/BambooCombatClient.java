@@ -15,7 +15,6 @@ import net.bamboo.combat.entity.SpearEntityModelLayers;
 import net.bamboo.combat.entity.SpearEntityRenderer;
 import net.bamboo.combat.item.BambooItems;
 import net.bamboo.combat.item.spear.SpearItem;
-//import net.bamboo.combat.item.spear.SpearItemRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -46,9 +45,6 @@ public class BambooCombatClient implements ClientModInitializer {
 
     @Override
 	public void onInitializeClient() {
-		
-		//EntityRendererRegistry.register(Main.BAMBOO_SPEAR, (context) -> new SpearEntityRenderer(context));
-
 		
 		ClientSidePacketRegistry.INSTANCE.register(new Identifier(BambooCombat.MODID, "bamboo_spear"), (context, packet) -> {
 
