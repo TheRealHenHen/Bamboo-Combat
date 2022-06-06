@@ -29,7 +29,6 @@ public class EnchantmentHelperMixin {
         Item item = stack.getItem();
         boolean bl = stack.isOf(Items.BOOK);
         block0: for (Enchantment enchantment : Registry.ENCHANTMENT) {
-
             if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection() || !(enchantment.type.isAcceptableItem(item) ||
             (item instanceof SpearItem) && (enchantment instanceof DamageEnchantment || enchantment == Enchantments.LOYALTY)) && !bl) continue;
             for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
