@@ -7,9 +7,18 @@ Adds Bamboo related Combat Items!
 ## Features
 
 * Bamboo Spear
-  - Works like a trident
+  - Throwable
   - Has seven tiers
   - Critical hits when thrown while running and jumping
+  - Critical hit effects to the spear:
+    - Pierces through the target
+    - Deals more damage
+    - Has higher range
+  - Enchantable by:
+    - Sharpness
+    - Smite
+    - Bane of Arthropods
+    - Loyalty
 
 ## Planned Features
 
