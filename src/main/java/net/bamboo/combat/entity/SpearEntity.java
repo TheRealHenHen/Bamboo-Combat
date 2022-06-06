@@ -43,7 +43,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
-    public static boolean critical;
+    public static boolean critical = false;
     int entitiesDamaged = 0;
     int fireTicks = 0;
     int pierceLevel;
@@ -117,13 +117,13 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
     public void tick() {
-        if (this.inGroundTime > 4) {
+        if (this.inGroundTime > 4 || (throwDamage - entitiesDamaged < 1 && critical) || (entitiesDamaged > 0 && !critical)) {
             hitGround = true;
         }
         byte loyalty = this.dataTracker.get(LOYALTY);
         Entity owner = this.getOwner();
 
-        if (loyalty > 0 && (throwDamage - entitiesDamaged < 1 || hitGround || isNoClip()) && owner != null) {
+        if (loyalty > 0 && (hitGround || isNoClip()) && owner != null) {
 
             if (!this.isOwnerAlive()) {
                 if (!this.world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
