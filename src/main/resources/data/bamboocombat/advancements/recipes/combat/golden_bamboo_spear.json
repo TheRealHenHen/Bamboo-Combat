@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bamboocombat:golden_bamboo_spear"
+    ]
+  },
+  "criteria": {
+    "has_gold": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:gold_ingot"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bamboocombat:golden_bamboo_spear"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gold",
+      "has_the_recipe"
+    ]
+  ]
+}

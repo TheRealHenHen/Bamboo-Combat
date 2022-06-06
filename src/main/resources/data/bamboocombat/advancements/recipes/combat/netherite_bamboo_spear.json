@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bamboocombat:netherite_bamboo_spear"
+    ]
+  },
+  "criteria": {
+    "has_netherite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_ingot"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bamboocombat:netherite_bamboo_spear"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_netherite",
+      "has_the_recipe"
+    ]
+  ]
+}
