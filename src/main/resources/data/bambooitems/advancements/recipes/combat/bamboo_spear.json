@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "bamboocombat:bamboo_spear"
+    ]
+  },
+  "criteria": {
+    "has_bamboo": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:bamboo"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "bamboocombat:bamboo_spear"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_bamboo",
+      "has_the_recipe"
+    ]
+  ]
+}
