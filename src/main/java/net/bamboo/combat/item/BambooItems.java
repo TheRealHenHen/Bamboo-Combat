@@ -28,7 +28,7 @@ public class BambooItems {
 
         BAMBOO = register(new SpearItem(new SpearItemMaterial
             (100, Ingredient.ofItems(Items.BAMBOO)),
-            5, 1.6F, 1.1F, 0.9F, 3, 0, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
+            5, 1.6F, 1.2F, 0.9F, 3, 0, 0, SpearEntityTypes.BAMBOO), "bamboo_spear");
 
         STONE = register(new SpearItem(new SpearItemMaterial
             (200, Ingredient.ofItems(Items.BAMBOO, Items.COBBLESTONE, Items.COBBLED_DEEPSLATE, Items.BLACKSTONE, Items.FLINT)),
@@ -52,7 +52,7 @@ public class BambooItems {
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
             (1500, Ingredient.ofItems(Items.NETHERITE_INGOT)),
-            10, 1.0F, 2.6F, 1.0F, 14, 5, 0, SpearEntityTypes.NETHERITE), "netherite_bamboo_spear");
+            10, 1.0F, 2.7F, 1.0F, 14, 5, 0, SpearEntityTypes.NETHERITE), "netherite_bamboo_spear");
 
     }
 
