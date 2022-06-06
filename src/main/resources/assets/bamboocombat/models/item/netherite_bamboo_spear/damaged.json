@@ -71,14 +71,6 @@
 			}
 		}
 	],
-	"overrides": [
-		{
-			"predicate": {
-				"damage": 0.2
-			},
-			"model": "bamboospear:item/stone_bamboo_spear_damaged_2"
-		}
-	],
 	"display": {
 		"thirdperson_righthand": {
 			"translation": [0, 0, 1]

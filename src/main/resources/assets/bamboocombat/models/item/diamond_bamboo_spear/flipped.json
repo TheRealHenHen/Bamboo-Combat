@@ -96,15 +96,7 @@
 				"down": {"uv": [8, 0.5, 7.5, 1], "rotation": 270, "texture": "#0"}
 			}
 		}
-	],
-	"overrides": [
-		{
-			"predicate": {
-				"damage": 0.2
-			},
-			"model": "bamboospear:item/stone_bamboo_spear_damaged_2"
-		}
-	],
+	], 
 	"display": {
 		"thirdperson_righthand": {
 			"translation": [0, 0, 1]
