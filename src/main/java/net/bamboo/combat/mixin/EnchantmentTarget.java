@@ -12,8 +12,6 @@ import net.minecraft.item.ItemStack;
 public class EnchantmentTarget {
 
     @Inject(method = "isAcceptableItem", at = @At(value = "RETURN"), cancellable = true)
-    public void isAcceptableItem(ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {
-        
-    }
+    public void isAcceptableItem(ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {}
 
 }
