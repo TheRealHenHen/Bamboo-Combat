@@ -43,22 +43,22 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
-    private int entitiesDamaged = 0;
-    private int fireTicks = 0;
-    private int pierceLevel;
-    private int returnTimer;
-    private int burnTicks;
-    public float throwDamage;
-    private float dragInWater;
-    private boolean hitGround;
-    private static boolean critical;
+    public static boolean critical;
+    int entitiesDamaged = 0;
+    int fireTicks = 0;
+    int pierceLevel;
+    int returnTimer;
+    int burnTicks;
+    float throwDamage;
+    float dragInWater;
+    boolean hitGround;
     
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
-	public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int pierceLevel, int burnTicks, boolean critical, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
+	public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int pierceLevel, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
 		super(entityType, owner, world);
         this.burnTicks = burnTicks;
         this.pierceLevel = pierceLevel;
@@ -67,7 +67,6 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
         this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
-        SpearEntity.critical = critical;
         SpearEntity.entityType = entityType;
 	}
 
@@ -124,15 +123,15 @@ public class SpearEntity extends PersistentProjectileEntity {
         byte loyalty = this.dataTracker.get(LOYALTY);
         Entity owner = this.getOwner();
 
-        if (loyalty > 0 && (hitGround || isNoClip()) && owner != null) {
+        if (loyalty > 0 && (throwDamage - entitiesDamaged < 1 || hitGround || isNoClip()) && owner != null) {
 
             if (!this.isOwnerAlive()) {
-                if (!world.isClient && pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
-                    dropStack(this.asItemStack(), 0.1f);
+                if (!this.world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                    this.dropStack(this.asItemStack(), 0.1f);
                 }
                 this.discard();
             } else {
-                setNoClip(true);
+                this.setNoClip(true);
                 Vec3d vec3d = owner.getEyePos().subtract(this.getPos());
                 this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double)loyalty, this.getZ());
                 if (this.world.isClient) {
@@ -156,6 +155,17 @@ public class SpearEntity extends PersistentProjectileEntity {
         }
         
         super.tick();
+    }
+
+    private boolean burn() {
+        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE) {
+            if (fireTicks == burnTicks) {
+                fireTicks = 0;
+                return true;
+            }
+            fireTicks++;
+        }
+        return false;
     }
 
     @Override
@@ -259,17 +269,6 @@ public class SpearEntity extends PersistentProjectileEntity {
     @Override
     public boolean shouldRender(double cameraX, double cameraY, double cameraZ) {
         return true;
-    }
-
-    private boolean burn() {
-        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE) {
-            if (fireTicks == burnTicks) {
-                fireTicks = 0;
-                return true;
-            }
-            fireTicks++;
-        }
-        return false;
     }
 
     public boolean isEnchanted() {

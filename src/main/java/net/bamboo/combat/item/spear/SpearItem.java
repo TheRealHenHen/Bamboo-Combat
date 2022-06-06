@@ -44,6 +44,7 @@ implements Vanishable {
     private float attackDamage;
     private float throwDamage;
     private float dragInWater;
+    private int pierceLevelOriginal;
     private int pierceLevel;
     private int throwDelay;
     private int burnTicks;
@@ -61,11 +62,12 @@ implements Vanishable {
         this.entityType = entityType;
         this.dragInWater = dragInWater; 
         this.pierceLevel = pierceLevel;
-        this.throwDistance = throwDistance;
+        pierceLevelOriginal = pierceLevel;
         this.throwDamage = this.attackDamage;
         this.attackDamage = attackDamage - 1;
-        this.throwDistanceOriginal = throwDistance;
-        this.throwDamageOriginal = this.throwDamage;
+        throwDistanceOriginal = throwDistance;
+        throwDistanceOriginal = throwDistance;
+        throwDamageOriginal = this.throwDamage;
     }
 
     @Override
@@ -131,6 +133,7 @@ implements Vanishable {
         itemStack = user.getStackInHand(hand);
         throwDistance = throwDistanceOriginal;
         throwDamage = throwDamageOriginal;
+        pierceLevel = pierceLevelOriginal;
          
         if (!(user instanceof PlayerEntity)) {
             return;
@@ -143,8 +146,10 @@ implements Vanishable {
 
         if (!world.isClient) {          
             
+            SpearEntity.critical = isCritical(user);
+
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, pierceLevel, burnTicks, isCritical(user), itemStack, entityType);
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, pierceLevel, burnTicks, itemStack, entityType);
             
             spear.setOwner(user);
             spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
