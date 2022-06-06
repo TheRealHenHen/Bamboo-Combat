@@ -7,6 +7,7 @@
     "mixins": [
       "LoyaltyEnchantmentTarget",
       "DamageEnchantmentTarget",
+      "EnchantmentHelperMixin",
       "EnchantmentTarget",
       "SpearItemRenderer"
     ],
