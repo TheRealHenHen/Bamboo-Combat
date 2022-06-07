@@ -9,6 +9,14 @@ Adds Bamboo related Combat Items!
 * Bamboo Spear
   - Throwable
   - Has seven tiers
+  - Tier differences:
+    - Attack and throw damage
+    - Attack speed
+    - Throw Distance
+    - Drag in water
+    - Number of piercable mobs
+    - Burn time before it becomes an item
+
   - Critical hits when thrown while running and jumping
   - Critical hit effects to the spear:
     - Pierces through the target
