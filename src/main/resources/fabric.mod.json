@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "bamboocombat",
-  "version": "0.1.0",
+  "version": "1.0.0",
 
   "name": "Bamboo Combat",
   "description": "Adds Bamboo Spears to Minecraft!",
@@ -28,9 +28,9 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.13.3",
+    "fabricloader": ">=0.14.6",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "1.19.x",
     "java": ">=17"
   },
   "suggests": {
