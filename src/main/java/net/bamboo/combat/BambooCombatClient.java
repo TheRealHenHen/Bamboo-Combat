@@ -22,7 +22,7 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 @Environment(EnvType.CLIENT)
 public class BambooCombatClient implements ClientModInitializer {
@@ -46,7 +46,7 @@ public class BambooCombatClient implements ClientModInitializer {
     @Override
 	public void onInitializeClient() {
 		
-		ClientSidePacketRegistry.INSTANCE.register(new Identifier(BambooCombat.MODID, "bamboo_spear"), (context, packet) -> {
+		/*ClientSidePacketRegistry.INSTANCE.register(new Identifier(BambooCombat.MODID, "bamboo_spear"), (context, packet) -> {
 
 			double x = packet.readDouble();
 			double y = packet.readDouble();
@@ -57,6 +57,22 @@ public class BambooCombatClient implements ClientModInitializer {
 			MinecraftClient mc = MinecraftClient.getInstance();
 
 			context.getTaskQueue().execute(() -> {
+				SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
+				mc.world.addEntity(entityID, spear);
+			});
+		});*/
+
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, "bamboo_spear"), (client, handler, buf, sender) -> {
+
+			double x = buf.readDouble();
+			double y = buf.readDouble();
+			double z = buf.readDouble();
+
+			int entityID = buf.readInt();
+			UUID entityUUID = buf.readUuid();
+			MinecraftClient mc = MinecraftClient.getInstance();
+
+			client.execute(() -> {
 				SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
 				mc.world.addEntity(entityID, spear);
 			});
