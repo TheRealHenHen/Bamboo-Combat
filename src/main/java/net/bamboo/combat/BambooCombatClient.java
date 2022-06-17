@@ -9,10 +9,10 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
-import net.bamboo.combat.entity.SpearEntity;
-import net.bamboo.combat.entity.SpearEntityModel;
-import net.bamboo.combat.entity.SpearEntityModelLayers;
-import net.bamboo.combat.entity.SpearEntityRenderer;
+import net.bamboo.combat.entity.spear.SpearEntity;
+import net.bamboo.combat.entity.spear.SpearEntityModel;
+import net.bamboo.combat.entity.spear.SpearEntityModelLayers;
+import net.bamboo.combat.entity.spear.SpearEntityRenderer;
 import net.bamboo.combat.item.BambooItems;
 import net.bamboo.combat.item.spear.SpearItem;
 import net.fabricmc.api.ClientModInitializer;

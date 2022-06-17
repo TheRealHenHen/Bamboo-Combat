@@ -5,8 +5,8 @@ import java.util.Random;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
-import net.bamboo.combat.entity.SpearEntity;
-import net.bamboo.combat.entity.SpearEntityTypes;
+import net.bamboo.combat.entity.spear.SpearEntity;
+import net.bamboo.combat.entity.spear.SpearEntityTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;

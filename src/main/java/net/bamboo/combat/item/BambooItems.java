@@ -1,7 +1,7 @@
 package net.bamboo.combat.item; //By TheRealHenHen
 
 import net.bamboo.combat.BambooCombat;
-import net.bamboo.combat.entity.SpearEntityTypes;
+import net.bamboo.combat.entity.spear.SpearEntityTypes;
 import net.bamboo.combat.item.spear.SpearItem;
 import net.bamboo.combat.item.spear.SpearItemMaterial;
 import net.minecraft.item.Items;

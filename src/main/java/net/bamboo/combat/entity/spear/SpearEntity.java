@@ -1,4 +1,4 @@
-package net.bamboo.combat.entity; //By TheRealHenHen
+package net.bamboo.combat.entity.spear; //By TheRealHenHen
 
 import java.util.UUID;
 

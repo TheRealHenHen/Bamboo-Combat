@@ -1,4 +1,4 @@
-package net.bamboo.combat.entity; //By TheRealHenHen
+package net.bamboo.combat.entity.spear; //By TheRealHenHen
 
 import net.bamboo.combat.BambooCombat;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
