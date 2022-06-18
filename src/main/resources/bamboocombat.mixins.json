@@ -5,10 +5,7 @@
     "package": "net.bamboo.combat.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
-      "LoyaltyEnchantmentTarget",
-      "DamageEnchantmentTarget",
-      "EnchantmentHelperMixin",
-      "EnchantmentTarget",
+      "EnchantmentMixin",
       "SpearItemRenderer"
     ],
     "client": [],
