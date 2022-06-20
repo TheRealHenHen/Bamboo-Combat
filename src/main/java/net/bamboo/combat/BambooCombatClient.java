@@ -45,22 +45,6 @@ public class BambooCombatClient implements ClientModInitializer {
 
     @Override
 	public void onInitializeClient() {
-		
-		/*ClientSidePacketRegistry.INSTANCE.register(new Identifier(BambooCombat.MODID, "bamboo_spear"), (context, packet) -> {
-
-			double x = packet.readDouble();
-			double y = packet.readDouble();
-			double z = packet.readDouble();
-
-			int entityID = packet.readInt();
-			UUID entityUUID = packet.readUuid();
-			MinecraftClient mc = MinecraftClient.getInstance();
-
-			context.getTaskQueue().execute(() -> {
-				SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
-				mc.world.addEntity(entityID, spear);
-			});
-		});*/
 
 		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, "bamboo_spear"), (client, handler, buf, sender) -> {
 

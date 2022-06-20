@@ -43,7 +43,8 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
-    public static boolean critical = false;
+    public static boolean critical;
+    private final boolean criticalFinal = critical;
     int entitiesDamaged = 0;
     int fireTicks = 0;
     int pierceLevel;
@@ -102,7 +103,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     @Override
     public boolean isCritical() {
-        return SpearEntity.critical;
+        return criticalFinal;
     }
 
 	@Override
