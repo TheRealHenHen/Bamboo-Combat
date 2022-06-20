@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "bamboocombat",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "name": "Bamboo Combat",
-  "description": "Adds Bamboo Spears to Minecraft!",
+  "description": "Adds Bamboo Combat Items to Minecraft!",
   "authors": [
     "TheRealHenHen"
   ],
