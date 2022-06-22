@@ -20,19 +20,22 @@ public class EnchantmentMixin {
     @Shadow @Final public EnchantmentTarget type;
     
     @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
-    public void isAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    public void isAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> callback) {
+
         Enchantment enchantment = (Enchantment) (Object) this;
+
         if (enchantment instanceof DamageEnchantment) {
             if (!(stack.getItem() instanceof SpearItem)) {
                 return;
             }
-            cir.setReturnValue(true);
+            callback.setReturnValue(true);
         } else if (enchantment instanceof LoyaltyEnchantment) {
             if (!(stack.getItem() instanceof SpearItem)) {
                 return;
             }
-            cir.setReturnValue(true);
+            callback.setReturnValue(true);
         }
+
     }
 
 }

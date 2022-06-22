@@ -1,12 +1,14 @@
 package net.bamboo.combat.mixin;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-
-import com.google.common.collect.Lists;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.bamboo.combat.item.spear.SpearItem;
 import net.minecraft.enchantment.DamageEnchantment;
@@ -16,28 +18,24 @@ import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.registry.Registry;
 
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
     
-    @Overwrite
-    public static List<EnchantmentLevelEntry> getPossibleEntries(int power, ItemStack stack, boolean treasureAllowed) {
+    @Inject(method = "getPossibleEntries", at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;", shift = Shift.BY, by = 3), locals = LocalCapture.CAPTURE_FAILHARD)
+    private static void spearEnchantments(int power, ItemStack stack, boolean treasureAllowed, CallbackInfoReturnable<List<?>> info,
+        List<EnchantmentLevelEntry> entries, Item item, boolean isBook, Iterator<?> enchantmentsIterator, Enchantment enchantment) {
 
-        ArrayList<EnchantmentLevelEntry> list = Lists.newArrayList();
-        Item item = stack.getItem();
-        boolean bl = stack.isOf(Items.BOOK);
-        block0: for (Enchantment enchantment : Registry.ENCHANTMENT) {
-            if (enchantment.isTreasure() && !treasureAllowed || !enchantment.isAvailableForRandomSelection() || !(enchantment.type.isAcceptableItem(item) ||
-            (item instanceof SpearItem) && (enchantment instanceof DamageEnchantment || enchantment == Enchantments.LOYALTY)) && !bl) continue;
-            for (int i = enchantment.getMaxLevel(); i > enchantment.getMinLevel() - 1; --i) {
-                if (power < enchantment.getMinPower(i) || power > enchantment.getMaxPower(i)) continue;
-                list.add(new EnchantmentLevelEntry(enchantment, i));
-                continue block0;
+        if ((!(enchantment instanceof DamageEnchantment) && (enchantment != Enchantments.LOYALTY)) || !(stack.getItem() instanceof SpearItem)) {
+            return;
+        }
+
+        for(int level = enchantment.getMaxLevel(); level > enchantment.getMinLevel() - 1; --level) {
+            if (power >= enchantment.getMinPower(level) && power <= enchantment.getMaxPower(level)) {
+                entries.add(new EnchantmentLevelEntry(enchantment, level));
+                break;
             }
         }
-        return list;
 
     }
 
