@@ -198,7 +198,7 @@ public class SpearEntity extends PersistentProjectileEntity {
                 onHit(livingEntity);
             }
         }
-        
+
         if (entitiesDamaged >= pierceLevel) {
             setVelocity(getVelocity().multiply(-0.01, -0.1, -0.01));
         } 
