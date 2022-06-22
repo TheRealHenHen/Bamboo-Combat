@@ -43,16 +43,15 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
-    public static boolean critical;
-    private final boolean criticalFinal = critical;
+    public int pierceLevel;
     int entitiesDamaged = 0;
     int fireTicks = 0;
-    int pierceLevel;
     int returnTimer;
     int burnTicks;
-    float throwDamage;
+    float throwDamageOriginal;
+    public float throwDamage;
     float dragInWater;
-    boolean hitGround;
+    boolean hitGround = false;
     
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
@@ -66,6 +65,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.dragInWater = dragInWater;
         this.throwDamage = throwDamage + 1;
         this.defaultItem = defaultItem.copy();
+        throwDamageOriginal = this.throwDamage;
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
         this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
         SpearEntity.entityType = entityType;
@@ -101,11 +101,6 @@ public class SpearEntity extends PersistentProjectileEntity {
 		return ServerPlayNetworking.createS2CPacket(SPAWN_PACKET, packet);
 	}
 
-    @Override
-    public boolean isCritical() {
-        return criticalFinal;
-    }
-
 	@Override
     protected ItemStack asItemStack() {
         return defaultItem;
@@ -118,7 +113,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
 	@Override
     public void tick() {
-        if (this.inGroundTime > 4 || (throwDamage - entitiesDamaged < 1 && critical) || (entitiesDamaged > 0 && !critical)) {
+        if (this.inGroundTime > 4 || (throwDamage - entitiesDamaged < 1 && isCritical()) || (entitiesDamaged > 0 && !isCritical())) {
             hitGround = true;
         }
         byte loyalty = this.dataTracker.get(LOYALTY);
@@ -184,7 +179,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         if (target instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity)target;
-            throwDamage += EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup());
+            throwDamage = throwDamageOriginal + EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup()) - entitiesDamaged;
         }
 
 		if (target.damage(damageSource, throwDamage - entitiesDamaged)) {
@@ -203,7 +198,7 @@ public class SpearEntity extends PersistentProjectileEntity {
                 onHit(livingEntity);
             }
         }
-       
+        
         if (entitiesDamaged >= pierceLevel) {
             setVelocity(getVelocity().multiply(-0.01, -0.1, -0.01));
         } 
@@ -254,7 +249,6 @@ public class SpearEntity extends PersistentProjectileEntity {
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
         nbt.put("Bamboo_Spear", defaultItem.writeNbt(new NbtCompound()));
-        nbt.putBoolean("crit", isCritical());
     }
 
 	@Override
@@ -263,7 +257,6 @@ public class SpearEntity extends PersistentProjectileEntity {
         if (nbt.contains("Bamboo_Spear", 10)) {
             defaultItem = ItemStack.fromNbt(nbt.getCompound("Bamboo_Spear"));
         }
-        critical = nbt.getBoolean("crit");
         this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
     }
 
