@@ -56,9 +56,10 @@ Adds Bamboo related Combat Items!
 
 ## Installation
 
-You can download the mod here
+You can download the mod these links
 
-https://www.curseforge.com/minecraft/mc-mods/bamboo-combat
+  - Curseforge - https://www.curseforge.com/minecraft/mc-mods/bamboo-combat
+  - Modrinth - https://modrinth.com/mod/bamboo-combat
 
 ### Fabric or Forge?
 This is a **Fabric** mod
