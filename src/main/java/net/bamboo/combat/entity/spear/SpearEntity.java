@@ -44,14 +44,13 @@ public class SpearEntity extends PersistentProjectileEntity {
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
     public int pierceLevel;
-    int entitiesDamaged = 0;
-    int fireTicks = 0;
-    int returnTimer;
-    int burnTicks;
-    float throwDamageOriginal;
+    private int entitiesDamaged = 0;
+    private int fireTicks = 0;
+    private int returnTimer;
+    private int burnTicks;
     public float throwDamage;
-    float dragInWater;
-    boolean hitGround = false;
+    private float dragInWater;
+    private boolean hitGround = false;
     
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
@@ -65,7 +64,6 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.dragInWater = dragInWater;
         this.throwDamage = throwDamage + 1;
         this.defaultItem = defaultItem.copy();
-        throwDamageOriginal = this.throwDamage;
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
         this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
         SpearEntity.entityType = entityType;
@@ -176,14 +174,15 @@ public class SpearEntity extends PersistentProjectileEntity {
 		Entity owner = getOwner();
 		Entity target = entityHitResult.getEntity();
 		DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
+        float damage = throwDamage;
 
         if (target instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity)target;
-            throwDamage = throwDamageOriginal + EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup()) - entitiesDamaged;
+            damage = throwDamage + EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup()) - entitiesDamaged;
         }
 
-		if (target.damage(damageSource, throwDamage - entitiesDamaged)) {
-            if (target.getType() == EntityType.ENDERMAN || throwDamage - entitiesDamaged < 1) {
+		if (target.damage(damageSource, damage - entitiesDamaged)) {
+            if (target.getType() == EntityType.ENDERMAN || damage - entitiesDamaged < 1) {
                 return;
             }
             if (isOnFire() && !(target.getType() == EntityType.ENDERMAN)) {
