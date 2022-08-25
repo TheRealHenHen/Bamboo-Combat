@@ -52,7 +52,7 @@ public class BambooItems {
             
         NETHERITE = register(new SpearItem(new SpearItemMaterial
             (1500, Ingredient.ofItems(Items.NETHERITE_INGOT)),
-            10, 1.0F, 2.7F, 1.0F, 14, 5, 0, SpearEntityTypes.NETHERITE), "netherite_bamboo_spear");
+            9, 1.1F, 2.7F, 1.0F, 13, 5, 0, SpearEntityTypes.NETHERITE), "netherite_bamboo_spear");
 
     }
 
