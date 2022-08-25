@@ -202,8 +202,7 @@ public class SpearEntity extends PersistentProjectileEntity {
             if (this.piercedEntities.size() < this.getPierceLevel() + 1) {
                 this.piercedEntities.add(target.getId());
             } else {
-                this.discard();
-                return;
+                setPierceLevel((byte) 0);
             }
         }
 
