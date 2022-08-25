@@ -62,13 +62,13 @@ public class BambooCombatClient implements ClientModInitializer {
 			});
 		});
 	
-		register(BambooItems.BAMBOO, SpearEntityModelLayers.BAMBOO, SpearEntityModel::modelBamboo);
-		register(BambooItems.STONE, SpearEntityModelLayers.STONE, SpearEntityModel::modelStone);
-		register(BambooItems.COPPER, SpearEntityModelLayers.COPPER, SpearEntityModel::modelIron);
-		register(BambooItems.IRON, SpearEntityModelLayers.IRON, SpearEntityModel::modelIron);
-		register(BambooItems.GOLD, SpearEntityModelLayers.GOLD, SpearEntityModel::modelIron);
-		register(BambooItems.DIAMOND, SpearEntityModelLayers.DIAMOND, SpearEntityModel::modelDiamond);
-		register(BambooItems.NETHERITE, SpearEntityModelLayers.NETHERITE, SpearEntityModel::modelNetherite);
+		register(BambooItems.BAMBOO_SPEAR, SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::BambooSpear);
+		register(BambooItems.STONE_BAMBOO_SPEAR, SpearEntityModelLayers.STONE_BAMBOO_SPEAR, SpearEntityModel::StoneBambooSpear);
+		register(BambooItems.COPPER_BAMBOO_SPEAR, SpearEntityModelLayers.COPPER_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
+		register(BambooItems.IRON_BAMBOO_SPEAR, SpearEntityModelLayers.IRON_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
+		register(BambooItems.GOLDEN_BAMBOO_SPEAR, SpearEntityModelLayers.GOLDEN_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
+		register(BambooItems.DIAMOND_BAMBOO_SPEAR, SpearEntityModelLayers.DIAMOND_BAMBOO_SPEAR, SpearEntityModel::DiamondBambooSpear);
+		register(BambooItems.NETHERITE_BAMBOO_SPEAR, SpearEntityModelLayers.NETHERITE_BAMBOO_SPEAR, SpearEntityModel::NetheriteBambooSpear);
 
     }
 

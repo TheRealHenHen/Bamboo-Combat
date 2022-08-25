@@ -21,12 +21,12 @@ public class SpearEntityTypes {
         );
     }
     
-    public static final EntityType<SpearEntity> BAMBOO = registerEntity("bamboo_spear");
-    public static final EntityType<SpearEntity> STONE = registerEntity("stone_bamboo_spear");
-    public static final EntityType<SpearEntity> COPPER = registerEntity("copper_bamboo_spear");
-    public static final EntityType<SpearEntity> IRON = registerEntity("iron_bamboo_spear");
-    public static final EntityType<SpearEntity> GOLD = registerEntity("golden_bamboo_spear");
-    public static final EntityType<SpearEntity> DIAMOND = registerEntity("diamond_bamboo_spear");
-    public static final EntityType<SpearEntity> NETHERITE = registerEntity("netherite_bamboo_spear");
+    public static final EntityType<SpearEntity> BAMBOO_SPEAR = registerEntity("bamboo_spear");
+    public static final EntityType<SpearEntity> STONE_BAMBOO_SPEAR = registerEntity("stone_bamboo_spear");
+    public static final EntityType<SpearEntity> COPPER_BAMBOO_SPEAR = registerEntity("copper_bamboo_spear");
+    public static final EntityType<SpearEntity> IRON_BAMBOO_SPEAR = registerEntity("iron_bamboo_spear");
+    public static final EntityType<SpearEntity> GOLDEN_BAMBOO_SPEAR = registerEntity("golden_bamboo_spear");
+    public static final EntityType<SpearEntity> DIAMOND_BAMBOO_SPEAR = registerEntity("diamond_bamboo_spear");
+    public static final EntityType<SpearEntity> NETHERITE_BAMBOO_SPEAR = registerEntity("netherite_bamboo_spear");
 
 }

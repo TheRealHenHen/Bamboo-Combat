@@ -64,7 +64,7 @@ implements Vanishable {
 
     @Override
 	public boolean isFireproof() {
-        return entityType == SpearEntityTypes.NETHERITE ? true : false;
+        return entityType == SpearEntityTypes.NETHERITE_BAMBOO_SPEAR ? true : false;
     }
 
     @Override
