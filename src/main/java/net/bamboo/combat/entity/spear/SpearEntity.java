@@ -46,8 +46,8 @@ public class SpearEntity extends PersistentProjectileEntity {
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
-    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
+    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
+    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
     private int entitiesDamaged = 0;
     private int fireTicks = 0;
     private int returnTimer;
@@ -159,7 +159,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     }
 
     private boolean burn() {
-        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE) {
+        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE_BAMBOO_SPEAR) {
             if (fireTicks == burnTicks) {
                 fireTicks = 0;
                 return true;
