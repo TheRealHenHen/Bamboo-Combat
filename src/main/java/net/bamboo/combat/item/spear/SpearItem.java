@@ -135,15 +135,16 @@ implements Vanishable {
 
         if (!world.isClient) {          
             
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, itemStack, entityType);
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, pierceLevel, burnTicks, itemStack, entityType);
 
             spear.setCritical(isCritical(user));
 
             if (isCritical(user)) {
                 spear.throwDamage += attackDamage * random.nextFloat(0.3F);
+                spear.setPierceLevel((byte) pierceLevel);
             } else {
-                spear.pierceLevel = 0;
+                spear.setPierceLevel((byte) 0);
             }
             
             spear.setOwner(user);
@@ -168,7 +169,6 @@ implements Vanishable {
     }
 
     private boolean isCritical(PlayerEntity user) {
-
         if ((user.isSprinting() && !user.isOnGround()) || (user.hasVehicle() && !user.getRootVehicle().isOnGround())) {
             return true;
         }

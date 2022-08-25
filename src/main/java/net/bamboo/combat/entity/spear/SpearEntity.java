@@ -1,10 +1,14 @@
 package net.bamboo.combat.entity.spear; //By TheRealHenHen
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.item.BambooItems;
 import net.fabricmc.api.EnvType;
@@ -29,6 +33,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -43,7 +48,6 @@ public class SpearEntity extends PersistentProjectileEntity {
 	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
-    public int pierceLevel;
     private int entitiesDamaged = 0;
     private int fireTicks = 0;
     private int returnTimer;
@@ -51,16 +55,19 @@ public class SpearEntity extends PersistentProjectileEntity {
     public float throwDamage;
     private float dragInWater;
     private boolean hitGround = false;
+    @Nullable
+    private IntOpenHashSet piercedEntities;
+    @Nullable
+    private List<Entity> piercingKilledEntities;
     
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
-	public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int pierceLevel, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
+	public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
 		super(entityType, owner, world);
         this.burnTicks = burnTicks;
-        this.pierceLevel = pierceLevel;
         this.dragInWater = dragInWater;
         this.throwDamage = throwDamage + 1;
         this.defaultItem = defaultItem.copy();
@@ -168,6 +175,15 @@ public class SpearEntity extends PersistentProjectileEntity {
         return super.getEntityCollision(currentPosition, nextPosition);
     }
 
+    private void clearPiercingStatus() {
+        if (this.piercingKilledEntities != null) {
+            this.piercingKilledEntities.clear();
+        }
+        if (this.piercedEntities != null) {
+            this.piercedEntities.clear();
+        }
+    }
+
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
 
@@ -175,6 +191,21 @@ public class SpearEntity extends PersistentProjectileEntity {
 		Entity target = entityHitResult.getEntity();
 		DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
         float damage = throwDamage;
+
+        if (this.getPierceLevel() > 0) {
+            if (this.piercedEntities == null) {
+                this.piercedEntities = new IntOpenHashSet(5);
+            }
+            if (this.piercingKilledEntities == null) {
+                this.piercingKilledEntities = Lists.newArrayListWithCapacity(5);
+            }
+            if (this.piercedEntities.size() < this.getPierceLevel() + 1) {
+                this.piercedEntities.add(target.getId());
+            } else {
+                this.discard();
+                return;
+            }
+        }
 
         if (target instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity)target;
@@ -198,7 +229,7 @@ public class SpearEntity extends PersistentProjectileEntity {
             }
         }
 
-        if (entitiesDamaged >= pierceLevel) {
+        if (entitiesDamaged >= this.getPierceLevel()) {
             setVelocity(getVelocity().multiply(-0.01, -0.1, -0.01));
         } 
 
@@ -222,9 +253,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         if (this.isOwner(player) || this.getOwner() == null) {
             super.onPlayerCollision(player);
         }
-    }
-
-	
+    }	
 
 	@Override
     public void age() {
@@ -264,6 +293,17 @@ public class SpearEntity extends PersistentProjectileEntity {
         return true;
     }
 
+    @Override
+    protected void onBlockHit(BlockHitResult blockHitResult) {
+        super.onBlockHit(blockHitResult);
+        this.clearPiercingStatus();
+    }
+
+    @Override
+    protected boolean canHit(Entity entity) {
+        return super.canHit(entity) && (this.piercedEntities == null || !this.piercedEntities.contains(entity.getId()));
+    }
+
     public boolean isEnchanted() {
         return dataTracker.get(ENCHANTED);
     }
@@ -276,10 +316,10 @@ public class SpearEntity extends PersistentProjectileEntity {
         return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
     }
 
-    protected void onCollision(HitResult hitResult) { // called on collision with a block
+    protected void onCollision(HitResult hitResult) {
 		super.onCollision(hitResult);
-		if (!this.world.isClient) { // checks if the world is client
-			this.world.sendEntityStatus(this, (byte)3); // particle?
+		if (!this.world.isClient) {
+			this.world.sendEntityStatus(this, (byte)3);
 		}
  
 	}
