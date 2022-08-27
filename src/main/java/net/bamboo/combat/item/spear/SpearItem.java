@@ -121,8 +121,7 @@ implements Vanishable {
     public void onStoppedUsing(ItemStack itemStack, World world, LivingEntity livingEntity, int remainingUseTicks) {
 
         PlayerEntity user = (PlayerEntity)livingEntity;
-        Hand hand = user.getActiveHand();
-        itemStack = user.getStackInHand(hand);
+        itemStack.damage(2, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
          
         if (!(user instanceof PlayerEntity)) {
             return;
