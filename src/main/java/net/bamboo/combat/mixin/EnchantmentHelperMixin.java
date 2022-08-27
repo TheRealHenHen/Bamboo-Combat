@@ -6,7 +6,6 @@ import java.util.List;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -22,7 +21,7 @@ import net.minecraft.item.ItemStack;
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
     
-    @Inject(method = "getPossibleEntries", at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;", shift = Shift.BY, by = 3), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "getPossibleEntries", at = @At(value = "INVOKE", target = "Ljava/util/Iterator;next()Ljava/lang/Object;", shift = At.Shift.BY, by = 3), locals = LocalCapture.CAPTURE_FAILHARD)
     private static void spearEnchantments(int power, ItemStack stack, boolean treasureAllowed, CallbackInfoReturnable<List<?>> info,
         List<EnchantmentLevelEntry> entries, Item item, boolean isBook, Iterator<?> enchantmentsIterator, Enchantment enchantment) {
 
