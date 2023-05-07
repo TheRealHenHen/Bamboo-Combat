@@ -24,7 +24,7 @@ public class BambooItems {
 
         private static SpearItem register(SpearItem item, String id) {
                 SpearItem spear = Registry.register(Registries.ITEM, new Identifier(BambooCombat.MODID, id), item);
-                ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> entries.addAfter(Items.TRIDENT, spear));
+                ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> entries.addBefore(Items.SHIELD, spear));
                 return spear;
         }
 
