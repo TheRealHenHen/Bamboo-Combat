@@ -5,7 +5,7 @@ import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 import java.util.UUID;
 
@@ -28,40 +28,44 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 public class BambooCombatClient implements ClientModInitializer {
 
 	private void register(SpearItem item, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
-		Identifier spearId = Registry.ITEM.getId(item);
+		Identifier spearId = Registries.ITEM.getId(item);
 
-		ModelLoadingRegistry.INSTANCE.registerModelProvider((manager, out) -> out.accept(new ModelIdentifier(spearId + "/" + "gui", "inventory")));
-		
-        EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
-		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context, new Identifier(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
-		
-		ModelPredicateProviderRegistry.register(item, new Identifier("throwing"), (stack, clientWorld, livingEntity, seed) -> {
-			if (livingEntity == null) {
-				return 0.0F;
-			}
-			return livingEntity.isUsingItem() && livingEntity.getActiveItem() == stack ? 1.0F : 0.0F;
-		});
+		ModelLoadingRegistry.INSTANCE.registerModelProvider(
+			(manager, out) -> out.accept(new ModelIdentifier(BambooCombat.MODID, spearId.getPath() + "/" + "gui", "inventory")));
+
+		EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
+		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context,
+			new Identifier(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
+
+		ModelPredicateProviderRegistry.register(item, new Identifier("throwing"),
+			(stack, clientWorld, livingEntity, seed) -> {
+				if (livingEntity == null) {
+					return 0.0F;
+				}
+				return livingEntity.isUsingItem() && livingEntity.getActiveItem() == stack ? 1.0F : 0.0F;
+			});
 	}
 
-    @Override
+	@Override
 	public void onInitializeClient() {
 
-		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, "bamboo_spear"), (client, handler, buf, sender) -> {
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, "bamboo_spear"),
+				(client, handler, buf, sender) -> {
 
-			double x = buf.readDouble();
-			double y = buf.readDouble();
-			double z = buf.readDouble();
+					double x = buf.readDouble();
+					double y = buf.readDouble();
+					double z = buf.readDouble();
 
-			int entityID = buf.readInt();
-			UUID entityUUID = buf.readUuid();
-			MinecraftClient mc = MinecraftClient.getInstance();
+					int entityID = buf.readInt();
+					UUID entityUUID = buf.readUuid();
+					MinecraftClient mc = MinecraftClient.getInstance();
 
-			client.execute(() -> {
-				SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
-				mc.world.addEntity(entityID, spear);
-			});
-		});
-	
+					client.execute(() -> {
+						SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
+						mc.world.addEntity(entityID, spear);
+					});
+				});
+
 		register(BambooItems.BAMBOO_SPEAR, SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::BambooSpear);
 		register(BambooItems.STONE_BAMBOO_SPEAR, SpearEntityModelLayers.STONE_BAMBOO_SPEAR, SpearEntityModel::StoneBambooSpear);
 		register(BambooItems.COPPER_BAMBOO_SPEAR, SpearEntityModelLayers.COPPER_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
@@ -70,6 +74,6 @@ public class BambooCombatClient implements ClientModInitializer {
 		register(BambooItems.DIAMOND_BAMBOO_SPEAR, SpearEntityModelLayers.DIAMOND_BAMBOO_SPEAR, SpearEntityModel::DiamondBambooSpear);
 		register(BambooItems.NETHERITE_BAMBOO_SPEAR, SpearEntityModelLayers.NETHERITE_BAMBOO_SPEAR, SpearEntityModel::NetheriteBambooSpear);
 
-    }
+	}
 
 }
