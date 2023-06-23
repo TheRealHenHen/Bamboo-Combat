@@ -17,7 +17,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -38,19 +37,15 @@ implements Vanishable {
     Random random = new Random();
     private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
     private EntityType<SpearEntity> entityType;
-    private float throwDistanceOriginal;
-    private float throwDamageOriginal;
     private float throwDistance;
     private float attackDamage;
-    private float throwDamage;
     private float dragInWater;
-    private int pierceLevelOriginal;
     private int pierceLevel;
     private int throwDelay;
     private int burnTicks;
 
     public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, float dragInWater, int throwDelay, int pierceLevel, int burnTicks, EntityType<SpearEntity> entityType) {
-        super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
+        super(toolMaterial, new Item.Settings());
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", attackDamage - 1, EntityAttributeModifier.Operation.ADDITION));
@@ -62,17 +57,13 @@ implements Vanishable {
         this.entityType = entityType;
         this.dragInWater = dragInWater; 
         this.pierceLevel = pierceLevel;
-        pierceLevelOriginal = pierceLevel;
-        this.throwDamage = this.attackDamage;
         this.attackDamage = attackDamage - 1;
-        throwDistanceOriginal = throwDistance;
-        throwDistanceOriginal = throwDistance;
-        throwDamageOriginal = this.throwDamage;
+        this.throwDistance = throwDistance;
     }
 
     @Override
 	public boolean isFireproof() {
-        return entityType == SpearEntityTypes.NETHERITE ? true : false;
+        return entityType == SpearEntityTypes.NETHERITE_BAMBOO_SPEAR ? true : false;
     }
 
     @Override
@@ -129,11 +120,7 @@ implements Vanishable {
     public void onStoppedUsing(ItemStack itemStack, World world, LivingEntity livingEntity, int remainingUseTicks) {
 
         PlayerEntity user = (PlayerEntity)livingEntity;
-        Hand hand = user.getActiveHand();
-        itemStack = user.getStackInHand(hand);
-        throwDistance = throwDistanceOriginal;
-        throwDamage = throwDamageOriginal;
-        pierceLevel = pierceLevelOriginal;
+        itemStack.damage(2, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
          
         if (!(user instanceof PlayerEntity)) {
             return;
@@ -146,17 +133,18 @@ implements Vanishable {
 
         if (!world.isClient) {          
             
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, itemStack, entityType);
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, pierceLevel, burnTicks, itemStack, entityType);
 
             spear.setCritical(isCritical(user));
 
             if (isCritical(user)) {
-                spear.throwDamage += throwDamage * random.nextFloat(0.3F);
+                spear.throwDamage += attackDamage * random.nextFloat(0.3F);
+                spear.setPierceLevel((byte) pierceLevel);
             } else {
-                spear.pierceLevel = 0;
+                spear.setPierceLevel((byte) 0);
             }
-
+            
             spear.setOwner(user);
             spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             world.spawnEntity(spear);
@@ -179,7 +167,6 @@ implements Vanishable {
     }
 
     private boolean isCritical(PlayerEntity user) {
-
         if ((user.isSprinting() && !user.isOnGround()) || (user.hasVehicle() && !user.getRootVehicle().isOnGround())) {
             return true;
         }

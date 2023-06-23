@@ -1,10 +1,14 @@
 package net.bamboo.combat.entity.spear; //By TheRealHenHen
 
+import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
+import com.google.common.collect.Lists;
 
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.item.BambooItems;
 import net.fabricmc.api.EnvType;
@@ -23,12 +27,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -37,81 +43,81 @@ import net.minecraft.world.World;
 
 public class SpearEntity extends PersistentProjectileEntity {
 
-	public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
+    public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-	public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO);
-    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO;
-    public int pierceLevel;
-    int entitiesDamaged = 0;
-    int fireTicks = 0;
-    int returnTimer;
-    int burnTicks;
-    float throwDamageOriginal;
+    public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
+    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
+    private int entitiesDamaged = 0;
+    private int fireTicks = 0;
+    private int returnTimer;
+    private int burnTicks;
     public float throwDamage;
-    float dragInWater;
-    boolean hitGround = false;
-    
+    private float dragInWater;
+    private boolean hitGround = false;
+    @Nullable
+    private IntOpenHashSet piercedEntities;
+    @Nullable
+    private List<Entity> piercingKilledEntities;
 
     public SpearEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
-		super(entityType, world);
-	}
+        super(entityType, world);
+    }
 
-	public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int pierceLevel, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
-		super(entityType, owner, world);
+    public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int burnTicks,
+            ItemStack defaultItem, EntityType<SpearEntity> entityType) {
+        super(entityType, owner, world);
         this.burnTicks = burnTicks;
-        this.pierceLevel = pierceLevel;
         this.dragInWater = dragInWater;
         this.throwDamage = throwDamage + 1;
         this.defaultItem = defaultItem.copy();
-        throwDamageOriginal = this.throwDamage;
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
-        this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
+        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(defaultItem));
         SpearEntity.entityType = entityType;
-	}
+    }
 
-	@Environment(EnvType.CLIENT)
-	public SpearEntity(World world, double x, double y, double z, int id, UUID uuid) {
-		super(entityType, world);
-		updatePosition(x, y, z);
-		updateTrackedPosition(x, y, z);
-		setId(id);
-		setUuid(uuid);
-	}
-	
-	@Override
-	public void initDataTracker() {
-		super.initDataTracker();
-        this.dataTracker.startTracking(LOYALTY, (byte)0);
+    @Environment(EnvType.CLIENT)
+    public SpearEntity(World world, double x, double y, double z, int id, UUID uuid) {
+        super(entityType, world);
+        updatePosition(x, y, z);
+        updateTrackedPosition(x, y, z);
+        setId(id);
+        setUuid(uuid);
+    }
+
+    @Override
+    public void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(LOYALTY, (byte) 0);
         this.dataTracker.startTracking(ENCHANTED, false);
-	}
-	
-	@Override
-	public Packet<?> createSpawnPacket() {
-		PacketByteBuf packet = new PacketByteBuf(Unpooled.buffer());
+    }
 
-		packet.writeDouble(getX());
-		packet.writeDouble(getY());
-		packet.writeDouble(getZ());
+    @Override
+    public Packet<ClientPlayPacketListener> createSpawnPacket() {
+        PacketByteBuf packet = new PacketByteBuf(Unpooled.buffer());
 
-		packet.writeInt(getId());
-		packet.writeUuid(getUuid());
+        packet.writeDouble(getX());
+        packet.writeDouble(getY());
+        packet.writeDouble(getZ());
 
-		return ServerPlayNetworking.createS2CPacket(SPAWN_PACKET, packet);
-	}
+        packet.writeInt(getId());
+        packet.writeUuid(getUuid());
 
-	@Override
+        return ServerPlayNetworking.createS2CPacket(SPAWN_PACKET, packet);
+    }
+
+    @Override
     protected ItemStack asItemStack() {
         return defaultItem;
     }
 
     @Override
     protected float getDragInWater() {
-        return dragInWater; 
+        return dragInWater;
     }
 
-	@Override
+    @Override
     public void tick() {
         if (this.inGroundTime > 4 || (throwDamage - entitiesDamaged < 1 && isCritical()) || (entitiesDamaged > 0 && !isCritical())) {
             hitGround = true;
@@ -129,11 +135,11 @@ public class SpearEntity extends PersistentProjectileEntity {
             } else {
                 this.setNoClip(true);
                 Vec3d vec3d = owner.getEyePos().subtract(this.getPos());
-                this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double)loyalty, this.getZ());
+                this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double) loyalty, this.getZ());
                 if (this.world.isClient) {
                     this.lastRenderY = this.getY();
                 }
-                this.setVelocity(this.getVelocity().multiply(0.95).add(vec3d.normalize().multiply(0.05 * (double)loyalty)));
+                this.setVelocity(this.getVelocity().multiply(0.95).add(vec3d.normalize().multiply(0.05 * (double) loyalty)));
                 if (this.returnTimer == 0) {
                     this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 10.0f, 1.0f);
                 }
@@ -149,12 +155,12 @@ public class SpearEntity extends PersistentProjectileEntity {
             playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
             discard();
         }
-        
+
         super.tick();
     }
 
     private boolean burn() {
-        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE) {
+        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE_BAMBOO_SPEAR) {
             if (fireTicks == burnTicks) {
                 fireTicks = 0;
                 return true;
@@ -170,64 +176,85 @@ public class SpearEntity extends PersistentProjectileEntity {
         return super.getEntityCollision(currentPosition, nextPosition);
     }
 
-	@Override
-	protected void onEntityHit(EntityHitResult entityHitResult) {
+    private void clearPiercingStatus() {
+        if (this.piercingKilledEntities != null) {
+            this.piercingKilledEntities.clear();
+        }
+        if (this.piercedEntities != null) {
+            this.piercedEntities.clear();
+        }
+    }
 
-		Entity owner = getOwner();
-		Entity target = entityHitResult.getEntity();
-		DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
+    @Override
+    protected void onEntityHit(EntityHitResult entityHitResult) {
 
-        if (target instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity)target;
-            throwDamage = throwDamageOriginal + EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup()) - entitiesDamaged;
+        Entity owner = getOwner();
+        Entity target = entityHitResult.getEntity();
+        DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
+        float damage = throwDamage;
+
+        if (this.getPierceLevel() > 0) {
+            if (this.piercedEntities == null) {
+                this.piercedEntities = new IntOpenHashSet(5);
+            }
+            if (this.piercingKilledEntities == null) {
+                this.piercingKilledEntities = Lists.newArrayListWithCapacity(5);
+            }
+            if (this.piercedEntities.size() < this.getPierceLevel() + 1) {
+                this.piercedEntities.add(target.getId());
+            } else {
+                setPierceLevel((byte) 0);
+            }
         }
 
-		if (target.damage(damageSource, throwDamage - entitiesDamaged)) {
-            if (target.getType() == EntityType.ENDERMAN || throwDamage - entitiesDamaged < 1) {
+        if (target instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) target;
+            damage = throwDamage + EnchantmentHelper.getAttackDamage(defaultItem, livingEntity.getGroup()) - entitiesDamaged;
+        }
+
+        if (target.damage(damageSource, damage - entitiesDamaged)) {
+            if (target.getType() == EntityType.ENDERMAN || damage - entitiesDamaged < 1) {
                 return;
             }
             if (isOnFire() && !(target.getType() == EntityType.ENDERMAN)) {
                 target.setOnFireFor(5);
             }
             if (target instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity)target;
+                LivingEntity livingEntity = (LivingEntity) target;
                 if (owner instanceof LivingEntity) {
                     EnchantmentHelper.onUserDamaged(livingEntity, owner);
-                    EnchantmentHelper.onTargetDamaged((LivingEntity)owner, livingEntity);
+                    EnchantmentHelper.onTargetDamaged((LivingEntity) owner, livingEntity);
                 }
                 onHit(livingEntity);
             }
         }
 
-        if (entitiesDamaged >= pierceLevel) {
+        if (entitiesDamaged >= this.getPierceLevel()) {
             setVelocity(getVelocity().multiply(-0.01, -0.1, -0.01));
-        } 
+        }
 
-		playSound(SoundEvents.ITEM_TRIDENT_HIT, 2F, 1F);
+        playSound(SoundEvents.ITEM_TRIDENT_HIT, 2F, 1F);
         entitiesDamaged++;
-	}
+    }
 
-
-	@Override
+    @Override
     protected boolean tryPickup(PlayerEntity player) {
         return super.tryPickup(player) || this.isNoClip() && this.isOwner(player) && player.getInventory().insertStack(this.asItemStack());
     }
 
-	@Override
+    @Override
     protected SoundEvent getHitSound() {
         return SoundEvents.ITEM_TRIDENT_HIT_GROUND;
     }
 
-	@Override
+    @Override
     public void onPlayerCollision(PlayerEntity player) {
         if (this.isOwner(player) || this.getOwner() == null) {
             super.onPlayerCollision(player);
         }
     }
 
-	
-
-	@Override
+    @Override
     public void age() {
         byte i = this.dataTracker.get(LOYALTY);
         if (this.pickupType != PersistentProjectileEntity.PickupPermission.ALLOWED || i <= 0) {
@@ -251,18 +278,29 @@ public class SpearEntity extends PersistentProjectileEntity {
         nbt.put("Bamboo_Spear", defaultItem.writeNbt(new NbtCompound()));
     }
 
-	@Override
+    @Override
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         if (nbt.contains("Bamboo_Spear", 10)) {
             defaultItem = ItemStack.fromNbt(nbt.getCompound("Bamboo_Spear"));
         }
-        this.dataTracker.set(LOYALTY, (byte)EnchantmentHelper.getLoyalty(defaultItem));
+        this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(defaultItem));
     }
 
     @Override
     public boolean shouldRender(double cameraX, double cameraY, double cameraZ) {
         return true;
+    }
+
+    @Override
+    protected void onBlockHit(BlockHitResult blockHitResult) {
+        super.onBlockHit(blockHitResult);
+        this.clearPiercingStatus();
+    }
+
+    @Override
+    protected boolean canHit(Entity entity) {
+        return super.canHit(entity) && (this.piercedEntities == null || !this.piercedEntities.contains(entity.getId()));
     }
 
     public boolean isEnchanted() {
@@ -277,16 +315,16 @@ public class SpearEntity extends PersistentProjectileEntity {
         return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
     }
 
-    protected void onCollision(HitResult hitResult) { // called on collision with a block
-		super.onCollision(hitResult);
-		if (!this.world.isClient) { // checks if the world is client
-			this.world.sendEntityStatus(this, (byte)3); // particle?
-		}
- 
-	}
+    protected void onCollision(HitResult hitResult) {
+        super.onCollision(hitResult);
+        if (!this.world.isClient) {
+            this.world.sendEntityStatus(this, (byte) 3);
+        }
+
+    }
 
     private boolean shouldFall() {
         return inGround && this.world.isSpaceEmpty(new Box(this.getPos(), this.getPos()).expand(0.06));
-    }	
-    
+    }
+
 }

@@ -11,13 +11,13 @@ public class SpearEntityModelLayers {
 
     private static final String MAIN = "main";
     private static final Set<EntityModelLayer> LAYERS = Sets.newHashSet();
-    public static final EntityModelLayer BAMBOO = registerMain("bamboo_spear");
-    public static final EntityModelLayer STONE = registerMain("stone_bamboo_spear");
-    public static final EntityModelLayer COPPER = registerMain("copper_bamboo_spear");
-    public static final EntityModelLayer IRON = registerMain("iron_bamboo_spear");
-    public static final EntityModelLayer GOLD = registerMain("golden_bamboo_spear");
-    public static final EntityModelLayer DIAMOND = registerMain("diamond_bamboo_spear");
-    public static final EntityModelLayer NETHERITE = registerMain("netherite_bamboo_spear");
+    public static final EntityModelLayer BAMBOO_SPEAR = registerMain("bamboo_spear");
+    public static final EntityModelLayer STONE_BAMBOO_SPEAR = registerMain("stone_bamboo_spear");
+    public static final EntityModelLayer COPPER_BAMBOO_SPEAR = registerMain("copper_bamboo_spear");
+    public static final EntityModelLayer IRON_BAMBOO_SPEAR = registerMain("iron_bamboo_spear");
+    public static final EntityModelLayer GOLDEN_BAMBOO_SPEAR = registerMain("golden_bamboo_spear");
+    public static final EntityModelLayer DIAMOND_BAMBOO_SPEAR = registerMain("diamond_bamboo_spear");
+    public static final EntityModelLayer NETHERITE_BAMBOO_SPEAR = registerMain("netherite_bamboo_spear");
 
     private static EntityModelLayer registerMain(String id) {
         return register(id, MAIN);
