@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 @Mixin(Enchantment.class)
 public class EnchantmentMixin {
 
-    @Shadow @Final public EnchantmentTarget type;
+    @Shadow @Final public EnchantmentTarget target;
     
     @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
     public void isAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> callback) {

@@ -27,7 +27,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -190,7 +190,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         Entity owner = getOwner();
         Entity target = entityHitResult.getEntity();
-        DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
+        DamageSource damageSource = this.getDamageSources().trident(this, owner == null ? this : owner);
         float damage = throwDamage;
 
         if (this.getPierceLevel() > 0) {

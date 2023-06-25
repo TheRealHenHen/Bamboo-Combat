@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "bamboocombat",
-  "version": "1.0.3",
+  "version": "1.1.0",
 
   "name": "Bamboo Combat",
   "description": "Adds Bamboo Weapons to Minecraft!",
@@ -28,7 +28,7 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.19",
+    "fabricloader": ">=0.14.21",
     "fabric-api": "*",
     "minecraft": "1.19.x",
     "java": ">=17"
