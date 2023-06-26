@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.item.BambooItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,7 +27,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -41,10 +39,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
-    private static Identifier SPAWN_PACKET;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
-    private Entity owner = this.getOwner();
-    private World world = owner.getWorld();
     private int entitiesDamaged = 0;
     private int fireTicks = 0;
     private int returnTimer;
@@ -61,7 +56,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         super(entityType, world);
     }
 
-    public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType, String entityID) {
+    public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType) {
         super(entityType, owner, world);
         this.burnTicks = burnTicks;
         this.dragInWater = dragInWater;
@@ -69,7 +64,6 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(defaultItem));
-        SpearEntity.SPAWN_PACKET = new Identifier(BambooCombat.MODID, entityID);
         SpearEntity.entityType = entityType;
     }
 
