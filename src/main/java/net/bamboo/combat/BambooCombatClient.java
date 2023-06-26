@@ -28,6 +28,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 public class BambooCombatClient implements ClientModInitializer {
 
 	private void register(SpearItem item, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
+
 		Identifier spearId = Registries.ITEM.getId(item);
 
 		ModelLoadingRegistry.INSTANCE.registerModelProvider(
@@ -44,27 +45,25 @@ public class BambooCombatClient implements ClientModInitializer {
 				}
 				return livingEntity.isUsingItem() && livingEntity.getActiveItem() == stack ? 1.0F : 0.0F;
 			});
+
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, spearId.getPath()),
+				(client, player, packet, sender) -> {
+
+					double x = packet.readDouble();
+					double y = packet.readDouble();
+					double z = packet.readDouble();
+
+					int entityID = packet.readInt();
+					UUID entityUUID = packet.readUuid();
+					MinecraftClient mc = MinecraftClient.getInstance();
+
+					mc.world.addEntity(entityID, new SpearEntity(mc.world, x, y, z, entityID, entityUUID));
+				});
+
 	}
 
 	@Override
 	public void onInitializeClient() {
-
-		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, "bamboo_spear"),
-				(client, handler, buf, sender) -> {
-
-					double x = buf.readDouble();
-					double y = buf.readDouble();
-					double z = buf.readDouble();
-
-					int entityID = buf.readInt();
-					UUID entityUUID = buf.readUuid();
-					MinecraftClient mc = MinecraftClient.getInstance();
-
-					client.execute(() -> {
-						SpearEntity spear = new SpearEntity(mc.world, x, y, z, entityID, entityUUID);
-						mc.world.addEntity(entityID, spear);
-					});
-				});
 
 		register(BambooItems.BAMBOO_SPEAR, SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::BambooSpear);
 		register(BambooItems.STONE_BAMBOO_SPEAR, SpearEntityModelLayers.STONE_BAMBOO_SPEAR, SpearEntityModel::StoneBambooSpear);

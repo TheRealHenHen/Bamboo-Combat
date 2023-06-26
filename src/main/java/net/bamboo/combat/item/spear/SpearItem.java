@@ -35,16 +35,17 @@ extends ToolItem
 implements Vanishable {
 
     Random random = new Random();
-    private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
-    private EntityType<SpearEntity> entityType;
-    private float throwDistance;
-    private float attackDamage;
-    private float dragInWater;
-    private int pierceLevel;
-    private int throwDelay;
-    private int burnTicks;
+    public Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+    public EntityType<SpearEntity> entityType;
+    public float throwDistance;
+    public float attackDamage;
+    public float dragInWater;
+    public int pierceLevel;
+    public int throwDelay;
+    public int burnTicks;
+    public String id;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, float dragInWater, int throwDelay, int pierceLevel, int burnTicks, EntityType<SpearEntity> entityType) {
+    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, float dragInWater, int throwDelay, int pierceLevel, int burnTicks, EntityType<SpearEntity> entityType, String id) {
         super(toolMaterial, new Item.Settings());
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
@@ -52,6 +53,7 @@ implements Vanishable {
         builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", attackSpeed - 4, EntityAttributeModifier.Operation.ADDITION));
 
         attributeModifiers = builder.build();
+        this.id = id;
         this.burnTicks = burnTicks;
         this.throwDelay = throwDelay;
         this.entityType = entityType;
@@ -133,7 +135,7 @@ implements Vanishable {
 
         if (!world.isClient) {          
             
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, itemStack, entityType);
+            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, itemStack, entityType, id);
             itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
 
             spear.setCritical(isCritical(user));

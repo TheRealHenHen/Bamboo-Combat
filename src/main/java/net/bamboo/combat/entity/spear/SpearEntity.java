@@ -7,13 +7,11 @@ import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 
-import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.item.BambooItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -27,9 +25,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -43,19 +38,18 @@ import net.minecraft.world.World;
 
 public class SpearEntity extends PersistentProjectileEntity {
 
-    public static final Identifier SPAWN_PACKET = new Identifier(BambooCombat.MODID, "bamboo_spear");
-    private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
-    private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    public PickupPermission pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
-    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
-    private int entitiesDamaged = 0;
-    private int fireTicks = 0;
-    private int returnTimer;
-    private int burnTicks;
+    public static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
+    public static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    public static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
+    public static Identifier SPAWN_PACKET;
+    public ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
+    public int entitiesDamaged = 0;
+    public int fireTicks = 0;
+    public int returnTimer;
+    public int burnTicks;
     public float throwDamage;
-    private float dragInWater;
-    private boolean hitGround = false;
+    public float dragInWater;
+    public boolean dealtDamage = false;
     @Nullable
     private IntOpenHashSet piercedEntities;
     @Nullable
@@ -65,8 +59,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         super(entityType, world);
     }
 
-    public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int burnTicks,
-            ItemStack defaultItem, EntityType<SpearEntity> entityType) {
+    public SpearEntity(World world, LivingEntity owner, float throwDamage, float dragInWater, int burnTicks, ItemStack defaultItem, EntityType<SpearEntity> entityType, String entityID) {
         super(entityType, owner, world);
         this.burnTicks = burnTicks;
         this.dragInWater = dragInWater;
@@ -74,6 +67,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         this.defaultItem = defaultItem.copy();
         this.dataTracker.set(ENCHANTED, defaultItem.hasGlint());
         this.dataTracker.set(LOYALTY, (byte) EnchantmentHelper.getLoyalty(defaultItem));
+        SpearEntity.SPAWN_PACKET = new Identifier(BambooCombat.MODID, entityID);
         SpearEntity.entityType = entityType;
     }
 
@@ -94,20 +88,6 @@ public class SpearEntity extends PersistentProjectileEntity {
     }
 
     @Override
-    public Packet<ClientPlayPacketListener> createSpawnPacket() {
-        PacketByteBuf packet = new PacketByteBuf(Unpooled.buffer());
-
-        packet.writeDouble(getX());
-        packet.writeDouble(getY());
-        packet.writeDouble(getZ());
-
-        packet.writeInt(getId());
-        packet.writeUuid(getUuid());
-
-        return ServerPlayNetworking.createS2CPacket(SPAWN_PACKET, packet);
-    }
-
-    @Override
     protected ItemStack asItemStack() {
         return defaultItem;
     }
@@ -119,14 +99,16 @@ public class SpearEntity extends PersistentProjectileEntity {
 
     @Override
     public void tick() {
-        if (this.inGroundTime > 4 || (throwDamage - entitiesDamaged < 1 && isCritical()) || (entitiesDamaged > 0 && !isCritical())) {
-            hitGround = true;
+
+        if (this.inGroundTime > 4 || isCritical() && throwDamage - entitiesDamaged < 1 || !isCritical() && entitiesDamaged > 0) {
+            this.dealtDamage = true;
         }
-        byte loyalty = this.dataTracker.get(LOYALTY);
+
         Entity owner = this.getOwner();
+        byte loyalty = this.dataTracker.get(LOYALTY);
 
-        if (loyalty > 0 && (hitGround || isNoClip()) && owner != null) {
-
+        if (loyalty > 0 && (this.dealtDamage || this.isNoClip()) && owner != null) {
+            
             if (!this.isOwnerAlive()) {
                 if (!this.world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
                     this.dropStack(this.asItemStack(), 0.1f);
@@ -149,7 +131,7 @@ public class SpearEntity extends PersistentProjectileEntity {
         }
 
         if (burn()) {
-            if (pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+            if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
                 dropStack(this.asItemStack(), 0.1f);
             }
             playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
