@@ -6,10 +6,11 @@
     "compatibilityLevel": "JAVA_8",
     "mixins": [
       "EnchantmentMixin",
-      "EnchantmentHelperMixin",
+      "EnchantmentHelperMixin"
+    ],
+    "client": [
       "SpearItemRenderer"
     ],
-    "client": [],
     "server": [],
     "injectors": {
       "defaultRequire": 1,
