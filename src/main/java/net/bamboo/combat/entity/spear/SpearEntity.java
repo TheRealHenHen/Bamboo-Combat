@@ -130,26 +130,19 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         }
 
-        if (burn()) {
-            if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
-                dropStack(this.asItemStack(), 0.1f);
-            }
-            playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
-            discard();
-        }
-
-        super.tick();
-    }
-
-    private boolean burn() {
         if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE_BAMBOO_SPEAR) {
             if (fireTicks == burnTicks) {
+                if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                    dropStack(this.asItemStack(), 0.1f);
+                }
+                playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
                 fireTicks = 0;
-                return true;
+                discard();
             }
             fireTicks++;
         }
-        return false;
+
+        super.tick();
     }
 
     @Override
