@@ -40,8 +40,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
-    private Entity owner = this.getOwner();
-    private World world = owner.getWorld();
+    private World world = this.getWorld();
     private int entitiesDamaged = 0;
     private int fireTicks = 0;
     private int returnTimer;
@@ -102,6 +101,7 @@ public class SpearEntity extends PersistentProjectileEntity {
             this.dealtDamage = true;
         }
 
+        Entity owner = this.getOwner();
         byte loyalty = this.dataTracker.get(LOYALTY);
 
         if (loyalty > 0 && (this.dealtDamage || this.isNoClip()) && owner != null) {
@@ -237,7 +237,7 @@ public class SpearEntity extends PersistentProjectileEntity {
     @Override
     public void move(MovementType movementType, Vec3d movement) {
         super.move(movementType, movement);
-        if (movementType != MovementType.SELF && this.shouldFall()) {
+        if (movementType != MovementType.SELF && inGround && this.world.isSpaceEmpty(new Box(this.getPos(), this.getPos()).expand(0.06))) {
             inGround = false;
             Vec3d vec3d = this.getVelocity();
             this.setVelocity(vec3d.multiply(this.random.nextFloat() * 0.3f, this.random.nextFloat() * 0.3f, this.random.nextFloat() * 0.3f));
@@ -293,10 +293,6 @@ public class SpearEntity extends PersistentProjectileEntity {
             this.world.sendEntityStatus(this, (byte) 3);
         }
 
-    }
-
-    private boolean shouldFall() {
-        return inGround && this.world.isSpaceEmpty(new Box(this.getPos(), this.getPos()).expand(0.06));
     }
 
 }
