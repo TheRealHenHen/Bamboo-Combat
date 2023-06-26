@@ -1,5 +1,5 @@
 {
-    "type": "minecraft:smithing",
+    "type": "minecraft:smithing_transform",
     "base": {
         "item": "bamboocombat:diamond_bamboo_spear"
     },
@@ -8,5 +8,8 @@
     },
     "result": {
         "item": "bamboocombat:netherite_bamboo_spear"
+    },
+    "template": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
     }
 }

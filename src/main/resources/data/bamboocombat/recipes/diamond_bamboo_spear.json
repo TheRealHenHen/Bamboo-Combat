@@ -1,11 +1,13 @@
 {
-    "type": "minecraft:smithing",
-    "base": {
-        "item": "bamboocombat:bamboo_spear"
-    },
-    "addition": {
-        "item": "minecraft:diamond"
-    },
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "bamboocombat:bamboo_spear"
+        },
+        {
+            "item": "minecraft:diamond"
+        }
+    ],
     "result": {
         "item": "bamboocombat:diamond_bamboo_spear"
     }
