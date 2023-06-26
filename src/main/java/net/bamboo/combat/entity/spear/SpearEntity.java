@@ -38,18 +38,20 @@ import net.minecraft.world.World;
 
 public class SpearEntity extends PersistentProjectileEntity {
 
-    public static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
-    public static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    public static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
-    public static Identifier SPAWN_PACKET;
-    public ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
-    public int entitiesDamaged = 0;
-    public int fireTicks = 0;
-    public int returnTimer;
-    public int burnTicks;
+    private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
+    private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
+    private static Identifier SPAWN_PACKET;
+    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
+    private Entity owner = this.getOwner();
+    private World world = owner.getWorld();
+    private int entitiesDamaged = 0;
+    private int fireTicks = 0;
+    private int returnTimer;
+    private int burnTicks;
     public float throwDamage;
-    public float dragInWater;
-    public boolean dealtDamage = false;
+    private float dragInWater;
+    private boolean dealtDamage = false;
     @Nullable
     private IntOpenHashSet piercedEntities;
     @Nullable
