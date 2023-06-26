@@ -28,6 +28,7 @@ public class SpearItemRenderer {
 	private BakedModel scratch_guiModel(BakedModel defaultModel, ItemStack stack, ModelTransformationMode renderMode) {
 
 		if (renderMode == ModelTransformationMode.GUI || renderMode == ModelTransformationMode.FIXED || renderMode == ModelTransformationMode.GROUND) {
+
 			if (stack.isOf(BambooItems.BAMBOO_SPEAR))
 				return getTexture("bamboo_spear/gui");
 
@@ -48,7 +49,9 @@ public class SpearItemRenderer {
 
 			else if (stack.isOf(BambooItems.NETHERITE_BAMBOO_SPEAR))
 				return getTexture("netherite_bamboo_spear/gui");
+
 		}
+		
 		return defaultModel;
 	}
 }
