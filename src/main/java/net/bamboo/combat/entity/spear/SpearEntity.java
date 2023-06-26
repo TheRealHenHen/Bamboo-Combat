@@ -38,18 +38,20 @@ import net.minecraft.world.World;
 
 public class SpearEntity extends PersistentProjectileEntity {
 
-    public static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
-    public static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    public static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
-    public static Identifier SPAWN_PACKET;
-    public ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
-    public int entitiesDamaged = 0;
-    public int fireTicks = 0;
-    public int returnTimer;
-    public int burnTicks;
+    private static final TrackedData<Byte> LOYALTY = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BYTE);
+    private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
+    private static Identifier SPAWN_PACKET;
+    private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
+    private Entity owner = this.getOwner();
+    private World world = owner.getWorld();
+    private int entitiesDamaged = 0;
+    private int fireTicks = 0;
+    private int returnTimer;
+    private int burnTicks;
     public float throwDamage;
-    public float dragInWater;
-    public boolean dealtDamage = false;
+    private float dragInWater;
+    private boolean dealtDamage = false;
     @Nullable
     private IntOpenHashSet piercedEntities;
     @Nullable
@@ -104,13 +106,12 @@ public class SpearEntity extends PersistentProjectileEntity {
             this.dealtDamage = true;
         }
 
-        Entity owner = this.getOwner();
         byte loyalty = this.dataTracker.get(LOYALTY);
 
         if (loyalty > 0 && (this.dealtDamage || this.isNoClip()) && owner != null) {
             
             if (!this.isOwnerAlive()) {
-                if (!this.world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                if (!world.isClient && this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
                     this.dropStack(this.asItemStack(), 0.1f);
                 }
                 this.discard();
@@ -118,7 +119,7 @@ public class SpearEntity extends PersistentProjectileEntity {
                 this.setNoClip(true);
                 Vec3d vec3d = owner.getEyePos().subtract(this.getPos());
                 this.setPos(this.getX(), this.getY() + vec3d.y * 0.015 * (double) loyalty, this.getZ());
-                if (this.world.isClient) {
+                if (world.isClient) {
                     this.lastRenderY = this.getY();
                 }
                 this.setVelocity(this.getVelocity().multiply(0.95).add(vec3d.normalize().multiply(0.05 * (double) loyalty)));
@@ -130,26 +131,20 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         }
 
-        if (burn()) {
-            if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
-                dropStack(this.asItemStack(), 0.1f);
-            }
-            playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
-            discard();
-        }
-
-        super.tick();
-    }
-
-    private boolean burn() {
         if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE_BAMBOO_SPEAR) {
             if (fireTicks == burnTicks) {
+                if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
+                    dropStack(this.asItemStack(), 0.1f);
+                }
+                playSound(SoundEvents.ENTITY_GENERIC_BURN, 0.5F, 2);
                 fireTicks = 0;
-                return true;
+                discard();
             }
             fireTicks++;
         }
-        return false;
+
+
+        super.tick();
     }
 
     @Override
