@@ -5,7 +5,7 @@ import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.util.Identifier;
-import net.minecraft.registry.Registries;
+import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ public class BambooCombatClient implements ClientModInitializer {
 
 	private void register(SpearItem item, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
 
-		Identifier spearId = Registries.ITEM.getId(item);
+		Identifier spearId = Registry.ITEM.getId(item);
 
 		ModelLoadingRegistry.INSTANCE.registerModelProvider(
 			(manager, out) -> out.accept(new ModelIdentifier(BambooCombat.MODID, spearId.getPath() + "/" + "gui", "inventory")));

@@ -10,7 +10,7 @@ import net.bamboo.combat.item.BambooItems;
 import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
+import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.ItemStack;
 
@@ -25,9 +25,9 @@ public class SpearItemRenderer {
 	}
 
 	@ModifyVariable(at = @At("HEAD"), method = "renderItem", argsOnly = true)
-	private BakedModel scratch_guiModel(BakedModel defaultModel, ItemStack stack, ModelTransformationMode renderMode) {
+	private BakedModel scratch_guiModel(BakedModel defaultModel, ItemStack stack, Mode renderMode) {
 
-		if (renderMode == ModelTransformationMode.GUI || renderMode == ModelTransformationMode.FIXED || renderMode == ModelTransformationMode.GROUND) {
+		if (renderMode == Mode.GUI || renderMode == Mode.FIXED || renderMode == Mode.GROUND) {
 
 			if (stack.isOf(BambooItems.BAMBOO_SPEAR))
 				return getTexture("bamboo_spear/gui");

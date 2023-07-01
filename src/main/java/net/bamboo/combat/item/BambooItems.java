@@ -4,13 +4,10 @@ import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.entity.spear.SpearEntityTypes;
 import net.bamboo.combat.item.spear.SpearItem;
 import net.bamboo.combat.item.spear.SpearItemMaterial;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.util.registry.Registry;
 
 public class BambooItems {
 
@@ -23,9 +20,7 @@ public class BambooItems {
         public static SpearItem NETHERITE_BAMBOO_SPEAR;
 
         private static SpearItem register(SpearItem item, String id) {
-                SpearItem spear = Registry.register(Registries.ITEM, new Identifier(BambooCombat.MODID, id), item);
-                ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> entries.addBefore(Items.SHIELD, spear));
-                return spear;
+                return Registry.register(Registry.ITEM, new Identifier(BambooCombat.MODID, id), item);
         }
 
         public static void initialize() {

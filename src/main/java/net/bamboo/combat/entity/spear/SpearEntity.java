@@ -161,7 +161,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         Entity owner = getOwner();
         Entity target = entityHitResult.getEntity();
-        DamageSource damageSource = this.getDamageSources().trident(this, owner == null ? this : owner);
+        DamageSource damageSource = DamageSource.trident(this, owner == null ? this : owner);
         float damage = throwDamage;
 
         if (this.getPierceLevel() > 0) {
