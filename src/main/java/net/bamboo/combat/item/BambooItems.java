@@ -42,14 +42,14 @@ public class BambooItems {
                         (400, Ingredient.ofItems(Items.BAMBOO, Items.IRON_INGOT)),
                         7, 1.4F, 1.7F, 0.94F, 8, 2, 20, SpearEntityTypes.IRON_BAMBOO_SPEAR), "iron_bamboo_spear");
         
-                GOLDEN_BAMBOO_SPEAR = register(new SpearItem(new SpearItemMaterial
-                        (100, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
-                        7, 1.2F, 2.4F, 0.98F, 17, 3, 5, SpearEntityTypes.GOLDEN_BAMBOO_SPEAR), "golden_bamboo_spear");
-        
                 COPPER_BAMBOO_SPEAR = register(new SpearItem(new SpearItemMaterial
                         (350, Ingredient.ofItems(Items.BAMBOO, Items.COPPER_INGOT)),
                         8, 1.1F, 2.0F, 0.95F, 11, 2, 15, SpearEntityTypes.COPPER_BAMBOO_SPEAR), "copper_bamboo_spear");
         
+                GOLDEN_BAMBOO_SPEAR = register(new SpearItem(new SpearItemMaterial
+                        (100, Ingredient.ofItems(Items.BAMBOO, Items.GOLD_INGOT)),
+                        7, 1.2F, 2.4F, 0.98F, 17, 3, 5, SpearEntityTypes.GOLDEN_BAMBOO_SPEAR), "golden_bamboo_spear");
+                        
                 DIAMOND_BAMBOO_SPEAR = register(new SpearItem(new SpearItemMaterial
                         (1000, Ingredient.ofItems(Items.BAMBOO, Items.DIAMOND)),
                         8, 1.3F, 2.1F, 0.96F, 11, 4, 40, SpearEntityTypes.DIAMOND_BAMBOO_SPEAR), "diamond_bamboo_spear");
