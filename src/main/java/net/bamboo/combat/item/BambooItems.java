@@ -55,7 +55,7 @@ public class BambooItems {
                         8, 1.3F, 2.1F, 0.96F, 11, 4, 40, SpearEntityTypes.DIAMOND_BAMBOO_SPEAR), "diamond_bamboo_spear");
                     
                 NETHERITE_BAMBOO_SPEAR = register(new SpearItem(new SpearItemMaterial
-                            (1500, Ingredient.ofItems(Items.NETHERITE_INGOT)),
+                        (1500, Ingredient.ofItems(Items.NETHERITE_INGOT)),
                         9, 1.1F, 2.7F, 1.0F, 13, 5, -1, SpearEntityTypes.NETHERITE_BAMBOO_SPEAR), "netherite_bamboo_spear");
 
         }
