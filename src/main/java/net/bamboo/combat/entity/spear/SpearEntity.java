@@ -127,7 +127,7 @@ public class SpearEntity extends PersistentProjectileEntity {
 
         }
 
-        if (!world.isClient && isOnFire() && entityType != SpearEntityTypes.NETHERITE_BAMBOO_SPEAR) {
+        if (!world.isClient && isOnFire() && burnTicks > -1) {
             if (fireTicks == burnTicks) {
                 if (this.pickupType == PersistentProjectileEntity.PickupPermission.ALLOWED) {
                     dropStack(this.asItemStack(), 0.1f);
