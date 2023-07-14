@@ -2,16 +2,17 @@ package net.bamboo.combat.config;
 
 public class Config {
 
-    public BambooSpearProperties bambooSpear = new BambooSpearProperties();
-    public BambooSpearProperties stoneBambooSpear = new BambooSpearProperties();
-    public BambooSpearProperties ironBambooSpear = new BambooSpearProperties();
-    public BambooSpearProperties copperBambooSpear = new BambooSpearProperties();
-    public BambooSpearProperties goldenBambooSpear = new BambooSpearProperties();
-    public BambooSpearProperties diamondBambooSpear = new BambooSpearProperties();
-    public BambooSpearProperties netheriteBambooSpear = new BambooSpearProperties();
+    public SpearProperties bambooSpear = new SpearProperties();
+    public SpearProperties stoneBambooSpear = new SpearProperties();
+    public SpearProperties ironBambooSpear = new SpearProperties();
+    public SpearProperties copperBambooSpear = new SpearProperties();
+    public SpearProperties goldenBambooSpear = new SpearProperties();
+    public SpearProperties diamondBambooSpear = new SpearProperties();
+    public SpearProperties netheriteBambooSpear = new SpearProperties();
     
     public Config() {
         bambooSpear.canCriticalThrow = true;
+        bambooSpear.canPierce = true;
         bambooSpear.durability = 100;
         bambooSpear.attackDamage = 5;
         bambooSpear.attackSpeed = 1.6F;
@@ -24,6 +25,7 @@ public class Config {
         bambooSpear.throwDamageDecreaseAfterPierce = 1;
         
         stoneBambooSpear.canCriticalThrow = true;
+        stoneBambooSpear.canPierce = true;
         stoneBambooSpear.durability = 200;
         stoneBambooSpear.attackDamage = 6;
         stoneBambooSpear.attackSpeed = 1.4F;
@@ -36,6 +38,7 @@ public class Config {
         stoneBambooSpear.throwDamageDecreaseAfterPierce = 1;
 
         ironBambooSpear.canCriticalThrow = true;
+        ironBambooSpear.canPierce = true;
         ironBambooSpear.durability = 400;
         ironBambooSpear.attackDamage = 8;
         ironBambooSpear.attackSpeed = 1.1F;
@@ -48,6 +51,7 @@ public class Config {
         ironBambooSpear.throwDamageDecreaseAfterPierce = 1;
 
         copperBambooSpear.canCriticalThrow = true;
+        copperBambooSpear.canPierce = true;
         copperBambooSpear.durability = 350;
         copperBambooSpear.attackDamage = 7;
         copperBambooSpear.attackSpeed = 1.4F;
@@ -60,6 +64,7 @@ public class Config {
         copperBambooSpear.throwDamageDecreaseAfterPierce = 1;
 
         goldenBambooSpear.canCriticalThrow = true;
+        goldenBambooSpear.canPierce = true;
         goldenBambooSpear.durability = 100;
         goldenBambooSpear.attackDamage = 7;
         goldenBambooSpear.attackSpeed = 1.2F;
@@ -72,6 +77,7 @@ public class Config {
         goldenBambooSpear.throwDamageDecreaseAfterPierce = 1;
 
         diamondBambooSpear.canCriticalThrow = true;
+        diamondBambooSpear.canPierce = true;
         diamondBambooSpear.durability = 1000;
         diamondBambooSpear.attackDamage = 8;
         diamondBambooSpear.attackSpeed = 1.3F;
@@ -84,6 +90,7 @@ public class Config {
         diamondBambooSpear.throwDamageDecreaseAfterPierce = 1;
 
         netheriteBambooSpear.canCriticalThrow = true;
+        netheriteBambooSpear.canPierce = true;
         netheriteBambooSpear.durability = 1500;
         netheriteBambooSpear.attackDamage = 9;
         netheriteBambooSpear.attackSpeed = 1.1F;
@@ -94,20 +101,6 @@ public class Config {
         netheriteBambooSpear.burnTicks = -1;
         netheriteBambooSpear.durabilityDecreaseAfterThrown = 2;
         netheriteBambooSpear.throwDamageDecreaseAfterPierce = 1;
-    }
-
-    public class BambooSpearProperties {
-        public boolean canCriticalThrow;
-        public int durability;
-        public int attackDamage;
-        public float attackSpeed;
-        public float throwDistance;
-        public float dragInWater;
-        public int throwDelay;
-        public int pierceLevel;
-        public int burnTicks;
-        public int durabilityDecreaseAfterThrown;
-        public int throwDamageDecreaseAfterPierce;
     }
     
 }
