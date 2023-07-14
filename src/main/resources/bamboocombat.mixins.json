@@ -5,8 +5,8 @@
     "package": "net.bamboo.combat.mixin",
     "compatibilityLevel": "JAVA_8",
     "mixins": [
-      "EnchantmentMixin",
-      "EnchantmentHelperMixin"
+      "EnchantmentHelperMixin",
+      "EnchantmentMixin"
     ],
     "client": [
       "SpearItemRenderer"
