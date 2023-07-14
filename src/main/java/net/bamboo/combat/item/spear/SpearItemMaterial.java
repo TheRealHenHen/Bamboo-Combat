@@ -3,12 +3,12 @@ package net.bamboo.combat.item.spear; //By TheRealHenHen
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
-public class SpearItemMaterial implements ToolMaterial{
+public class SpearItemMaterial implements ToolMaterial {
 
     private int durability;
     private Ingredient repairIngredient;
 
-    public SpearItemMaterial(int durability, Ingredient repairIngredient) {
+    public SpearItemMaterial(Ingredient repairIngredient, int durability) {
         this.durability = durability;
         this.repairIngredient = repairIngredient;
     }

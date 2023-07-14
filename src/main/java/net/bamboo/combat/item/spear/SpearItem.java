@@ -5,9 +5,11 @@ import java.util.Random;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
+import net.bamboo.combat.config.SpearProperties;
 import net.bamboo.combat.entity.spear.SpearEntity;
-import net.bamboo.combat.entity.spear.SpearEntityTypes;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -17,7 +19,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -36,37 +37,40 @@ extends ToolItem
 implements Vanishable {
 
     Random random = new Random();
-    public Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
-    public EntityType<SpearEntity> entityType;
-    public float throwDistance;
-    public float attackDamage;
-    public float dragInWater;
-    public int pierceLevel;
-    public int throwDelay;
-    public int burnTicks;
+    private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+    private EntityType<SpearEntity> entityType;
+    private boolean canCriticalThrow;
+    private boolean canPierce;
+    private float throwDistance;
+    private float attackDamage;
+    private float dragInWater;
+    private int throwDelay;
+    private int pierceLevel;
+    private int burnTicks;
+    private int durabilityDecreaseAfterThrown;
+    private int throwDamageDecreaseAfterPierce;
 
-    public SpearItem(ToolMaterial toolMaterial, float attackDamage, float attackSpeed, float throwDistance, float dragInWater, int throwDelay, int pierceLevel, int burnTicks, EntityType<SpearEntity> entityType) {
-        super(toolMaterial, new Item.Settings().group(ItemGroup.COMBAT));
+    public SpearItem(ToolMaterial toolMaterial, SpearProperties properties,  EntityType<SpearEntity> entityType, Item.Settings settings) {
+        super(toolMaterial, settings);
 
         ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", attackDamage - 1, EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", attackSpeed - 4, EntityAttributeModifier.Operation.ADDITION));
+        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", properties.attackDamage - 1, EntityAttributeModifier.Operation.ADDITION));
+        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", properties.attackSpeed - 4, EntityAttributeModifier.Operation.ADDITION));
 
         attributeModifiers = builder.build();
-        this.burnTicks = burnTicks;
-        this.throwDelay = throwDelay;
+        this.canCriticalThrow = properties.canCriticalThrow;
+        this.canPierce = properties.canPierce;
+        this.attackDamage = properties.attackDamage - 1;
+        this.burnTicks = properties.burnTicks;
+        this.throwDistance = setLimit(properties.throwDistance, 100);
+        this.dragInWater = setLimit(properties.dragInWater, 100); 
+        this.throwDelay = properties.throwDelay;
+        this.pierceLevel = setLimit(properties.pierceLevel, 100);
+        this.durabilityDecreaseAfterThrown = properties.durabilityDecreaseAfterThrown;
+        this.throwDamageDecreaseAfterPierce = properties.throwDamageDecreaseAfterPierce;
         this.entityType = entityType;
-        this.dragInWater = dragInWater; 
-        this.pierceLevel = pierceLevel;
-        this.attackDamage = attackDamage - 1;
-        this.throwDistance = throwDistance;
-    }
-
-    @Override
-	public boolean isFireproof() {
-        return entityType == SpearEntityTypes.NETHERITE_BAMBOO_SPEAR ? true : false;
-    }
-
+    } 
+    
     @Override
     public boolean canMine(BlockState pe, World world, BlockPos pos, PlayerEntity miner) {
         return !miner.isCreative();
@@ -109,7 +113,7 @@ implements Vanishable {
 		
 		ItemStack itemStack = user.getStackInHand(hand);
         
-        if (itemStack.getDamage() >= itemStack.getMaxDamage() - 2) {
+        if ((itemStack.getDamage() >= itemStack.getMaxDamage() - durabilityDecreaseAfterThrown) && itemStack.getMaxDamage() > 0) {
             return TypedActionResult.fail(itemStack);
         }
 
@@ -119,46 +123,47 @@ implements Vanishable {
 
     @Override
     public void onStoppedUsing(ItemStack itemStack, World world, LivingEntity livingEntity, int remainingUseTicks) {
-
-        PlayerEntity user = (PlayerEntity)livingEntity;
-        itemStack.damage(2, user, e -> e.sendToolBreakStatus(user.getActiveHand()));
          
-        if (!(user instanceof PlayerEntity)) {
+        if (!(livingEntity instanceof PlayerEntity)) {
             return;
         }
-        
+
+        PlayerEntity user = (PlayerEntity)livingEntity;
         int i = getMaxUseTime(itemStack) - remainingUseTicks;
         if (i < throwDelay) {
             return;
         }
 
         if (!world.isClient) {          
+
+            itemStack.damage(durabilityDecreaseAfterThrown, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
+            int piercingEnchantmentLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, itemStack);
+            SpearEntity spearEntity = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, throwDamageDecreaseAfterPierce, itemStack, entityType);
+            spearEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
+            spearEntity.setCritical(this.isCritical(user));
             
-            SpearEntity spear = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, itemStack, entityType);
-            itemStack.damage(2, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-
-            spear.setCritical(isCritical(user));
-
-            if (isCritical(user)) {
-                spear.throwDamage += attackDamage * random.nextFloat(0.3F);
-                spear.setPierceLevel((byte) pierceLevel);
-            } else {
-                spear.setPierceLevel((byte) 0);
+            if (this.canPierce) {
+                spearEntity.setPierceLevel((byte) piercingEnchantmentLevel);
             }
             
-            spear.setOwner(user);
-            spear.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
-            world.spawnEntity(spear);
-            world.playSound(null, user.getX(), user.getY(), user.getZ(), SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 0.5F, 1F);
+            if (this.isCritical(user)) {
+                spearEntity.throwDamage += attackDamage * random.nextFloat(0.3F);
+
+                if (this.canPierce) {
+                    spearEntity.setPierceLevel((byte) (pierceLevel + spearEntity.getPierceLevel()));
+                }
+            }
+            
+            world.spawnEntity(spearEntity);
+            world.playSoundFromEntity(null, spearEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 0.5F, 1F);
 
             if (user.getAbilities().creativeMode) {
-                spear.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+                spearEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
             } else {
                 user.getInventory().removeOne(itemStack);
             }
 
         }
-
         user.incrementStat(Stats.USED.getOrCreateStat(this));
 
     }
@@ -168,10 +173,14 @@ implements Vanishable {
     }
 
     private boolean isCritical(PlayerEntity user) {
-        if ((user.isSprinting() && !user.isOnGround()) || (user.hasVehicle() && !user.getRootVehicle().isOnGround())) {
-            return true;
-        }
-        return false;
+        return ((user.isSprinting() && !user.isOnGround()) || (user.hasVehicle() && !user.getRootVehicle().isOnGround())) && canCriticalThrow;
     }
 
+    private int setLimit(int value, int limit) {
+        return value > limit ? limit : value;
+    }
+
+    private float setLimit(float value, float limit) {
+        return value > limit ? limit : value;
+    }
 }

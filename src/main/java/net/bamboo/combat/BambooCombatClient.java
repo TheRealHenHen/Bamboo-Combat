@@ -27,7 +27,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 @Environment(EnvType.CLIENT)
 public class BambooCombatClient implements ClientModInitializer {
 
-	private void register(SpearItem item, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
+	private void registerSpearEntity(SpearItem item, EntityModelLayer modelLayer, TexturedModelDataProvider provider) {
 
 		Identifier spearId = Registry.ITEM.getId(item);
 
@@ -65,13 +65,13 @@ public class BambooCombatClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 
-		register(BambooItems.BAMBOO_SPEAR, SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::BambooSpear);
-		register(BambooItems.STONE_BAMBOO_SPEAR, SpearEntityModelLayers.STONE_BAMBOO_SPEAR, SpearEntityModel::StoneBambooSpear);
-		register(BambooItems.COPPER_BAMBOO_SPEAR, SpearEntityModelLayers.COPPER_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
-		register(BambooItems.IRON_BAMBOO_SPEAR, SpearEntityModelLayers.IRON_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
-		register(BambooItems.GOLDEN_BAMBOO_SPEAR, SpearEntityModelLayers.GOLDEN_BAMBOO_SPEAR, SpearEntityModel::IronBambooSpear);
-		register(BambooItems.DIAMOND_BAMBOO_SPEAR, SpearEntityModelLayers.DIAMOND_BAMBOO_SPEAR, SpearEntityModel::DiamondBambooSpear);
-		register(BambooItems.NETHERITE_BAMBOO_SPEAR, SpearEntityModelLayers.NETHERITE_BAMBOO_SPEAR, SpearEntityModel::NetheriteBambooSpear);
+		registerSpearEntity(BambooItems.BAMBOO_SPEAR, SpearEntityModelLayers.BAMBOO_SPEAR, SpearEntityModel::bambooSpear);
+		registerSpearEntity(BambooItems.STONE_BAMBOO_SPEAR, SpearEntityModelLayers.STONE_BAMBOO_SPEAR, SpearEntityModel::stoneBambooSpear);
+		registerSpearEntity(BambooItems.IRON_BAMBOO_SPEAR, SpearEntityModelLayers.IRON_BAMBOO_SPEAR, SpearEntityModel::ironBambooSpear);
+		registerSpearEntity(BambooItems.COPPER_BAMBOO_SPEAR, SpearEntityModelLayers.COPPER_BAMBOO_SPEAR, SpearEntityModel::ironBambooSpear);
+		registerSpearEntity(BambooItems.GOLDEN_BAMBOO_SPEAR, SpearEntityModelLayers.GOLDEN_BAMBOO_SPEAR, SpearEntityModel::ironBambooSpear);
+		registerSpearEntity(BambooItems.DIAMOND_BAMBOO_SPEAR, SpearEntityModelLayers.DIAMOND_BAMBOO_SPEAR, SpearEntityModel::diamondBambooSpear);
+		registerSpearEntity(BambooItems.NETHERITE_BAMBOO_SPEAR, SpearEntityModelLayers.NETHERITE_BAMBOO_SPEAR, SpearEntityModel::netheriteBambooSpear);
 
 	}
 
