@@ -12,6 +12,7 @@ import net.minecraft.enchantment.DamageEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.enchantment.LoyaltyEnchantment;
+import net.minecraft.enchantment.PiercingEnchantment;
 import net.minecraft.item.ItemStack;
 
 @Mixin(Enchantment.class)
@@ -24,12 +25,7 @@ public class EnchantmentMixin {
 
         Enchantment enchantment = (Enchantment) (Object) this;
 
-        if (enchantment instanceof DamageEnchantment) {
-            if (!(stack.getItem() instanceof SpearItem)) {
-                return;
-            }
-            callback.setReturnValue(true);
-        } else if (enchantment instanceof LoyaltyEnchantment) {
+        if (enchantment instanceof DamageEnchantment || enchantment instanceof LoyaltyEnchantment || enchantment instanceof PiercingEnchantment) {
             if (!(stack.getItem() instanceof SpearItem)) {
                 return;
             }
