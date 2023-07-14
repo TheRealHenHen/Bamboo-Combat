@@ -35,11 +35,11 @@ public class SpearItemRenderer {
 			else if (stack.isOf(BambooItems.STONE_BAMBOO_SPEAR))
 				return getTexture("stone_bamboo_spear/gui");
 
-			else if (stack.isOf(BambooItems.COPPER_BAMBOO_SPEAR))
-				return getTexture("copper_bamboo_spear/gui");
-
 			else if (stack.isOf(BambooItems.IRON_BAMBOO_SPEAR))
 				return getTexture("iron_bamboo_spear/gui");
+
+			else if (stack.isOf(BambooItems.COPPER_BAMBOO_SPEAR))
+				return getTexture("copper_bamboo_spear/gui");
 
 			else if (stack.isOf(BambooItems.GOLDEN_BAMBOO_SPEAR))
 				return getTexture("golden_bamboo_spear/gui");
