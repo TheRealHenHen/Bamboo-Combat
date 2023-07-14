@@ -23,7 +23,7 @@ public class SpearEntityModel extends Model {
         this.root = root;
     }
 
-    public static TexturedModelData BambooSpear() {
+    public static TexturedModelData bambooSpear() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
@@ -33,7 +33,7 @@ public class SpearEntityModel extends Model {
         return TexturedModelData.of(modelData, 32, 32);
     }
 
-    public static TexturedModelData StoneBambooSpear() {
+    public static TexturedModelData stoneBambooSpear() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
@@ -43,7 +43,7 @@ public class SpearEntityModel extends Model {
         return TexturedModelData.of(modelData, 32, 32);
     }
 
-    public static TexturedModelData IronBambooSpear() {
+    public static TexturedModelData ironBambooSpear() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
@@ -55,7 +55,7 @@ public class SpearEntityModel extends Model {
         return TexturedModelData.of(modelData, 32, 32);
     }
 
-    public static TexturedModelData DiamondBambooSpear() {
+    public static TexturedModelData diamondBambooSpear() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
@@ -69,7 +69,7 @@ public class SpearEntityModel extends Model {
         return TexturedModelData.of(modelData, 32, 32);
     }
 
-    public static TexturedModelData NetheriteBambooSpear() {
+    public static TexturedModelData netheriteBambooSpear() {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         ModelPartData modelPartData2 =
