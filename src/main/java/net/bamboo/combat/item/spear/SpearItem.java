@@ -139,7 +139,7 @@ implements Vanishable {
             itemStack.damage(durabilityDecreaseAfterThrown, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
             int piercingEnchantmentLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, itemStack);
             SpearEntity spearEntity = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, throwDamageDecreaseAfterPierce, itemStack, entityType);
-            spearEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
+            spearEntity.setProperties(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             spearEntity.setCritical(this.isCritical(user));
             
             if (this.canPierce) {
@@ -147,7 +147,7 @@ implements Vanishable {
             }
             
             if (this.isCritical(user)) {
-                spearEntity.throwDamage += attackDamage * random.nextFloat(0.3F);
+                spearEntity.throwDamage += (attackDamage * random.nextFloat()) + 0.3F;
 
                 if (this.canPierce) {
                     spearEntity.setPierceLevel((byte) (pierceLevel + spearEntity.getPierceLevel()));

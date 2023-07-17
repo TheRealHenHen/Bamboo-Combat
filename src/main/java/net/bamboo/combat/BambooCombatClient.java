@@ -1,7 +1,6 @@
 package net.bamboo.combat; //By TheRealHenHen
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.util.Identifier;
@@ -21,6 +20,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
@@ -38,7 +38,7 @@ public class BambooCombatClient implements ClientModInitializer {
 		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context,
 			new Identifier(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
 
-		ModelPredicateProviderRegistry.register(item, new Identifier("throwing"),
+		FabricModelPredicateProviderRegistry.register(item, new Identifier("throwing"),
 			(stack, clientWorld, livingEntity, seed) -> {
 				if (livingEntity == null) {
 					return 0.0F;

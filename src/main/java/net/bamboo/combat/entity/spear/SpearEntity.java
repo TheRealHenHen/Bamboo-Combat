@@ -38,7 +38,6 @@ public class SpearEntity extends PersistentProjectileEntity {
     private static final TrackedData<Boolean> ENCHANTED = DataTracker.registerData(SpearEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     private static EntityType<SpearEntity> entityType = SpearEntityTypes.BAMBOO_SPEAR;
     private ItemStack defaultItem = new ItemStack(BambooItems.BAMBOO_SPEAR);
-    private World world = this.getWorld();
     public float throwDamage;
     private float dragInWater;
     private int burnTicks;
