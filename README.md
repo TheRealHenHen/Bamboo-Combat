@@ -22,11 +22,12 @@ Adds Bamboo related Combat Items!
     - Pierces through the target
     - Deals more damage
     - Has higher range
-  - Enchantable by:
+  - Enchantable with:
     - Sharpness
     - Smite
     - Bane of Arthropods
     - Loyalty
+    - Piercing
 
 ## Planned Features
 
