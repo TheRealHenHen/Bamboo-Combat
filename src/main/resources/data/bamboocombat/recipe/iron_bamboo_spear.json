@@ -1,14 +1,16 @@
 {
     "type": "minecraft:crafting_shapeless",
+    "category": "equipment",
     "ingredients": [
         {
             "item": "bamboocombat:bamboo_spear"
         },
         {
-            "item": "minecraft:gold_ingot"
+            "item": "minecraft:iron_ingot"
         }
     ],
     "result": {
-        "item": "bamboocombat:golden_bamboo_spear"
+        "id": "bamboocombat:iron_bamboo_spear",
+        "count": 1
     }
 }

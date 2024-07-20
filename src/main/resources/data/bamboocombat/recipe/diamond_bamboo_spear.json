@@ -1,15 +1,16 @@
 {
     "type": "minecraft:crafting_shapeless",
-    "group": "stone_bamboo_spear",
+    "category": "equipment",
     "ingredients": [
         {
             "item": "bamboocombat:bamboo_spear"
         },
         {
-            "tag": "minecraft:stone_tool_materials"
+            "item": "minecraft:diamond"
         }
     ],
     "result": {
-        "item": "bamboocombat:stone_bamboo_spear"
+        "id": "bamboocombat:diamond_bamboo_spear",
+        "count": 1
     }
 }

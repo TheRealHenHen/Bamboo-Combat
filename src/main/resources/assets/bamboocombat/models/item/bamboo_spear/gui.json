@@ -1,6 +1,6 @@
 {
 	"author": "TheRealHenHen",
-  "parent": "item/generated",
+  "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "bamboocombat:item/bamboo_spear"
   }
