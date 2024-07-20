@@ -32,7 +32,7 @@ public class SpearEntityModelLayers {
     }
 
     private static EntityModelLayer create(String id, String layer) {
-        return new EntityModelLayer(new Identifier(id, id), layer);
+        return new EntityModelLayer(Identifier.of(id, id), layer);
     }
     
 }
