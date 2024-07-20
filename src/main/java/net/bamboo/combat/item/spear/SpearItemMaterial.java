@@ -1,16 +1,20 @@
 package net.bamboo.combat.item.spear; //By TheRealHenHen
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.tag.TagKey;
 
 public class SpearItemMaterial implements ToolMaterial {
 
     private int durability;
     private Ingredient repairIngredient;
+    private TagKey<Block> inverseTag;
 
-    public SpearItemMaterial(Ingredient repairIngredient, int durability) {
+    public SpearItemMaterial(Ingredient repairIngredient, int durability, TagKey<Block> inverseTag) {
         this.durability = durability;
         this.repairIngredient = repairIngredient;
+        this.inverseTag = inverseTag;
     }
 
     @Override
@@ -29,11 +33,6 @@ public class SpearItemMaterial implements ToolMaterial {
     }
 
     @Override
-    public int getMiningLevel() {
-        return 1;
-    }
-
-    @Override
     public float getMiningSpeedMultiplier() {
         return 1;
     }
@@ -41,6 +40,11 @@ public class SpearItemMaterial implements ToolMaterial {
     @Override
     public Ingredient getRepairIngredient() {
         return repairIngredient;
+    }
+
+    @Override
+    public TagKey<Block> getInverseTag() {
+        return this.inverseTag;
     }
     
 }
