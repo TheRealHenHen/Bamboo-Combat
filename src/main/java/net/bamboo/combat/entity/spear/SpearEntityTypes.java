@@ -1,8 +1,6 @@
 package net.bamboo.combat.entity.spear; //By TheRealHenHen
 
 import net.bamboo.combat.BambooCombat;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
@@ -14,11 +12,13 @@ public class SpearEntityTypes {
     private static EntityType<SpearEntity> registerEntity(String id) {
         return Registry.register(
                 Registries.ENTITY_TYPE,
-                new Identifier(BambooCombat.MODID, id),
-                FabricEntityTypeBuilder.<SpearEntity>create(SpawnGroup.MISC, SpearEntity::new)
-                        .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
-                        .trackRangeBlocks(4).trackedUpdateRate(10)
-                        .build());
+                Identifier.of(BambooCombat.MODID, id),
+                EntityType.Builder.<SpearEntity>create(SpearEntity::new, SpawnGroup.MISC)
+                .dimensions(0.5F, 0.5F)
+                .eyeHeight(0.13F)
+                .maxTrackingRange(4)
+                .trackingTickInterval(20)
+                .build());
     }
 
     public static final EntityType<SpearEntity> BAMBOO_SPEAR = registerEntity("bamboo_spear");

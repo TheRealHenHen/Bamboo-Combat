@@ -1,27 +1,30 @@
 package net.bamboo.combat; //By TheRealHenHen
 
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registries;
 
 import java.util.UUID;
 
-import net.bamboo.combat.entity.spear.SpearEntity;
 import net.bamboo.combat.entity.spear.SpearEntityModel;
 import net.bamboo.combat.entity.spear.SpearEntityModelLayers;
+import net.bamboo.combat.entity.spear.SpearEntityPacket;
 import net.bamboo.combat.entity.spear.SpearEntityRenderer;
 import net.bamboo.combat.item.BambooItems;
 import net.bamboo.combat.item.spear.SpearItem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry.TexturedModelDataProvider;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 @Environment(EnvType.CLIENT)
@@ -31,14 +34,15 @@ public class BambooCombatClient implements ClientModInitializer {
 
 		Identifier spearId = Registries.ITEM.getId(item);
 
-		ModelLoadingRegistry.INSTANCE.registerModelProvider(
-			(manager, out) -> out.accept(new ModelIdentifier(BambooCombat.MODID, spearId.getPath() + "/" + "gui", "inventory")));
+		ModelLoadingPlugin.register((context) -> {
+            context.addModels(Identifier.of(BambooCombat.MODID, "item/" + spearId.getPath() + "/" + "gui"));
+		});
 
 		EntityModelLayerRegistry.registerModelLayer(modelLayer, provider);
 		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context,
-			new Identifier(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
+			Identifier.of(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
 
-		ModelPredicateProviderRegistry.register(item, new Identifier("throwing"),
+		ModelPredicateProviderRegistry.register(item, Identifier.ofVanilla("throwing"),
 			(stack, clientWorld, livingEntity, seed) -> {
 				if (livingEntity == null) {
 					return 0.0F;
@@ -46,19 +50,25 @@ public class BambooCombatClient implements ClientModInitializer {
 				return livingEntity.isUsingItem() && livingEntity.getActiveItem() == stack ? 1.0F : 0.0F;
 			});
 
-		ClientPlayNetworking.registerGlobalReceiver(new Identifier(BambooCombat.MODID, spearId.getPath()),
-				(client, player, packet, sender) -> {
 
-					double x = packet.readDouble();
-					double y = packet.readDouble();
-					double z = packet.readDouble();
-
-					int entityID = packet.readInt();
-					UUID entityUUID = packet.readUuid();
-					MinecraftClient mc = MinecraftClient.getInstance();
-
-					mc.world.addEntity(entityID, new SpearEntity(mc.world, x, y, z, entityID, entityUUID));
-				});
+        ClientPlayNetworking.registerGlobalReceiver(SpearEntityPacket.PACKET_ID, (payload, context) -> {
+			double x = payload.x();
+            double y = payload.y();
+            double z = payload.z();
+            int entityId = payload.entityId();
+            UUID entityUuid = payload.entityUuid();
+			
+			ClientWorld world = MinecraftClient.getInstance().world;
+                if (world != null) {
+                    Entity entity = EntityType.ZOMBIE.create(world); // Change EntityType to your entity
+                    if (entity != null) {
+                        entity.updatePosition(x, y, z);
+                        entity.setId(entityId);
+                        entity.setUuid(entityUuid);
+                        world.addEntity(entity);
+                    }
+                }
+        });
 
 	}
 
@@ -72,7 +82,7 @@ public class BambooCombatClient implements ClientModInitializer {
 		registerSpearEntity(BambooItems.GOLDEN_BAMBOO_SPEAR, SpearEntityModelLayers.GOLDEN_BAMBOO_SPEAR, SpearEntityModel::ironBambooSpear);
 		registerSpearEntity(BambooItems.DIAMOND_BAMBOO_SPEAR, SpearEntityModelLayers.DIAMOND_BAMBOO_SPEAR, SpearEntityModel::diamondBambooSpear);
 		registerSpearEntity(BambooItems.NETHERITE_BAMBOO_SPEAR, SpearEntityModelLayers.NETHERITE_BAMBOO_SPEAR, SpearEntityModel::netheriteBambooSpear);
-
+		
 	}
 
 }
