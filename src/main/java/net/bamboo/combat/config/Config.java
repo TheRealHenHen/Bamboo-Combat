@@ -1,4 +1,4 @@
-package net.bamboo.combat.config;
+package net.bamboo.combat.config; //By TheRealHenHen
 
 public class Config {
 

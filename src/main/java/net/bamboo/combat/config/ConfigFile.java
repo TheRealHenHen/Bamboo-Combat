@@ -1,4 +1,4 @@
-package net.bamboo.combat.config;
+package net.bamboo.combat.config; //By TheRealHenHen
 
 import java.io.File;
 import java.io.FileNotFoundException;
