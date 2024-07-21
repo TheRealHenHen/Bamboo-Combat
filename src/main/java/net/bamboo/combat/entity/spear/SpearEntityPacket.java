@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.bamboo.combat.BambooCombat;
 import net.bamboo.combat.item.BambooItems;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
@@ -32,6 +33,10 @@ public record SpearEntityPacket(double x, double y, double z, int entityId, UUID
 
     public static SpearEntityPacket decode(RegistryByteBuf buf) {
         return new SpearEntityPacket(buf.readDouble(), buf.readDouble(), buf.readDouble(), buf.readInt(), buf.readUuid());
+    }
+
+    public static void initializePacket() {
+        PayloadTypeRegistry.playS2C().register(SpearEntityPacket.PACKET_ID, SpearEntityPacket.PACKET_CODEC);
     }
 
 }
