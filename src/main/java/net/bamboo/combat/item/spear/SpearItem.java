@@ -1,43 +1,50 @@
 package net.bamboo.combat.item.spear; //By TheRealHenHen
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 
 import net.bamboo.combat.config.SpearProperties;
 import net.bamboo.combat.entity.spear.SpearEntity;
+import net.fabricmc.fabric.api.item.v1.EnchantingContext;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.EnchantmentEffectComponentTypes;
+import net.minecraft.component.type.AttributeModifierSlot;
+import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ProjectileItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.item.Vanishable;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Position;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SpearItem
-extends ToolItem
-implements Vanishable {
+public class SpearItem extends ToolItem implements ProjectileItem {
 
     Random random = new Random();
-    private Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
     private EntityType<SpearEntity> entityType;
     private boolean canCriticalThrow;
     private boolean canPierce;
@@ -51,13 +58,8 @@ implements Vanishable {
     private int throwDamageDecreaseAfterPierce;
 
     public SpearItem(ToolMaterial toolMaterial, SpearProperties properties,  EntityType<SpearEntity> entityType, Item.Settings settings) {
-        super(toolMaterial, settings);
-
-        ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Weapon modifier", properties.attackDamage - 1, EntityAttributeModifier.Operation.ADDITION));
-        builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Weapon modifier", properties.attackSpeed - 4, EntityAttributeModifier.Operation.ADDITION));
-
-        attributeModifiers = builder.build();
+        super(toolMaterial, settings.attributeModifiers(createAttributeModifiers(properties.attackDamage, properties.attackSpeed)));
+        
         this.canCriticalThrow = properties.canCriticalThrow;
         this.canPierce = properties.canPierce;
         this.attackDamage = properties.attackDamage - 1;
@@ -70,6 +72,41 @@ implements Vanishable {
         this.throwDamageDecreaseAfterPierce = properties.throwDamageDecreaseAfterPierce;
         this.entityType = entityType;
     } 
+
+    public static AttributeModifiersComponent createAttributeModifiers(float attackDamage, float attackSpeed) {
+		return AttributeModifiersComponent.builder()
+			.add(
+				EntityAttributes.GENERIC_ATTACK_DAMAGE,
+				new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, attackDamage - 1, EntityAttributeModifier.Operation.ADD_VALUE),
+				AttributeModifierSlot.MAINHAND
+			)
+			.add(
+				EntityAttributes.GENERIC_ATTACK_SPEED,
+				new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, attackSpeed - 4, EntityAttributeModifier.Operation.ADD_VALUE),
+				AttributeModifierSlot.MAINHAND
+			)
+			.build();
+	}
+    
+    @Override
+    public boolean canBeEnchantedWith(ItemStack stack, RegistryEntry<Enchantment> enchantment, EnchantingContext context) {
+        
+        List<RegistryKey<Enchantment>> enchantmentKeys = new ArrayList<>();
+        enchantmentKeys.add(Enchantments.UNBREAKING);
+        enchantmentKeys.add(Enchantments.MENDING);
+        enchantmentKeys.add(Enchantments.LOYALTY);
+        enchantmentKeys.add(Enchantments.SHARPNESS);
+        enchantmentKeys.add(Enchantments.SMITE);
+        enchantmentKeys.add(Enchantments.BANE_OF_ARTHROPODS);
+        enchantmentKeys.add(Enchantments.PIERCING);
+
+        return enchantmentKeys.contains(enchantment.getKey().get());
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+		return true;
+	}
     
     @Override
     public boolean canMine(BlockState pe, World world, BlockPos pos, PlayerEntity miner) {
@@ -77,25 +114,26 @@ implements Vanishable {
     }
 
     @Override
+	public int getEnchantability() {
+		return 1;
+	}
+
+    @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.damage(1, attacker, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         return true;
     }
+
+	@Override
+	public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		stack.damage(1, attacker, EquipmentSlot.MAINHAND);
+	}
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if (state.getHardness(world, pos) != 0.0f) {
-            stack.damage(3, miner, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            stack.damage(3, miner, EquipmentSlot.MAINHAND);
         }
         return true;
-    }
-
-    @Override
-    public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
-        if (slot == EquipmentSlot.MAINHAND) {
-            return attributeModifiers;
-        }
-        return super.getAttributeModifiers(slot);
     }
 
     @Override
@@ -104,7 +142,7 @@ implements Vanishable {
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack) {
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return 72000;
     }
 
@@ -124,20 +162,23 @@ implements Vanishable {
     @Override
     public void onStoppedUsing(ItemStack itemStack, World world, LivingEntity livingEntity, int remainingUseTicks) {
          
-        if (!(livingEntity instanceof PlayerEntity)) {
+        if (!(livingEntity instanceof PlayerEntity user)) {
             return;
         }
 
-        PlayerEntity user = (PlayerEntity)livingEntity;
-        int i = getMaxUseTime(itemStack) - remainingUseTicks;
+        int i = getMaxUseTime(itemStack, livingEntity) - remainingUseTicks;
         if (i < throwDelay) {
             return;
         }
 
+        RegistryEntry<SoundEvent> soundRegistryEntry = (RegistryEntry<SoundEvent>)EnchantmentHelper.getEffect(itemStack, EnchantmentEffectComponentTypes.TRIDENT_SOUND)
+            .orElse(SoundEvents.ITEM_TRIDENT_THROW);
+
         if (!world.isClient) {          
 
-            itemStack.damage(durabilityDecreaseAfterThrown, user, p -> p.sendToolBreakStatus(user.getActiveHand()));
-            int piercingEnchantmentLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, itemStack);
+            itemStack.damage(durabilityDecreaseAfterThrown, user, LivingEntity.getSlotForHand(user.getActiveHand()));
+            RegistryEntry<Enchantment> piercingRegistryEntry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.PIERCING).get();
+            int piercingEnchantmentLevel = EnchantmentHelper.getLevel(piercingRegistryEntry, itemStack);
             SpearEntity spearEntity = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, throwDamageDecreaseAfterPierce, itemStack, entityType);
             spearEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             spearEntity.setCritical(this.isCritical(user));
@@ -155,7 +196,7 @@ implements Vanishable {
             }
             
             world.spawnEntity(spearEntity);
-            world.playSoundFromEntity(null, spearEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 0.5F, 1F);
+            world.playSoundFromEntity(null, spearEntity, soundRegistryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
 
             if (user.getAbilities().creativeMode) {
                 spearEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
@@ -182,5 +223,12 @@ implements Vanishable {
 
     private float setLimit(float value, float limit) {
         return value > limit ? limit : value;
+    }
+    
+    @Override
+    public ProjectileEntity createEntity(World world, Position pos, ItemStack stack, Direction direction) {
+        SpearEntity spearEntity = new SpearEntity(this.entityType, world);
+        spearEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+        return spearEntity;
     }
 }
