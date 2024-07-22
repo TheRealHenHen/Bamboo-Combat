@@ -57,9 +57,10 @@ public class BambooCombatClient implements ClientModInitializer {
             int entityId = payload.entityId();
             UUID entityUuid = payload.entityUuid();
 			
+			@SuppressWarnings("resource")
 			ClientWorld world = MinecraftClient.getInstance().world;
 			if (world != null) {
-				Entity entity = item.getEntityType().create(world); // Change EntityType to your entity
+				Entity entity = item.getEntityType().create(world);
 				if (entity != null) {
 					entity.updatePosition(x, y, z);
 					entity.setId(entityId);
