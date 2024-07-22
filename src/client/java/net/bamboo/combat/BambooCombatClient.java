@@ -5,7 +5,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registries;
@@ -42,7 +41,7 @@ public class BambooCombatClient implements ClientModInitializer {
 		EntityRendererRegistry.register(item.getEntityType(), (context) -> new SpearEntityRenderer(context,
 			Identifier.of(BambooCombat.MODID, ("textures/entity/" + spearId.getPath() + "/normal.png")), modelLayer));
 
-		ModelPredicateProviderRegistry.register(item, Identifier.ofVanilla("throwing"),
+		ModelPredicateProviderRegistry.register(item, new Identifier("throwing"),
 			(stack, clientWorld, livingEntity, seed) -> {
 				if (livingEntity == null) {
 					return 0.0F;
@@ -59,15 +58,15 @@ public class BambooCombatClient implements ClientModInitializer {
             UUID entityUuid = payload.entityUuid();
 			
 			ClientWorld world = MinecraftClient.getInstance().world;
-                if (world != null) {
-                    Entity entity = EntityType.ZOMBIE.create(world); // Change EntityType to your entity
-                    if (entity != null) {
-                        entity.updatePosition(x, y, z);
-                        entity.setId(entityId);
-                        entity.setUuid(entityUuid);
-                        world.addEntity(entity);
-                    }
-                }
+			if (world != null) {
+				Entity entity = item.getEntityType().create(world); // Change EntityType to your entity
+				if (entity != null) {
+					entity.updatePosition(x, y, z);
+					entity.setId(entityId);
+					entity.setUuid(entityUuid);
+					world.addEntity(entity);
+				}
+			}
         });
 
 	}

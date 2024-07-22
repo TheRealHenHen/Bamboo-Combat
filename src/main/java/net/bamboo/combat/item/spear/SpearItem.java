@@ -8,7 +8,6 @@ import net.bamboo.combat.config.SpearProperties;
 import net.bamboo.combat.entity.spear.SpearEntity;
 import net.fabricmc.fabric.api.item.v1.EnchantingContext;
 import net.minecraft.block.BlockState;
-import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.enchantment.Enchantment;
@@ -27,11 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ProjectileItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
@@ -77,30 +72,30 @@ public class SpearItem extends ToolItem implements ProjectileItem {
 		return AttributeModifiersComponent.builder()
 			.add(
 				EntityAttributes.GENERIC_ATTACK_DAMAGE,
-				new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, attackDamage - 1, EntityAttributeModifier.Operation.ADD_VALUE),
+				new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", attackDamage - 1, EntityAttributeModifier.Operation.ADD_VALUE),
 				AttributeModifierSlot.MAINHAND
 			)
 			.add(
 				EntityAttributes.GENERIC_ATTACK_SPEED,
-				new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, attackSpeed - 4, EntityAttributeModifier.Operation.ADD_VALUE),
+				new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", attackSpeed - 4, EntityAttributeModifier.Operation.ADD_VALUE),
 				AttributeModifierSlot.MAINHAND
 			)
 			.build();
 	}
     
     @Override
-    public boolean canBeEnchantedWith(ItemStack stack, RegistryEntry<Enchantment> enchantment, EnchantingContext context) {
+    public boolean canBeEnchantedWith(ItemStack stack, Enchantment enchantment, EnchantingContext context) {
         
-        List<RegistryKey<Enchantment>> enchantmentKeys = new ArrayList<>();
-        enchantmentKeys.add(Enchantments.UNBREAKING);
-        enchantmentKeys.add(Enchantments.MENDING);
-        enchantmentKeys.add(Enchantments.LOYALTY);
-        enchantmentKeys.add(Enchantments.SHARPNESS);
-        enchantmentKeys.add(Enchantments.SMITE);
-        enchantmentKeys.add(Enchantments.BANE_OF_ARTHROPODS);
-        enchantmentKeys.add(Enchantments.PIERCING);
+        List<Enchantment> enchantments = new ArrayList<>();
+        enchantments.add(Enchantments.UNBREAKING);
+        enchantments.add(Enchantments.MENDING);
+        enchantments.add(Enchantments.LOYALTY);
+        enchantments.add(Enchantments.SHARPNESS);
+        enchantments.add(Enchantments.SMITE);
+        enchantments.add(Enchantments.BANE_OF_ARTHROPODS);
+        enchantments.add(Enchantments.PIERCING);
 
-        return enchantmentKeys.contains(enchantment.getKey().get());
+        return enchantments.contains(enchantment);
     }
 
     @Override
@@ -120,13 +115,9 @@ public class SpearItem extends ToolItem implements ProjectileItem {
 
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.damage(1, attacker, EquipmentSlot.MAINHAND);
         return true;
     }
-
-	@Override
-	public void postDamageEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-		stack.damage(1, attacker, EquipmentSlot.MAINHAND);
-	}
 
     @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
@@ -142,7 +133,7 @@ public class SpearItem extends ToolItem implements ProjectileItem {
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+    public int getMaxUseTime(ItemStack stack) {
         return 72000;
     }
 
@@ -166,19 +157,15 @@ public class SpearItem extends ToolItem implements ProjectileItem {
             return;
         }
 
-        int i = getMaxUseTime(itemStack, livingEntity) - remainingUseTicks;
+        int i = getMaxUseTime(itemStack) - remainingUseTicks;
         if (i < throwDelay) {
             return;
         }
 
-        RegistryEntry<SoundEvent> soundRegistryEntry = (RegistryEntry<SoundEvent>)EnchantmentHelper.getEffect(itemStack, EnchantmentEffectComponentTypes.TRIDENT_SOUND)
-            .orElse(SoundEvents.ITEM_TRIDENT_THROW);
-
         if (!world.isClient) {          
 
             itemStack.damage(durabilityDecreaseAfterThrown, user, LivingEntity.getSlotForHand(user.getActiveHand()));
-            RegistryEntry<Enchantment> piercingRegistryEntry = world.getRegistryManager().get(RegistryKeys.ENCHANTMENT).getEntry(Enchantments.PIERCING).get();
-            int piercingEnchantmentLevel = EnchantmentHelper.getLevel(piercingRegistryEntry, itemStack);
+            int piercingEnchantmentLevel = EnchantmentHelper.getLevel(Enchantments.PIERCING, itemStack);
             SpearEntity spearEntity = new SpearEntity(world, user, attackDamage, dragInWater, burnTicks, throwDamageDecreaseAfterPierce, itemStack, entityType);
             spearEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, throwDistance, 0.1F);
             spearEntity.setCritical(this.isCritical(user));
@@ -196,7 +183,7 @@ public class SpearItem extends ToolItem implements ProjectileItem {
             }
             
             world.spawnEntity(spearEntity);
-            world.playSoundFromEntity(null, spearEntity, soundRegistryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
+            world.playSoundFromEntity(null, spearEntity, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 0.5F, 1F);
 
             if (user.getAbilities().creativeMode) {
                 spearEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
