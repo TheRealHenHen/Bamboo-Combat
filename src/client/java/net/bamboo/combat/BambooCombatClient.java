@@ -5,7 +5,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.registry.Registries;
@@ -58,9 +57,10 @@ public class BambooCombatClient implements ClientModInitializer {
             int entityId = payload.entityId();
             UUID entityUuid = payload.entityUuid();
 			
+			@SuppressWarnings("resource")
 			ClientWorld world = MinecraftClient.getInstance().world;
                 if (world != null) {
-                    Entity entity = EntityType.ZOMBIE.create(world); // Change EntityType to your entity
+                    Entity entity = item.getEntityType().create(world);
                     if (entity != null) {
                         entity.updatePosition(x, y, z);
                         entity.setId(entityId);
