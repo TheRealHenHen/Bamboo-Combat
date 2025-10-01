@@ -1,45 +1,46 @@
 {
-  "schemaVersion": 1,
-  "id": "bamboocombat",
-  "version": "1.0.5",
+    "schemaVersion": 1,
+    "id": "bamboocombat",
+    "version": "${version}",
 
-  "name": "Bamboo Combat",
-  "description": "Adds Bamboo Weapons to Minecraft!",
-  "authors": [
-    "TheRealHenHen"
-  ],
-  "contact": {
-    "homepage": "https://modrinth.com/mod/bamboo-combat",
-    "issues": "https://github.com/TheRealHenHen/Bamboo-Combat/issues",
-    "sources": "https://github.com/TheRealHenHen/Bamboo-Combat"
-  },
+    "name": "Bamboo Combat",
+    "description": "Adds Bamboo Weapons to Minecraft!",
+    "authors": [
+        "TheRealHenHen"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/bamboo-combat",
+        "issues": "https://github.com/TheRealHenHen/Bamboo-Combat/issues",
+        "sources": "https://github.com/TheRealHenHen/Bamboo-Combat"
+    },
 
-  "license": "Apache-2.0",
-  "icon": "assets/bamboocombat/icon.png",
+    "license": "Apache-2.0",
+    "icon": "assets/bamboocombat/icon.png",
 
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.bamboo.combat.BambooCombat"
-    ], "client": [
-      "net.bamboo.combat.BambooCombatClient"
-    ]
-  },
-  "mixins": [
-    "bamboocombat.mixins.json",
-    {
-			"config": "bamboocombat.client.mixins.json",
-			"environment": "client"
-		}
-  ],
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "net.bamboo.combat.BambooCombat"
+        ],
+        "client": [
+            "net.bamboo.combat.BambooCombatClient"
+        ]
+    },
+    "mixins": [
+        "bamboocombat.mixins.json",
+        {
+            "config": "bamboocombat.client.mixins.json",
+            "environment": "client"
+        }
+    ],
 
-  "depends": {
-    "fabricloader": ">=0.15.11",
-    "fabric-api": "*",
-    "minecraft": "~1.21",
-    "java": ">=21"
-  },
-  "suggests": {
-    "another-mod": "*"
-  }
+    "depends": {
+        "fabricloader": ">=0.15.11",
+        "fabric-api": "*",
+        "minecraft": "~1.21.1",
+        "java": ">=21"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
 }
